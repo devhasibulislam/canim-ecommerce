@@ -18,6 +18,7 @@
 import DemoteStore from "@/components/dashboard/DemoteStore";
 import Pencil from "@/components/icons/Pencil";
 import Dashboard from "@/components/shared/layouts/Dashboard";
+import DashboardLading from "@/components/shared/skeletonLoading/DashboardLading";
 import { useGetStoresQuery } from "@/services/store/storeApi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

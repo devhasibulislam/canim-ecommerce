@@ -29,7 +29,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const updateStore = () => {
+const UpdateStore = () => {
   const { id } = useParams();
   const [
     updateStore,
@@ -294,4 +294,4 @@ const updateStore = () => {
   );
 };
 
-export default updateStore;
+export default UpdateStore;

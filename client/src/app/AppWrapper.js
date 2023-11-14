@@ -29,7 +29,7 @@ const AppWrapper = ({ children }) => {
     if (!userError) {
       dispatch(addUser(user));
     }
-  }, [userData, userError]);
+  }, [userData, userError, dispatch, user]);
 
   return <>{children}</>;
 };

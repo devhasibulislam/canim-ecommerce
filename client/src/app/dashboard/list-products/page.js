@@ -117,6 +117,7 @@ const ListProducts = () => {
                       <div className="flex -space-x-4">
                         {product?.gallery.map((thumbnail) => (
                           <Image
+                            key={thumbnail?._id}
                             src={thumbnail?.url}
                             alt={thumbnail?.public_id}
                             height={30}
