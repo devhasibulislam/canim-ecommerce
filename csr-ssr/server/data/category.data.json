@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Clothes",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, repellat dolorum, non ea voluptatum veniam architecto nobis facere voluptate fugit rem vero molestias blanditiis eaque aut, similique qui voluptatem repellendus!",
+    "tags": ["T-Shirt", "Shirt", "Dress", "Jeans", "Top"]
+  },
+  {
+    "title": "Footware",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, repellat dolorum, non ea voluptatum veniam architecto nobis facere voluptate fugit rem vero molestias blanditiis eaque aut, similique qui voluptatem repellendus!",
+    "tags": ["Sports", "Casual", "Saftey Shoes", "Sandal"]
+  },
+  {
+    "title": "Jewelry",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, repellat dolorum, non ea voluptatum veniam architecto nobis facere voluptate fugit rem vero molestias blanditiis eaque aut, similique qui voluptatem repellendus!",
+    "tags": ["Necklace", "Chain", "Rings", "Earings"]
+  },
+  {
+    "title": "Perfume",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, repellat dolorum, non ea voluptatum veniam architecto nobis facere voluptate fugit rem vero molestias blanditiis eaque aut, similique qui voluptatem repellendus!",
+    "tags": [
+      "Clothes Perfume",
+      "Deodorant",
+      "Flower Fragrance",
+      "Air Freshener"
+    ]
+  },
+  {
+    "title": "Grocery",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, repellat dolorum, non ea voluptatum veniam architecto nobis facere voluptate fugit rem vero molestias blanditiis eaque aut, similique qui voluptatem repellendus!",
+    "tags": ["DEAL", "food", "SALE", "retail", "organic"]
+  },
+  {
+    "title": "Bags",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, repellat dolorum, non ea voluptatum veniam architecto nobis facere voluptate fugit rem vero molestias blanditiis eaque aut, similique qui voluptatem repellendus!",
+    "tags": ["Shopping Bag", "Gym BackPack", "PURSE", "wALLET"]
+  }
+]
