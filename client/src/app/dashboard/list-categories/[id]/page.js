@@ -27,7 +27,7 @@ import {
 } from "@/services/category/categoryApi";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const UpdateCategory = () => {
   const { id } = useParams();
@@ -42,7 +42,7 @@ const UpdateCategory = () => {
   ] = useUpdateCategoryMutation();
   const { data: categoryData, isError: categoryError } =
     useGetCategoryQuery(id);
-  const category = categoryData?.data || {};
+  const category = useMemo(() => categoryData?.data || {}, [categoryData]);
 
   useEffect(() => {
     if (updatedCategoryData) {

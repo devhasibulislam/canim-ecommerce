@@ -15,7 +15,7 @@
 
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Card from "../shared/Card";
 import {
   useGetFilteredProductsMutation,
@@ -30,11 +30,11 @@ const FilteredProducts = () => {
     addFilter,
     { data: productsData, isError: productsError, isLoading: productsLoading },
   ] = useGetFilteredProductsMutation();
-  const products = productsData?.data || [];
+  const products = useMemo(() => productsData?.data || [], [productsData]);
 
   useEffect(() => {
     addFilter(filterCredentials);
-  }, [filterCredentials]);
+  }, [filterCredentials, addFilter]);
 
   useEffect(() => {
     if (productsError) {

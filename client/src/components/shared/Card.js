@@ -30,10 +30,11 @@ const Card = ({ index, product, ...rest }) => {
   const [isInCart, setIsInCart] = useState(
     localStorage?.getItem("cart")?.includes(product._id)
   );
+  const cartItems = localStorage?.getItem("cart");
 
   useEffect(() => {
-    setIsInCart(localStorage?.getItem("cart")?.includes(product._id));
-  }, [localStorage?.getItem("cart")]);
+    setIsInCart(cartItems?.includes(product._id));
+  }, [cartItems, product._id]);
 
   return (
     <div

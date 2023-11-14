@@ -64,11 +64,14 @@ const Steps = () => {
   return (
     <Container>
       <div className="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-16 xl:gap-20">
-        <img
-          className="hidden md:block absolute inset-x-0 top-5"
-          src="/assets/home/steps/step-bg.svg"
-          alt="vector"
-        />
+        <picture>
+          <source srcSet="/assets/home/steps/step-bg.svg" type="image/svg" />
+          <img
+            className="hidden md:block absolute inset-x-0 top-5"
+            src="/assets/home/steps/step-bg.svg"
+            alt="vector"
+          />
+        </picture>
         {steps.map((step, index) => (
           <div
             key={index}

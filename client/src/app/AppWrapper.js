@@ -15,7 +15,7 @@
 
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { usePersistLoginQuery } from "@/services/auth/authApi";
 import { addUser } from "@/features/auth/authSlice";
@@ -23,7 +23,7 @@ import { addUser } from "@/features/auth/authSlice";
 const AppWrapper = ({ children }) => {
   const dispatch = useDispatch();
   const { data: userData, isError: userError } = usePersistLoginQuery();
-  const user = userData?.data || {};
+  const user = useMemo(() => userData?.data || {}, [userData]);
 
   useEffect(() => {
     if (!userError) {

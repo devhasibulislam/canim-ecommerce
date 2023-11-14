@@ -39,7 +39,7 @@ const UpdateBrand = () => {
     },
   ] = useUpdateBrandMutation();
   const { data: brandData, isError: brandError } = useGetBrandQuery(id);
-  const brand = brandData?.data || {};
+  const brand = useMemo(() => brandData?.data || {}, [brandData]);
 
   useEffect(() => {
     if (updatedBrandData) {

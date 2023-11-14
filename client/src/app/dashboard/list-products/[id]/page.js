@@ -83,9 +83,9 @@ const UpdateProduct = () => {
     productError,
   ]);
 
-  const brands = brandsData?.data || [];
-  const categories = categoriesData?.data || [];
-  const product = productData?.data || {};
+  const brands = useMemo(() => brandsData?.data || [], [brandsData]);
+  const categories = useMemo(() => categoriesData?.data || [], [categoriesData]);
+  const product = useMemo(() => productData?.data || {}, [productData]);
 
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];

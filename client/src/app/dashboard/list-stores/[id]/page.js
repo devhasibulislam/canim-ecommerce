@@ -27,7 +27,7 @@ import {
 } from "@/services/store/storeApi";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const UpdateStore = () => {
   const { id } = useParams();
@@ -44,7 +44,7 @@ const UpdateStore = () => {
     isError: storeError,
     isLoading,
   } = useGetStoreQuery(id);
-  const store = storeData?.data || {};
+  const store = useMemo(() => storeData?.data || {}, [storeData]);
 
   useEffect(() => {
     if (updatedStoreData) {
