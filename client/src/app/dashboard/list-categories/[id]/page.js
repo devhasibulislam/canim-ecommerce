@@ -20,6 +20,7 @@ import Plus from "@/components/icons/Plus";
 import Upload from "@/components/icons/Upload";
 import Spinner from "@/components/shared/Spinner";
 import Dashboard from "@/components/shared/layouts/Dashboard";
+import DashboardLading from "@/components/shared/skeletonLoading/DashboardLading";
 import {
   useGetCategoryQuery,
   useUpdateCategoryMutation,
@@ -36,6 +37,7 @@ const UpdateCategory = () => {
       isLoading: categoryUpdating,
       data: updatedCategoryData,
       isError: categoryUpdatingError,
+      isLoading,
     },
   ] = useUpdateCategoryMutation();
   const { data: categoryData, isError: categoryError } =
@@ -137,145 +139,155 @@ const UpdateCategory = () => {
 
   return (
     <Dashboard>
-      <form
-        className="w-full h-full grid grid-cols-12 gap-4"
-        onSubmit={handleAddCategory}
-      >
-        <div className="col-span-4">
-          <div className="flex flex-col gap-4 h-full w-full relative">
-            {thumbnailPreview && (
-              <>
-                <Image
-                  src={thumbnailPreview}
-                  alt="logo"
-                  width={296}
-                  height={200}
-                  className="h-[200px] w-full object-cover rounded"
-                />
-                <div className="absolute top-0 left-0 w-full h-[200px] bg-black/50" />
-                <div className="absolute top-2 left-2 w-10 h-10 bg-sky-500 rounded !cursor-pointer shadow">
-                  <div className="!h-full !w-full relative flex justify-center items-center !cursor-pointer">
-                    <Upload />
-                    <input
-                      type="file"
-                      name="logo"
-                      id="logo"
-                      accept=".jpg, .jpeg, .png"
-                      multiple={false}
-                      className="absolute top-0 left-0 w-full h-full opacity-0 !cursor-pointer z-50"
-                      onChange={handleLogoChange}
-                    />
+      {isLoading || !category ? (
+        <DashboardLading />
+      ) : (
+        <form
+          className="w-full h-full grid grid-cols-12 gap-4"
+          onSubmit={handleAddCategory}
+        >
+          <div className="col-span-4">
+            <div className="flex flex-col gap-4 h-full w-full relative">
+              {thumbnailPreview && (
+                <>
+                  <Image
+                    src={thumbnailPreview}
+                    alt="logo"
+                    width={296}
+                    height={200}
+                    className="h-[200px] w-full object-cover rounded"
+                  />
+                  <div className="absolute top-0 left-0 w-full h-[200px] bg-black/50" />
+                  <div className="absolute top-2 left-2 w-10 h-10 bg-sky-500 rounded !cursor-pointer shadow">
+                    <div className="!h-full !w-full relative flex justify-center items-center !cursor-pointer">
+                      <Upload />
+                      <input
+                        type="file"
+                        name="logo"
+                        id="logo"
+                        accept=".jpg, .jpeg, .png"
+                        multiple={false}
+                        className="absolute top-0 left-0 w-full h-full opacity-0 !cursor-pointer z-50"
+                        onChange={handleLogoChange}
+                      />
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="col-span-8 flex flex-col gap-y-4">
-          <label htmlFor="title" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Category Title*</span>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="i.e. Laptop"
-              className=""
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </label>
-          <label htmlFor="description" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Category Description*</span>
-            <textarea
-              name="description"
-              id="description"
-              cols="30"
-              rows="5"
-              placeholder="i.e. This is a category is ..."
-              className=""
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            ></textarea>
-          </label>
-          <div className="flex flex-col gap-y-4">
-            <label htmlFor="keynotes" className="flex flex-col gap-y-1">
-              <span className="text-sm flex flex-row justify-between items-center">
-                Enter Category Keynotes*
-                <span
-                  className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
-                  onClick={handleAddKeynote}
-                >
-                  <Plus />
-                </span>
-              </span>
-              {keynotes?.map((keynote, index) => (
-                <div key={index} className="flex flex-row gap-x-1 items-start">
-                  <input
-                    type="text"
-                    name="keynotes"
-                    placeholder="Enter category keynote"
-                    className="flex-1"
-                    value={keynote}
-                    onChange={(event) =>
-                      handleKeynoteChange(index, event.target.value)
-                    }
-                    required
-                  />
-                  <span
-                    className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
-                    onClick={() => handleRemoveKeynote(index)}
-                  >
-                    <Minus />
-                  </span>
-                </div>
-              ))}
+          <div className="col-span-8 flex flex-col gap-y-4">
+            <label htmlFor="title" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Category Title*</span>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                placeholder="i.e. Laptop"
+                className=""
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
             </label>
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <label htmlFor="keynotes" className="flex flex-col gap-y-1">
-              <span className="text-sm flex flex-row justify-between items-center">
-                Enter Category Tags*
-                <span
-                  className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
-                  onClick={handleAddTag}
-                >
-                  <Plus />
-                </span>
-              </span>
-              {tags?.map((tag, index) => (
-                <div key={index} className="flex flex-row gap-x-1 items-start">
-                  <input
-                    type="text"
-                    name="tags"
-                    placeholder="Enter category tag"
-                    className="flex-1"
-                    value={tag}
-                    onChange={(event) =>
-                      handleTagChange(index, event.target.value)
-                    }
-                    required
-                  />
-                  <span
-                    className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
-                    onClick={() => handleRemoveTag(index)}
-                  >
-                    <Minus />
-                  </span>
-                </div>
-              ))}
+            <label htmlFor="description" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Category Description*</span>
+              <textarea
+                name="description"
+                id="description"
+                cols="30"
+                rows="5"
+                placeholder="i.e. This is a category is ..."
+                className=""
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              ></textarea>
             </label>
+            <div className="flex flex-col gap-y-4">
+              <label htmlFor="keynotes" className="flex flex-col gap-y-1">
+                <span className="text-sm flex flex-row justify-between items-center">
+                  Enter Category Keynotes*
+                  <span
+                    className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
+                    onClick={handleAddKeynote}
+                  >
+                    <Plus />
+                  </span>
+                </span>
+                {keynotes?.map((keynote, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-row gap-x-1 items-start"
+                  >
+                    <input
+                      type="text"
+                      name="keynotes"
+                      placeholder="Enter category keynote"
+                      className="flex-1"
+                      value={keynote}
+                      onChange={(event) =>
+                        handleKeynoteChange(index, event.target.value)
+                      }
+                      required
+                    />
+                    <span
+                      className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
+                      onClick={() => handleRemoveKeynote(index)}
+                    >
+                      <Minus />
+                    </span>
+                  </div>
+                ))}
+              </label>
+            </div>
+            <div className="flex flex-col gap-y-4">
+              <label htmlFor="keynotes" className="flex flex-col gap-y-1">
+                <span className="text-sm flex flex-row justify-between items-center">
+                  Enter Category Tags*
+                  <span
+                    className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
+                    onClick={handleAddTag}
+                  >
+                    <Plus />
+                  </span>
+                </span>
+                {tags?.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-row gap-x-1 items-start"
+                  >
+                    <input
+                      type="text"
+                      name="tags"
+                      placeholder="Enter category tag"
+                      className="flex-1"
+                      value={tag}
+                      onChange={(event) =>
+                        handleTagChange(index, event.target.value)
+                      }
+                      required
+                    />
+                    <span
+                      className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
+                      onClick={() => handleRemoveTag(index)}
+                    >
+                      <Minus />
+                    </span>
+                  </div>
+                ))}
+              </label>
+            </div>
+            <button
+              type="submit"
+              disabled={categoryUpdating}
+              className="py-2 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow disabled:bg-gray-200 disabled:border-gray-200 disabled:text-black/50 disabled:cursor-not-allowed flex flex-row justify-center items-center text-sm mt-4"
+            >
+              {categoryUpdating ? <Spinner /> : "Update Category"}
+            </button>
           </div>
-          <button
-            type="submit"
-            disabled={categoryUpdating}
-            className="py-2 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow disabled:bg-gray-200 disabled:border-gray-200 disabled:text-black/50 disabled:cursor-not-allowed flex flex-row justify-center items-center text-sm mt-4"
-          >
-            {categoryUpdating ? <Spinner /> : "Update Category"}
-          </button>
-        </div>
-      </form>
+        </form>
+      )}
     </Dashboard>
   );
 };

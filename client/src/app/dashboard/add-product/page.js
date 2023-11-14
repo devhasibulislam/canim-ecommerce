@@ -33,15 +33,22 @@ const AddProduct = () => {
   const [galleryPreviews, setGalleryPreviews] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
   const [gallery, setGallery] = useState([]);
-  const {user} = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
 
   const [
     addProduct,
     { isLoading, data: addProductResponse, isError: addProductResponseError },
   ] = useAddProductMutation();
-  const { data: brandsData, isError: brandsError } = useGetBrandsQuery();
-  const { data: categoriesData, isError: categoriesError } =
-    useGetCategoriesQuery();
+  const {
+    data: brandsData,
+    isError: brandsError,
+    isLoading: brandsLoading,
+  } = useGetBrandsQuery();
+  const {
+    data: categoriesData,
+    isError: categoriesError,
+    isLoading: categoriesLoading,
+  } = useGetCategoriesQuery();
 
   const brands = brandsData?.data || [];
   const categories = categoriesData?.data || [];
@@ -400,23 +407,31 @@ const AddProduct = () => {
           </label>
           <label htmlFor="category" className="flex flex-col gap-y-1">
             <span className="text-sm">Enter Product Category*</span>
-            <select name="category" id="category" className="flex-1" required>
-              {categories.map((category) => (
-                <option key={category?._id} value={category?._id}>
-                  {category?.title}
-                </option>
-              ))}
-            </select>
+            {categoriesLoading || categories?.length === 0 ? (
+              <>Loading...</>
+            ) : (
+              <select name="category" id="category" className="flex-1" required>
+                {categories.map((category) => (
+                  <option key={category?._id} value={category?._id}>
+                    {category?.title}
+                  </option>
+                ))}
+              </select>
+            )}
           </label>
           <label htmlFor="brand" className="flex flex-col gap-y-1">
             <span className="text-sm">Enter Product Brand*</span>
-            <select name="brand" id="brand" className="flex-1">
-              {brands.map((brand) => (
-                <option key={brand?._id} value={brand?._id}>
-                  {brand?.title}
-                </option>
-              ))}
-            </select>
+            {brandsLoading || brands?.length === 0 ? (
+              <>Loading...</>
+            ) : (
+              <select name="brand" id="brand" className="flex-1">
+                {brands.map((brand) => (
+                  <option key={brand?._id} value={brand?._id}>
+                    {brand?.title}
+                  </option>
+                ))}
+              </select>
+            )}
           </label>
           <button
             type="submit"

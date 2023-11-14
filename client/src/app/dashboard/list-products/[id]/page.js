@@ -20,6 +20,7 @@ import Plus from "@/components/icons/Plus";
 import Upload from "@/components/icons/Upload";
 import Spinner from "@/components/shared/Spinner";
 import Dashboard from "@/components/shared/layouts/Dashboard";
+import DashboardLading from "@/components/shared/skeletonLoading/DashboardLading";
 import { useGetBrandsQuery } from "@/services/brand/brandApi";
 import { useGetCategoriesQuery } from "@/services/category/categoryApi";
 import {
@@ -48,10 +49,21 @@ const UpdateProduct = () => {
       isError: updateProductResponseError,
     },
   ] = useUpdateProductMutation();
-  const { data: brandsData, isError: brandsError } = useGetBrandsQuery();
-  const { data: categoriesData, isError: categoriesError } =
-    useGetCategoriesQuery();
-  const { data: productData, isError: productError } = useGetProductQuery(id);
+  const {
+    data: brandsData,
+    isError: brandsError,
+    isLoading: brandsLoading,
+  } = useGetBrandsQuery();
+  const {
+    data: categoriesData,
+    isError: categoriesError,
+    isLoading: categoriesLoading,
+  } = useGetCategoriesQuery();
+  const {
+    data: productData,
+    isError: productError,
+    isLoading: productLoading,
+  } = useGetProductQuery(id);
 
   useEffect(() => {
     if (updateProductResponse) {
@@ -233,307 +245,321 @@ const UpdateProduct = () => {
 
   return (
     <Dashboard>
-      <form
-        className="w-full h-full grid grid-cols-12 gap-4 relative"
-        onSubmit={handleAddProduct}
-      >
-        <div className="col-span-4 sticky top-2 h-fit">
-          <div className="flex flex-col gap-4 h-full w-full">
-            <div className="relative">
-              {thumbnailPreview && (
-                <>
-                  <Image
-                    src={thumbnailPreview}
-                    alt="thumbnail"
-                    width={296}
-                    height={200}
-                    className="h-[200px] w-full object-cover rounded"
-                  />
-                  <div className="absolute top-0 left-0 w-full h-[200px] bg-black/70">
-                    <div className="w-full h-full flex flex-col justify-center items-center gap-y-2 rounded border-2 border-dashed relative p-4">
-                      <Upload />
-                      <p className="text-center text-sm !text-white">
-                        Modify Thumbnail <br /> 296x200
-                      </p>
-                      <input
-                        type="file"
-                        name="thumbnail"
-                        id="thumbnail"
-                        accept=".jpg, .jpeg, .png"
-                        multiple={false}
-                        className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                        onChange={handleThumbnailChange}
-                      />
+      {productLoading || !product ? (
+        <DashboardLading />
+      ) : (
+        <form
+          className="w-full h-full grid grid-cols-12 gap-4 relative"
+          onSubmit={handleAddProduct}
+        >
+          <div className="col-span-4 sticky top-2 h-fit">
+            <div className="flex flex-col gap-4 h-full w-full">
+              <div className="relative">
+                {thumbnailPreview && (
+                  <>
+                    <Image
+                      src={thumbnailPreview}
+                      alt="thumbnail"
+                      width={296}
+                      height={200}
+                      className="h-[200px] w-full object-cover rounded"
+                    />
+                    <div className="absolute top-0 left-0 w-full h-[200px] bg-black/70">
+                      <div className="w-full h-full flex flex-col justify-center items-center gap-y-2 rounded border-2 border-dashed relative p-4">
+                        <Upload />
+                        <p className="text-center text-sm !text-white">
+                          Modify Thumbnail <br /> 296x200
+                        </p>
+                        <input
+                          type="file"
+                          name="thumbnail"
+                          id="thumbnail"
+                          accept=".jpg, .jpeg, .png"
+                          multiple={false}
+                          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                          onChange={handleThumbnailChange}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="relative">
-              {galleryPreviews?.length > 0 && (
-                <>
-                  <div className="w-full grid grid-cols-3 gap-2">
-                    {galleryPreviews.map((preview, index) => (
-                      <Image
-                        key={index}
-                        src={preview?.url || preview}
-                        alt={`gallery-${index}`}
-                        width={296}
-                        height={200}
-                        className="h-28 w-full object-cover rounded"
-                      />
-                    ))}
-                  </div>
-                  <div className="absolute top-0 left-0 w-full h-full bg-black/70">
-                    <div className="w-full h-full flex flex-col justify-center items-center gap-y-2 rounded border-2 border-dashed relative p-4">
-                      <Upload />
-                      <p className="text-center text-sm !text-white">
-                        Modify upto 5 Photos <br /> 296x200
-                      </p>
-                      <input
-                        type="file"
-                        name="gallery"
-                        id="gallery"
-                        accept=".jpg, .jpeg, .png"
-                        multiple={true}
-                        className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                        onChange={handleGalleryChange}
-                      />
+                  </>
+                )}
+              </div>
+              <div className="relative">
+                {galleryPreviews?.length > 0 && (
+                  <>
+                    <div className="w-full grid grid-cols-3 gap-2">
+                      {galleryPreviews.map((preview, index) => (
+                        <Image
+                          key={index}
+                          src={preview?.url || preview}
+                          alt={`gallery-${index}`}
+                          width={296}
+                          height={200}
+                          className="h-28 w-full object-cover rounded"
+                        />
+                      ))}
                     </div>
-                  </div>
-                </>
-              )}
+                    <div className="absolute top-0 left-0 w-full h-full bg-black/70">
+                      <div className="w-full h-full flex flex-col justify-center items-center gap-y-2 rounded border-2 border-dashed relative p-4">
+                        <Upload />
+                        <p className="text-center text-sm !text-white">
+                          Modify upto 5 Photos <br /> 296x200
+                        </p>
+                        <input
+                          type="file"
+                          name="gallery"
+                          id="gallery"
+                          accept=".jpg, .jpeg, .png"
+                          multiple={true}
+                          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                          onChange={handleGalleryChange}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-span-8 flex flex-col gap-y-4">
-          <label htmlFor="productTitle" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Product Title*</span>
-            <input
-              type="text"
-              name="productTitle"
-              id="productTitle"
-              placeholder="i.e. iPhone 15 Pro Max"
-              className=""
-              value={productTitle}
-              onChange={(e) => setProductTitle(e.target.value)}
-              required
-            />
-          </label>
-          <label htmlFor="price" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Product Price*</span>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              placeholder="i.e. 999.99"
-              className=""
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </label>
-          <label htmlFor="summary" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Product Summary*</span>
-            <textarea
-              name="summary"
-              id="summary"
-              cols="30"
-              rows="5"
-              placeholder="i.e. This is a product is ..."
-              className=""
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-              required
-            ></textarea>
-          </label>
-          <div className="flex flex-col gap-y-4">
-            {features?.map((feature, index) => (
-              <label
-                key={index}
-                htmlFor="features"
-                className="flex flex-col gap-y-1"
-              >
-                <span className="text-sm flex flex-row justify-between items-center">
-                  Enter Product Features*
-                  <span className="flex flex-row gap-x-1">
-                    {index > 0 && (
-                      <span
-                        className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
-                        onClick={() => handleRemoveFeature(index)}
-                      >
-                        <Minus />
-                      </span>
-                    )}
-                    {index === features?.length - 1 && (
-                      <span
-                        className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
-                        onClick={handleAddFeature}
-                      >
-                        <Plus />
-                      </span>
-                    )}
-                  </span>
-                </span>
-                <div className="flex flex-col gap-y-2.5">
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Enter feature title"
-                    value={feature.title}
-                    onChange={(e) =>
-                      handleInputChange(index, "title", e.target.value)
-                    }
-                    required
-                  />
-                  {feature?.content?.map((content, contentIndex) => (
-                    <div
-                      key={contentIndex}
-                      className="flex flex-row gap-x-2 items-start"
-                    >
-                      <input
-                        type="text"
-                        name="content"
-                        placeholder="Enter feature content"
-                        className="flex-1"
-                        value={content}
-                        onChange={(e) =>
-                          handleContentChange(
-                            index,
-                            contentIndex,
-                            e.target.value
-                          )
-                        }
-                        required
-                      />
-                      {/* remove a content */}
-                      <span
-                        className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
-                        onClick={() => handleRemoveContent(index, contentIndex)}
-                      >
-                        <Minus />
-                      </span>
-                      {/* add a content */}
-                      <span
-                        className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
-                        onClick={() => handleAddContent(index)}
-                      >
-                        <Plus />
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </label>
-            ))}
-          </div>
-          <label htmlFor="variations" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Product Variations*</span>
-            <div className="flex flex-row gap-x-2">
-              <input
-                type="number"
-                name="color"
-                id="color"
-                placeholder="i.e. How many colors?"
-                className="flex-1"
-                step="0.01"
-                value={variations?.colors}
-                onChange={(e) =>
-                  setVariations({ ...variations, colors: e.target.value })
-                }
-                required
-              />
-              <input
-                type="number"
-                name="size"
-                id="size"
-                placeholder="i.e. How many sizes?"
-                className="flex-1"
-                step=""
-                value={variations?.sizes}
-                onChange={(e) =>
-                  setVariations({ ...variations, sizes: e.target.value })
-                }
-                required
-              />
-            </div>
-          </label>
-          <label htmlFor="campaign" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Product Campaign*</span>
-            <div className="flex flex-row gap-x-2">
+          <div className="col-span-8 flex flex-col gap-y-4">
+            <label htmlFor="productTitle" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Product Title*</span>
               <input
                 type="text"
-                name="campaignTitle"
-                id="campaignTitle"
-                placeholder="i.e. Campaign title"
-                className="flex-1"
-                value={campaign?.title}
-                onChange={(e) =>
-                  setCampaign({ ...campaign, title: e.target.value })
-                }
+                name="productTitle"
+                id="productTitle"
+                placeholder="i.e. iPhone 15 Pro Max"
+                className=""
+                value={productTitle}
+                onChange={(e) => setProductTitle(e.target.value)}
                 required
               />
-              <select
-                name="state"
-                id="state"
-                className="flex-1"
-                value={campaign?.state}
-                onChange={(e) =>
-                  setCampaign({ ...campaign, state: e.target.value })
-                }
+            </label>
+            <label htmlFor="price" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Product Price*</span>
+              <input
+                type="number"
+                name="price"
+                id="price"
+                placeholder="i.e. 999.99"
+                className=""
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 required
-              >
-                <option value="on-sale">On Sale</option>
-                <option value="sold-out">Sold Out</option>
-                <option value="discount">Discount</option>
-                <option value="new-arrival">New Arrival</option>
-              </select>
+              />
+            </label>
+            <label htmlFor="summary" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Product Summary*</span>
+              <textarea
+                name="summary"
+                id="summary"
+                cols="30"
+                rows="5"
+                placeholder="i.e. This is a product is ..."
+                className=""
+                value={summary}
+                onChange={(e) => setSummary(e.target.value)}
+                required
+              ></textarea>
+            </label>
+            <div className="flex flex-col gap-y-4">
+              {features?.map((feature, index) => (
+                <label
+                  key={index}
+                  htmlFor="features"
+                  className="flex flex-col gap-y-1"
+                >
+                  <span className="text-sm flex flex-row justify-between items-center">
+                    Enter Product Features*
+                    <span className="flex flex-row gap-x-1">
+                      {index > 0 && (
+                        <span
+                          className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
+                          onClick={() => handleRemoveFeature(index)}
+                        >
+                          <Minus />
+                        </span>
+                      )}
+                      {index === features?.length - 1 && (
+                        <span
+                          className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
+                          onClick={handleAddFeature}
+                        >
+                          <Plus />
+                        </span>
+                      )}
+                    </span>
+                  </span>
+                  <div className="flex flex-col gap-y-2.5">
+                    <input
+                      type="text"
+                      name="title"
+                      placeholder="Enter feature title"
+                      value={feature.title}
+                      onChange={(e) =>
+                        handleInputChange(index, "title", e.target.value)
+                      }
+                      required
+                    />
+                    {feature?.content?.map((content, contentIndex) => (
+                      <div
+                        key={contentIndex}
+                        className="flex flex-row gap-x-2 items-start"
+                      >
+                        <input
+                          type="text"
+                          name="content"
+                          placeholder="Enter feature content"
+                          className="flex-1"
+                          value={content}
+                          onChange={(e) =>
+                            handleContentChange(
+                              index,
+                              contentIndex,
+                              e.target.value
+                            )
+                          }
+                          required
+                        />
+                        {/* remove a content */}
+                        <span
+                          className="cursor-pointer p-0.5 border rounded-secondary bg-red-500 text-white"
+                          onClick={() =>
+                            handleRemoveContent(index, contentIndex)
+                          }
+                        >
+                          <Minus />
+                        </span>
+                        {/* add a content */}
+                        <span
+                          className="cursor-pointer p-0.5 border rounded-secondary bg-green-500 text-white"
+                          onClick={() => handleAddContent(index)}
+                        >
+                          <Plus />
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </label>
+              ))}
             </div>
-          </label>
-          <label htmlFor="category" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Product Category*</span>
-            <select
-              name="category"
-              id="category"
-              className="flex-1"
-              value={category?._id}
-              onChange={(e) =>
-                setCategory({ ...category, _id: e.target.value })
-              }
-              required
+            <label htmlFor="variations" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Product Variations*</span>
+              <div className="flex flex-row gap-x-2">
+                <input
+                  type="number"
+                  name="color"
+                  id="color"
+                  placeholder="i.e. How many colors?"
+                  className="flex-1"
+                  step="0.01"
+                  value={variations?.colors}
+                  onChange={(e) =>
+                    setVariations({ ...variations, colors: e.target.value })
+                  }
+                  required
+                />
+                <input
+                  type="number"
+                  name="size"
+                  id="size"
+                  placeholder="i.e. How many sizes?"
+                  className="flex-1"
+                  step=""
+                  value={variations?.sizes}
+                  onChange={(e) =>
+                    setVariations({ ...variations, sizes: e.target.value })
+                  }
+                  required
+                />
+              </div>
+            </label>
+            <label htmlFor="campaign" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Product Campaign*</span>
+              <div className="flex flex-row gap-x-2">
+                <input
+                  type="text"
+                  name="campaignTitle"
+                  id="campaignTitle"
+                  placeholder="i.e. Campaign title"
+                  className="flex-1"
+                  value={campaign?.title}
+                  onChange={(e) =>
+                    setCampaign({ ...campaign, title: e.target.value })
+                  }
+                  required
+                />
+                <select
+                  name="state"
+                  id="state"
+                  className="flex-1"
+                  value={campaign?.state}
+                  onChange={(e) =>
+                    setCampaign({ ...campaign, state: e.target.value })
+                  }
+                  required
+                >
+                  <option value="on-sale">On Sale</option>
+                  <option value="sold-out">Sold Out</option>
+                  <option value="discount">Discount</option>
+                  <option value="new-arrival">New Arrival</option>
+                </select>
+              </div>
+            </label>
+            <label htmlFor="category" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Product Category*</span>
+              {categoriesLoading || categories?.length === 0 ? (
+                <>Loading...</>
+              ) : (
+                <select
+                  name="category"
+                  id="category"
+                  className="flex-1"
+                  value={category?._id}
+                  onChange={(e) =>
+                    setCategory({ ...category, _id: e.target.value })
+                  }
+                  required
+                >
+                  {categories.map((category) => (
+                    <option key={category?._id} value={category?._id}>
+                      {category?.title}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </label>
+            <label htmlFor="brand" className="flex flex-col gap-y-1">
+              <span className="text-sm">Enter Product Brand*</span>
+              {brandsLoading || brands?.length === 0 ? (
+                <>Loading...</>
+              ) : (
+                <select
+                  name="brand"
+                  id="brand"
+                  className="flex-1"
+                  value={brand?._id}
+                  onChange={(e) => setBrand({ ...brand, _id: e.target.value })}
+                  required
+                >
+                  {brands.map((brand) => (
+                    <option key={brand?._id} value={brand?._id}>
+                      {brand?.title}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </label>
+            <button
+              type="submit"
+              disabled={productUpdating}
+              className="py-2 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow disabled:bg-gray-200 disabled:border-gray-200 disabled:text-black/50 disabled:cursor-not-allowed flex flex-row justify-center items-center text-sm mt-4"
             >
-              {categories.map((category) => (
-                <option key={category?._id} value={category?._id}>
-                  {category?.title}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="brand" className="flex flex-col gap-y-1">
-            <span className="text-sm">Enter Product Brand*</span>
-            <select
-              name="brand"
-              id="brand"
-              className="flex-1"
-              value={brand?._id}
-              onChange={(e) => setBrand({ ...brand, _id: e.target.value })}
-              required
-            >
-              {brands.map((brand) => (
-                <option key={brand?._id} value={brand?._id}>
-                  {brand?.title}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button
-            type="submit"
-            disabled={productUpdating}
-            className="py-2 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow disabled:bg-gray-200 disabled:border-gray-200 disabled:text-black/50 disabled:cursor-not-allowed flex flex-row justify-center items-center text-sm mt-4"
-          >
-            {productUpdating ? <Spinner /> : "Update Product"}
-          </button>
-        </div>
-      </form>
+              {productUpdating ? <Spinner /> : "Update Product"}
+            </button>
+          </div>
+        </form>
+      )}
     </Dashboard>
   );
 };
