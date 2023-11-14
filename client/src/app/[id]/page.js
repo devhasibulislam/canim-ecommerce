@@ -21,37 +21,49 @@ import Right from "@/components/details/Right";
 import Banner2 from "@/components/home/Banner2";
 import Container from "@/components/shared/Container";
 import Main from "@/components/shared/layouts/Main";
-import { addUser } from "@/features/auth/authSlice";
-import { usePersistLoginQuery } from "@/services/auth/authApi";
 import { useGetProductQuery } from "@/services/product/productApi";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 const Detail = () => {
   const { id } = useParams();
-  const { data: productData, isError: productError } = useGetProductQuery(id);
+  const {
+    data: productData,
+    isError: productError,
+    isLoading: productLoading,
+  } = useGetProductQuery(id);
   const product = productData?.data || {};
-  const dispatch = useDispatch();
-  const { data: userData, isError: userError } = usePersistLoginQuery();
-  const user = userData?.data || {};
 
   useEffect(() => {
-    if (!userError) {
-      dispatch(addUser(user));
-    }
     if (productError) {
       alert("Something went wrong, refresh the page.");
     }
-  }, [productError, userData, userError]);
+  }, [productError]);
 
   return (
     <Main>
       <Container>
         <div className="h-full w-full flex flex-col gap-y-20">
           <div className="grid grid-cols-12 gap-8">
-            <Left product={product} />
-            <Right product={product} />
+            {productLoading || !product ? (
+              <>
+                <div className="lg:col-span-6 md:col-span-6 col-span-12">
+                  <div className="h-[200px] w-full rounded bg-gray-200 animate-pulse" />
+                </div>
+                <div className="lg:col-span-6 md:col-span-6 col-span-12">
+                  <div className="w-full flex flex-col gap-y-4">
+                    <div className="h-[200px] w-full rounded bg-gray-200 animate-pulse" />
+                    <div className="h-[100px] w-full rounded bg-gray-200 animate-pulse" />
+                    <div className="h-[50px] w-full rounded bg-gray-200 animate-pulse" />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <Left product={product} />
+                <Right product={product} />
+              </>
+            )}
           </div>
           <Relatives />
           <Banner2 className={"!px-0"} />

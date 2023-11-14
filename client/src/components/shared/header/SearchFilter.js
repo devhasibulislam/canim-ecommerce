@@ -19,11 +19,16 @@ import Modal from "../Modal";
 import { useGetProductsQuery } from "@/services/product/productApi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import SearchCard from "../skeletonLoading/SearchCard";
 
 const SearchFilter = () => {
   const [open, setOpen] = useState();
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: productsData, isError: productsError } = useGetProductsQuery();
+  const {
+    data: productsData,
+    isError: productsError,
+    isLoading: productsLoading,
+  } = useGetProductsQuery();
   const products = productsData?.data || [];
   const router = useRouter();
 
@@ -102,69 +107,83 @@ const SearchFilter = () => {
             <hr className="flex-1" />
           </div>
           <div className="max-h-96 overflow-y-auto flex flex-col gap-y-8">
-            {filteredProducts?.map((product) => {
-              const highlightedTitle = highlightMatch(
-                product?.title,
-                searchTerm
-              );
-              const highlightedSummary = highlightMatch(
-                product?.summary,
-                searchTerm
-              );
+            {productsLoading || products?.length === 0 ? (
+              <>
+                {[1, 2, 3, 4].map((_, index) => (
+                  <SearchCard key={index} />
+                ))}
+              </>
+            ) : (
+              <>
+                {filteredProducts?.map((product) => {
+                  const highlightedTitle = highlightMatch(
+                    product?.title,
+                    searchTerm
+                  );
+                  const highlightedSummary = highlightMatch(
+                    product?.summary,
+                    searchTerm
+                  );
 
-              return (
-                <div
-                  key={product?._id}
-                  className="flex flex-row gap-x-2 cursor-pointer"
-                  onClick={() =>
-                    router.push(
-                      `/${product?._id}?product_title=${product?.title
-                        .replace(/ /g, "-")
-                        .toLowerCase()}}`
-                    )
-                  }
-                >
-                  <Image
-                    src={product?.thumbnail?.url}
-                    alt={product?.thumbnail?.public_id}
-                    width={50}
-                    height={50}
-                    className="rounded h-[50px] w-[50px] object-cover"
-                  />
-                  <article className="flex flex-col gap-y-2">
-                    <div className="flex flex-col gap-y-0.5">
-                      <h2
-                        className="text-base"
-                        dangerouslySetInnerHTML={{ __html: highlightedTitle }}
+                  return (
+                    <div
+                      key={product?._id}
+                      className="flex flex-row gap-x-2 cursor-pointer"
+                      onClick={() =>
+                        router.push(
+                          `/${product?._id}?product_title=${product?.title
+                            .replace(/ /g, "-")
+                            .toLowerCase()}}`
+                        )
+                      }
+                    >
+                      <Image
+                        src={product?.thumbnail?.url}
+                        alt={product?.thumbnail?.public_id}
+                        width={50}
+                        height={50}
+                        className="rounded h-[50px] w-[50px] object-cover"
                       />
-                      <p
-                        className="text-xs line-clamp-2"
-                        dangerouslySetInnerHTML={{ __html: highlightedSummary }}
-                      />
+                      <article className="flex flex-col gap-y-2">
+                        <div className="flex flex-col gap-y-0.5">
+                          <h2
+                            className="text-base"
+                            dangerouslySetInnerHTML={{
+                              __html: highlightedTitle,
+                            }}
+                          />
+                          <p
+                            className="text-xs line-clamp-2"
+                            dangerouslySetInnerHTML={{
+                              __html: highlightedSummary,
+                            }}
+                          />
+                        </div>
+                        <div className="flex flex-row justify-between items-center">
+                          <span className="text-xs flex flex-row items-baseline">
+                            $
+                            <span className="text-sm text-black">
+                              {product?.price}.00
+                            </span>
+                          </span>
+                          <div className="flex flex-row gap-x-1">
+                            <span className="text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
+                              {product?.store?.title}
+                            </span>
+                            <span className="text-[10px] bg-indigo-300/50 text-indigo-500 border border-indigo-500 px-1.5 rounded">
+                              {product?.brand?.title}
+                            </span>
+                            <span className="text-[10px] bg-blue-300/50 text-blue-500 border border-blue-500 px-1.5 rounded">
+                              {product?.category?.title}
+                            </span>
+                          </div>
+                        </div>
+                      </article>
                     </div>
-                    <div className="flex flex-row justify-between items-center">
-                      <span className="text-xs flex flex-row items-baseline">
-                        $
-                        <span className="text-sm text-black">
-                          {product?.price}.00
-                        </span>
-                      </span>
-                      <div className="flex flex-row gap-x-1">
-                        <span className="text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
-                          {product?.store?.title}
-                        </span>
-                        <span className="text-[10px] bg-indigo-300/50 text-indigo-500 border border-indigo-500 px-1.5 rounded">
-                          {product?.brand?.title}
-                        </span>
-                        <span className="text-[10px] bg-blue-300/50 text-blue-500 border border-blue-500 px-1.5 rounded">
-                          {product?.category?.title}
-                        </span>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </>
+            )}
           </div>
         </div>
       </Modal>

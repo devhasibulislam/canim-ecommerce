@@ -26,12 +26,24 @@ import React, { useEffect } from "react";
 import { AiOutlineReload } from "react-icons/ai";
 import { BiSolidStar } from "react-icons/bi";
 import { useDispatch } from "react-redux";
+import SelectCard from "../shared/skeletonLoading/SelectCard";
 
 const FilterSidebar = ({ searchParams }) => {
-  const { data: brandsData, isError: brandsError } = useGetBrandsQuery();
-  const { data: categoriesData, isError: categoriesError } =
-    useGetCategoriesQuery();
-  const { data: storesData, isError: storesError } = useGetStoresQuery();
+  const {
+    data: brandsData,
+    isError: brandsError,
+    isLoading: brandsLoading,
+  } = useGetBrandsQuery();
+  const {
+    data: categoriesData,
+    isError: categoriesError,
+    isLoading: categoriesLoading,
+  } = useGetCategoriesQuery();
+  const {
+    data: storesData,
+    isError: storesError,
+    isLoading: storesLoading,
+  } = useGetStoresQuery();
   const dispatch = useDispatch();
 
   const brands = brandsData?.data || [];
@@ -80,29 +92,39 @@ const FilterSidebar = ({ searchParams }) => {
         <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
           <h2 className="text-lg">Choose Category</h2>
           <div className="flex flex-col gap-y-2.5">
-            {categories.map((category) => (
-              <label
-                key={category._id}
-                htmlFor={category._id}
-                className="text-sm flex flex-row items-center gap-x-1.5"
-              >
-                <input
-                  type="checkbox"
-                  name={category._id}
-                  id={category._id}
-                  value={category._id}
-                  className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
-                  onChange={() => {
-                    const filterType = "categories";
-                    const selectedItems = categories
-                      .filter((c) => document.getElementById(c._id).checked)
-                      .map((c) => c._id);
-                    dispatch(addProductFilter([filterType, selectedItems]));
-                  }}
-                />
-                {category.title}
-              </label>
-            ))}
+            {categoriesLoading || categories?.length === 0 ? (
+              <>
+                {[1, 2, 3].map((_, index) => (
+                  <SelectCard key={index} />
+                ))}
+              </>
+            ) : (
+              <>
+                {categories.map((category) => (
+                  <label
+                    key={category._id}
+                    htmlFor={category._id}
+                    className="text-sm flex flex-row items-center gap-x-1.5"
+                  >
+                    <input
+                      type="checkbox"
+                      name={category._id}
+                      id={category._id}
+                      value={category._id}
+                      className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+                      onChange={() => {
+                        const filterType = "categories";
+                        const selectedItems = categories
+                          .filter((c) => document.getElementById(c._id).checked)
+                          .map((c) => c._id);
+                        dispatch(addProductFilter([filterType, selectedItems]));
+                      }}
+                    />
+                    {category.title}
+                  </label>
+                ))}
+              </>
+            )}
           </div>
         </div>
 
@@ -110,29 +132,39 @@ const FilterSidebar = ({ searchParams }) => {
         <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
           <h2 className="text-lg">Choose Brand</h2>
           <div className="flex flex-col gap-y-2.5">
-            {brands.map((brand) => (
-              <label
-                key={brand._id}
-                htmlFor={brand._id}
-                className="text-sm flex flex-row items-center gap-x-1.5"
-              >
-                <input
-                  type="checkbox"
-                  name={brand._id}
-                  id={brand._id}
-                  value={brand._id}
-                  className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
-                  onChange={() => {
-                    const filterType = "brands";
-                    const selectedItems = brands
-                      .filter((b) => document.getElementById(b._id).checked)
-                      .map((b) => b._id);
-                    dispatch(addProductFilter([filterType, selectedItems]));
-                  }}
-                />
-                {brand.title}
-              </label>
-            ))}
+            {brandsLoading || brands?.length === 0 ? (
+              <>
+                {[1, 2, 3].map((_, index) => (
+                  <SelectCard key={index} />
+                ))}
+              </>
+            ) : (
+              <>
+                {brands.map((brand) => (
+                  <label
+                    key={brand._id}
+                    htmlFor={brand._id}
+                    className="text-sm flex flex-row items-center gap-x-1.5"
+                  >
+                    <input
+                      type="checkbox"
+                      name={brand._id}
+                      id={brand._id}
+                      value={brand._id}
+                      className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+                      onChange={() => {
+                        const filterType = "brands";
+                        const selectedItems = brands
+                          .filter((b) => document.getElementById(b._id).checked)
+                          .map((b) => b._id);
+                        dispatch(addProductFilter([filterType, selectedItems]));
+                      }}
+                    />
+                    {brand.title}
+                  </label>
+                ))}
+              </>
+            )}
           </div>
         </div>
 
@@ -140,29 +172,39 @@ const FilterSidebar = ({ searchParams }) => {
         <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
           <h2 className="text-lg">Choose Store</h2>
           <div className="flex flex-col gap-y-2.5">
-            {stores.map((store) => (
-              <label
-                key={store._id}
-                htmlFor={store._id}
-                className="text-sm flex flex-row items-center gap-x-1.5"
-              >
-                <input
-                  type="checkbox"
-                  name={store._id}
-                  id={store._id}
-                  value={store._id}
-                  className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
-                  onChange={() => {
-                    const filterType = "stores";
-                    const selectedItems = stores
-                      .filter((s) => document.getElementById(s._id).checked)
-                      .map((s) => s._id);
-                    dispatch(addProductFilter([filterType, selectedItems]));
-                  }}
-                />
-                {store.title}
-              </label>
-            ))}
+            {storesLoading || stores?.length === 0 ? (
+              <>
+                {[1, 2, 3].map((_, index) => (
+                  <SelectCard key={index} />
+                ))}
+              </>
+            ) : (
+              <>
+                {stores.map((store) => (
+                  <label
+                    key={store._id}
+                    htmlFor={store._id}
+                    className="text-sm flex flex-row items-center gap-x-1.5"
+                  >
+                    <input
+                      type="checkbox"
+                      name={store._id}
+                      id={store._id}
+                      value={store._id}
+                      className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+                      onChange={() => {
+                        const filterType = "stores";
+                        const selectedItems = stores
+                          .filter((s) => document.getElementById(s._id).checked)
+                          .map((s) => s._id);
+                        dispatch(addProductFilter([filterType, selectedItems]));
+                      }}
+                    />
+                    {store.title}
+                  </label>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </section>
