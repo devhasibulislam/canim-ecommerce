@@ -1,0 +1,423 @@
+/**
+ * Title: Write a program using JavaScript on FilterSidebar
+ * Author: Hasibul Islam
+ * Portfolio: https://devhasibulislam.vercel.app
+ * Linkedin: https://linkedin.com/in/devhasibulislam
+ * GitHub: https://github.com/devhasibulislam
+ * Facebook: https://facebook.com/devhasibulislam
+ * Instagram: https://instagram.com/devhasibulislam
+ * Twitter: https://twitter.com/devhasibulislam
+ * Pinterest: https://pinterest.com/devhasibulislam
+ * WhatsApp: https://wa.me/8801906315901
+ * Telegram: devhasibulislam
+ * Date: 04, November 2023
+ */
+
+"use client";
+
+import { addProductFilter } from "@/features/productFilter/productFilterSlice";
+import { useGetBrandsQuery } from "@/services/brand/brandApi";
+import { useGetCategoriesQuery } from "@/services/category/categoryApi";
+import { useGetStoresQuery } from "@/services/store/storeApi";
+import React, { useEffect } from "react";
+import { AiOutlineReload } from "react-icons/ai";
+import { BiSolidStar } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+
+const FilterSidebar = () => {
+  const { data: brandsData, isError: brandsError } = useGetBrandsQuery();
+  const { data: categoriesData, isError: categoriesError } =
+    useGetCategoriesQuery();
+  const { data: storesData, isError: storesError } = useGetStoresQuery();
+  const dispatch = useDispatch();
+
+  const brands = brandsData?.data || [];
+  const categories = categoriesData?.data || [];
+  const stores = storesData?.data || [];
+
+  useEffect(() => {
+    if (brandsError || categoriesError || storesError) {
+      alert("Something went wrong, refresh the page.");
+    }
+  }, [brandsError, categoriesError, storesError]);
+
+  return (
+    <aside className="lg:col-span-3 md:col-span-4 col-span-12">
+      <section className="flex flex-col gap-y-4 md:sticky md:top-4">
+        {/* reset */}
+        <div className="flex flex-row items-center justify-between border py-2 px-4 rounded">
+          <h2 className="text-lg">Filters Reset</h2>
+          <button className="p-1 border rounded-secondary">
+            <AiOutlineReload className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Choose Category */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg">Choose Category</h2>
+          <div className="flex flex-col gap-y-2.5">
+            {categories.map((category) => (
+              <label
+                key={category._id}
+                htmlFor={category._id}
+                className="text-sm flex flex-row items-center gap-x-1.5"
+              >
+                <input
+                  type="checkbox"
+                  name={category._id}
+                  id={category._id}
+                  value={category._id}
+                  className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+                  onChange={(e) => {
+                    dispatch(addProductFilter(e.target.value));
+                  }}
+                />
+                {category.title}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Choose Brand */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg">Choose Brand</h2>
+          <div className="flex flex-col gap-y-2.5">
+            {brands.map((brand) => (
+              <label
+                key={brand._id}
+                htmlFor={brand._id}
+                className="text-sm flex flex-row items-center gap-x-1.5"
+              >
+                <input
+                  type="checkbox"
+                  name={brand._id}
+                  id={brand._id}
+                  value={brand._id}
+                  className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+                />
+                {brand.title}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Choose Store */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg">Choose Store</h2>
+          <div className="flex flex-col gap-y-2.5">
+            {stores.map((store) => (
+              <label
+                key={store._id}
+                htmlFor={store._id}
+                className="text-sm flex flex-row items-center gap-x-1.5"
+              >
+                <input
+                  type="checkbox"
+                  name={store._id}
+                  id={store._id}
+                  value={store._id}
+                  className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+                />
+                {store.title}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Choose Color */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg flex items-baseline gap-x-1">
+            Choose Color <span className="!text-xs">(Coming Soon...)</span>
+          </h2>
+          <div className="flex flex-col gap-y-2.5">
+            <label
+              htmlFor="white"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="white"
+                id="white"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              White
+            </label>
+            <label
+              htmlFor="beige"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="beige"
+                id="beige"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              Beige
+            </label>
+            <label
+              htmlFor="blue"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="blue"
+                id="blue"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              Blue
+            </label>
+            <label
+              htmlFor="navy"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="navy"
+                id="navy"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              Navy
+            </label>
+          </div>
+        </div>
+
+        {/* Choose Size */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg flex items-baseline gap-x-1">
+            Choose Size <span className="!text-xs">(Coming Soon...)</span>
+          </h2>
+          <div className="flex flex-col gap-y-2.5">
+            <label
+              htmlFor="xs"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="xs"
+                id="xs"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              XS
+            </label>
+            <label
+              htmlFor="2xl"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="2xl"
+                id="2xl"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              2XL
+            </label>
+            <label
+              htmlFor="lg"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="lg"
+                id="lg"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              LG
+            </label>
+            <label
+              htmlFor="m"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="m"
+                id="m"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              M
+            </label>
+          </div>
+        </div>
+
+        {/* price Range */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg flex items-baseline gap-x-1">
+            Price Range <span className="!text-xs">(Coming Soon...)</span>
+          </h2>
+          <label htmlFor="price" className="flex flex-row gap-x-2 items-center">
+            <input
+              type="range"
+              name="price"
+              id="price"
+              min={10}
+              max={500}
+              className="flex-1 bg-slate-200 appearance-none h-1 rounded-secondary"
+            />
+            <p className="text-xs flex flex-row items-baseline">
+              $<span className="text-base">5000.00</span>
+            </p>
+          </label>
+        </div>
+
+        {/* Choose Rating */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg flex items-baseline gap-x-1">
+            Choose Rating <span className="!text-xs">(Coming Soon...)</span>
+          </h2>
+          <div className="flex flex-col gap-y-2.5">
+            <label
+              htmlFor="five"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="five"
+                id="five"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              <span className="flex flex-row gap-x-1 items-center">
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+              </span>
+            </label>
+            <label
+              htmlFor="four"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="four"
+                id="four"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              <span className="flex flex-row gap-x-1 items-center">
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+              </span>
+            </label>
+            <label
+              htmlFor="three"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="three"
+                id="three"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              <span className="flex flex-row gap-x-1 items-center">
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+              </span>
+            </label>
+            <label
+              htmlFor="two"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="two"
+                id="two"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              <span className="flex flex-row gap-x-1 items-center">
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+              </span>
+            </label>
+            <label
+              htmlFor="one"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="one"
+                id="one"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              <span className="flex flex-row gap-x-1 items-center">
+                <BiSolidStar className="text-yellow-500 h-4 w-4" />
+              </span>
+            </label>
+          </div>
+        </div>
+
+        {/* Short Order */}
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+          <h2 className="text-lg flex items-baseline gap-x-1">
+            Short Order <span className="!text-xs">(Coming Soon...)</span>
+          </h2>
+          <div className="flex flex-col gap-y-2.5">
+            <label
+              htmlFor="popular"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="popular"
+                id="popular"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              Most Popular
+            </label>
+            <label
+              htmlFor="best"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="best"
+                id="best"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              Best Ratings
+            </label>
+            <label
+              htmlFor="newest"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="newest"
+                id="newest"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              Newest
+            </label>
+            <label
+              htmlFor="low"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="low"
+                id="low"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              Low Price
+            </label>
+            <label
+              htmlFor="high"
+              className="text-sm flex flex-row items-center gap-x-1.5"
+            >
+              <input
+                type="checkbox"
+                name="high"
+                id="high"
+                className="rounded-secondary checked:bg-primary checked:text-black checked:outline-none checked:ring-0 checked:border-0 focus:outline-none focus:ring-0 focus:border-1"
+              />
+              High Price
+            </label>
+          </div>
+        </div>
+      </section>
+    </aside>
+  );
+};
+
+export default FilterSidebar;
