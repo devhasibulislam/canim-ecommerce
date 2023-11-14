@@ -1,0 +1,319 @@
+/**
+ * Title: Write a program using JavaScript on NewArrivals
+ * Author: Hasibul Islam
+ * Portfolio: https://devhasibulislam.vercel.app
+ * Linkedin: https://linkedin.com/in/devhasibulislam
+ * GitHub: https://github.com/devhasibulislam
+ * Facebook: https://facebook.com/devhasibulislam
+ * Instagram: https://instagram.com/devhasibulislam
+ * Twitter: https://twitter.com/devhasibulislam
+ * Pinterest: https://pinterest.com/devhasibulislam
+ * WhatsApp: https://wa.me/8801906315901
+ * Telegram: devhasibulislam
+ * Date: 10, October 2023
+ */
+
+"use client";
+
+import React, { useRef } from "react";
+import Container from "../shared/Container";
+import Image from "next/image";
+import { AiFillStar } from "react-icons/ai";
+import { MdFavorite } from "react-icons/md";
+import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
+
+const NewArrivals = () => {
+  const products = [
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+    {
+      thumbnail: "https://placehold.co/296x322.svg",
+      brand: "https://placehold.co/50x50.svg",
+      shop: "https://placehold.co/50x50.svg",
+      variation: {
+        colors: 5,
+        sizes: 5,
+      },
+      title: "Heavy Weight Shoes",
+      price: 350,
+      campaign: "50% Discount",
+      reviews: {
+        count: 5,
+        average: 4.5,
+      },
+    },
+  ];
+
+  const containerRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 400; // Adjust the scroll distance as needed
+    }
+  };
+
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += 400; // Adjust the scroll distance as needed
+    }
+  };
+
+  return (
+    <Container>
+      <section className="flex flex-col gap-y-10">
+        <div className="flex flex-row flex-wrap gap-y-2 justify-between items-end">
+          <h1 className="text-4xl">
+            New Arrivals. <span className="">New Sports equipment</span>
+          </h1>
+          <span className="lg:flex lg:flex-row lg:gap-x-1.5 lg:ml-auto hidden">
+            <button
+              className="h-10 w-10 rounded-secondary border flex flex-row justify-center items-center hover:border-black transition-colors focus:bg-slate-500/5"
+              onClick={scrollLeft}
+            >
+              <BsArrowLeftShort className="w-6 h-6" />
+            </button>
+            <button
+              className="h-10 w-10 rounded-secondary border flex flex-row justify-center items-center hover:border-black transition-colors focus:bg-slate-500/5"
+              onClick={scrollRight}
+            >
+              <BsArrowRightShort className="w-6 h-6" />
+            </button>
+          </span>
+        </div>
+        <div
+          ref={containerRef}
+          className="lg:flex lg:flex-row grid md:grid-cols-2 grid-cols-1 gap-8 overflow-x-auto scrollbar-hide"
+          style={{ scrollBehavior: "smooth" }}
+        >
+          {products.map((product, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 flex flex-col gap-y-6 group cursor-pointer"
+            >
+              <div className="relative h-[322px] w-full rounded-primary">
+                <Image
+                  src={product.thumbnail}
+                  alt={product.title}
+                  width={296}
+                  height={322}
+                  className="h-[322px] w-full rounded-primary object-cover"
+                />
+                <div className="flex flex-row gap-x-2.5 absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Logo src={product.brand} alt={product.title} />
+                  <Logo src={product.shop} alt={product.title} />
+                </div>
+                <span className="text-xs bg-white/80 px-2.5 py-0.5 rounded-l-xl absolute bottom-4 right-0 cursor-not-allowed">
+                  {product.campaign}
+                </span>
+                <span className="border border-transparent bg-white hover:border-black shadow p-1 absolute bottom-4 left-4 rounded-secondary opacity-0 group-hover:opacity-100 transition-all">
+                  <MdFavorite className="w-5 h-5" />
+                </span>
+              </div>
+              <article className="flex flex-col gap-y-3.5">
+                <div className="flex flex-row gap-x-2.5">
+                  <Badge className="text-indigo-800 bg-indigo-100">
+                    {product.variation.colors + " " + "Colors"}
+                  </Badge>
+                  <Badge className="text-purple-800 bg-purple-100">
+                    {product.variation.sizes + " " + "Sizes"}
+                  </Badge>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                  <h2 className="line-clamp-1">{product.title}</h2>
+                  <div className="flex flex-row items-end justify-between">
+                    <span className="flex items-center border-2 border-green-500 rounded-primary py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium">
+                      <span className="text-green-500 !leading-none">
+                        ${product.price}.00
+                      </span>
+                    </span>
+                    <span className="flex flex-row items-center gap-x-0.5">
+                      <AiFillStar className="text-[#ffc242]" />
+                      <span className="text-sm">{product.reviews.average}</span>
+                      <span className="text-sm">
+                        ({product.reviews.count} reviews)
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          ))}
+        </div>
+      </section>
+    </Container>
+  );
+};
+
+function Badge({ props, children, className }) {
+  return (
+    <span
+      className={
+        "px-3 py-1 rounded shadow text-xs w-fit" +
+        (className ? " " + className : "")
+      }
+      {...props}
+    >
+      {children}
+    </span>
+  );
+}
+
+function Logo({ src, alt, props, className }) {
+  return (
+    <Image
+      {...props}
+      className={
+        "w-[50px] h-[50px] object-cover rounded shadow border border-transparent hover:border-black transition-colors cursor-help" +
+        (className ? " " + className : "")
+      }
+      src={src}
+      alt={alt}
+      width={50}
+      height={50}
+    />
+  );
+}
+
+export default NewArrivals;
