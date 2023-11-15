@@ -23,12 +23,10 @@ const consoleMessage = require("./utils/console.util");
 const port = process.env.PORT || 3000;
 
 /* database connection */
-const db =
-  process.env.ATLAS_URI + process.env.DB_NAME + "?retryWrites=true&w=majority";
+const db = process.env.ATLAS_URI;
 
 mongoose
   .connect(db, {
-    // dbName: `/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
