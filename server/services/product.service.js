@@ -83,7 +83,7 @@ exports.getProducts = async (res) => {
   //   "store",
   // ]);
 
-  console.log(products);
+  console.log(products, "2");
 
   res.status(200).json({
     acknowledgement: true,
