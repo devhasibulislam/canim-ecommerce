@@ -73,17 +73,11 @@ exports.addProduct = async (req, res) => {
 
 /* get all products */
 exports.getProducts = async (res) => {
-  console.log("Hello World!");
-
-  const products = await Product.find({});
-
-  // const products = await Product.find({}).populate([
-  //   "category",
-  //   "brand",
-  //   "store",
-  // ]);
-
-  console.log(products, "2");
+  const products = await Product.find().populate([
+    "category",
+    "brand",
+    "store",
+  ]);
 
   res.status(200).json({
     acknowledgement: true,

@@ -20,7 +20,6 @@ require("dotenv").config();
 /* internal imports */
 const app = require("./app");
 const consoleMessage = require("./utils/console.util");
-const Product = require("./models/product.model");
 const port = process.env.PORT || 3000;
 
 /* database connection */
@@ -31,12 +30,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(async () => {
-    consoleMessage.successMessage("Connected to MongoDB.");
-    const products = await Product.find({});
-
-    console.log(products, "1");
-  })
+  .then(() => consoleMessage.successMessage("Connected to MongoDB."))
   .catch((error) => consoleMessage.errorMessage(error.message));
 
 /* establish server port */
