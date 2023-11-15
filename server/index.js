@@ -23,31 +23,30 @@ const consoleMessage = require("./utils/console.util");
 const port = process.env.PORT || 3000;
 
 /* database connection */
-// mongoose.set("strictQuery", false);
-// mongoose
-//   .connect(process.env.ATLAS_URI, {
-//     dbName: process.env.DB_NAME,
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => consoleMessage.successMessage("Connected to MongoDB."))
-//   .catch((error) => consoleMessage.errorMessage(error.message));
-
-// const db = "mongodb+srv://project-template-i:project-template-i@project-template-i.zcnsfab.mongodb.net/ciseco-template?retryWrites=true&w=majority";
-
-const db = process.env.ATLAS_URI;
-
 mongoose
-  .connect(db, {
+  .connect(process.env.ATLAS_URI, {
+    dbName: `${process.env.DB_NAME}?retryWrites=true&w=majority`,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Error: ", err.message);
-  });
+  .then(() => consoleMessage.successMessage("Connected to MongoDB."))
+  .catch((error) => consoleMessage.errorMessage(error.message));
+
+// const db = "mongodb+srv://project-template-i:project-template-i@project-template-i.zcnsfab.mongodb.net/ciseco-template?retryWrites=true&w=majority";
+
+// const db = process.env.ATLAS_URI;
+
+// mongoose
+//   .connect(db, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => {
+//     console.log("Connected to MongoDB");
+//   })
+//   .catch((err) => {
+//     console.log("Error: ", err.message);
+//   });
 
 /* establish server port */
 app.listen(port, () => {
