@@ -20,6 +20,7 @@ require("dotenv").config();
 /* internal imports */
 const app = require("./app");
 const consoleMessage = require("./utils/console.util");
+const port = process.env.PORT || 3000;
 
 /* database connection */
 mongoose.set("strictQuery", false);
@@ -33,8 +34,6 @@ mongoose
   .catch((error) => consoleMessage.errorMessage(error.message));
 
 /* establish server port */
-app.listen(process.env.PORT, () => {
-  consoleMessage.warningMessage(
-    `Server is running on port ${process.env.PORT}.`
-  );
+app.listen(port, () => {
+  consoleMessage.warningMessage(`Server is running on port ${port}.`);
 });
