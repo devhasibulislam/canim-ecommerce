@@ -25,14 +25,7 @@ const error = require("./middleware/error.middleware");
 const app = express();
 
 /* middleware connections */
-app.use(
-  cors({
-    origin: process.env.ORIGIN_URL,
-    methods: "GET, PATCH, POST, DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  })
-);
+app.use(cors());
 app.use(express.json());
 
 /* router level connections */
