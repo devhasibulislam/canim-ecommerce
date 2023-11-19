@@ -50,7 +50,7 @@ const NewArrivals = () => {
             </>
           ) : (
             <>
-              {products?.slice(0, 8)?.map((product, index) => (
+              {products?.slice(0, 4)?.map((product, index) => (
                 <Card key={index} index={index} product={product} />
               ))}
             </>

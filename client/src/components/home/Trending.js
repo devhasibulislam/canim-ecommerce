@@ -59,7 +59,7 @@ const Trending = () => {
               </>
             ) : (
               <>
-                {products?.slice(-16)?.map((product, index) => (
+                {products?.slice(-8)?.map((product, index) => (
                   <Card key={index} product={product} />
                 ))}
               </>

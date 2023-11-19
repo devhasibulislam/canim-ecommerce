@@ -81,7 +81,7 @@ const NicheExplorer = () => {
 
         <div className="bg-neutral-100/70 rounded-primary lg:p-24 md:p-12 p-6 flex flex-col gap-y-12">
           <div className="flex flex-row justify-center gap-x-4 overflow-x-auto">
-            <div className="flex flex-row justify-center gap-x-4 border p-1 rounded-secondary bg-white overflow-x-auto">
+            <div className="flex flex-row justify-center gap-x-4 border p-1 rounded-secondary bg-white overflow-x-auto scrollbar-hide">
               {niches.map((niche, index) => (
                 <button
                   key={index}
@@ -98,7 +98,7 @@ const NicheExplorer = () => {
               ))}
             </div>
           </div>
-          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
             {selectedNiche === "Brand" &&
               (fetchingBrands || brands?.length === 0 ? (
                 <>
@@ -108,7 +108,7 @@ const NicheExplorer = () => {
                 </>
               ) : (
                 <>
-                  {brands?.slice(0, 8)?.map((brand, index) => (
+                  {brands?.slice(0, 6)?.map((brand, index) => (
                     <div
                       key={index}
                       className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors cursor-pointer bg-white relative"
@@ -159,7 +159,7 @@ const NicheExplorer = () => {
                 </>
               ) : (
                 <>
-                  {categories?.slice(0, 8)?.map((category, index) => (
+                  {categories?.slice(0, 6)?.map((category, index) => (
                     <div
                       key={index}
                       className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors cursor-pointer bg-white relative"
@@ -210,7 +210,7 @@ const NicheExplorer = () => {
                 </>
               ) : (
                 <>
-                  {stores?.slice(0, 8)?.map((store, index) => (
+                  {stores?.slice(0, 6)?.map((store, index) => (
                     <div
                       key={index}
                       className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors cursor-pointer bg-white relative"
