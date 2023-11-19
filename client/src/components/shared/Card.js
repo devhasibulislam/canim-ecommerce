@@ -71,7 +71,7 @@ const Card = ({ index, product, ...rest }) => {
                 <SoldOut /> {product?.campaign.title}
               </span>
             )}
-            {product?.campaign?.state === "arrival" && (
+            {product?.campaign?.state === "new-arrival" && (
               <span className="flex flex-row gap-x-0.5 items-center">
                 <Arrival /> {product?.campaign.title}
               </span>
