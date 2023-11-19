@@ -97,6 +97,11 @@ const AddBrand = () => {
     formData.append("tags", JSON.stringify(tags));
 
     addBrand(formData);
+
+    e.target.reset();
+    setLogoPreview(null);
+    setKeynotes([""]);
+    setTags([""]);
   }
 
   return (

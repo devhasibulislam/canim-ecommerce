@@ -100,6 +100,11 @@ const AddStore = () => {
     formData.append("seller", JSON.stringify(user?._id));
 
     addStore(formData);
+
+    e.target.reset();
+    setThumbnailPreview(null);
+    setKeynotes([""]);
+    setTags([""]);
   }
 
   return (

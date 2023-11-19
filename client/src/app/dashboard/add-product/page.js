@@ -180,6 +180,13 @@ const AddProduct = () => {
     );
 
     addProduct(formData);
+
+    e.target.reset();
+    setFeatures([{ title: "", content: [""] }]);
+    setThumbnail(null);
+    setThumbnailPreview(null);
+    setGallery([]);
+    setGalleryPreviews([]);
   };
 
   return (

@@ -97,6 +97,11 @@ const AddCategory = () => {
     formData.append("tags", JSON.stringify(tags));
 
     addCategory(formData);
+
+    e.target.reset();
+    setThumbnailPreview(null);
+    setKeynotes([""]);
+    setTags([""]);
   }
 
   return (
