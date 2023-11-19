@@ -34,7 +34,6 @@ const brandSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, provide brand description"],
       trim: true,
-      maxLength: [500, "Brand description would be at most 500 characters"],
     },
 
     // for logo
