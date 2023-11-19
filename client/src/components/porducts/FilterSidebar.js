@@ -89,7 +89,7 @@ const FilterSidebar = ({ searchParams }) => {
         </div>
 
         {/* Choose Category */}
-        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl max-h-96 overflow-y-auto scrollbar-hide">
           <h2 className="text-lg">Choose Category</h2>
           <div className="flex flex-col gap-y-2.5">
             {categoriesLoading || categories?.length === 0 ? (
@@ -120,7 +120,7 @@ const FilterSidebar = ({ searchParams }) => {
                         dispatch(addProductFilter([filterType, selectedItems]));
                       }}
                     />
-                    {category.title}
+                    {category.title} • ({category.products.length})
                   </label>
                 ))}
               </>
@@ -129,7 +129,7 @@ const FilterSidebar = ({ searchParams }) => {
         </div>
 
         {/* Choose Brand */}
-        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl max-h-96 overflow-y-auto scrollbar-hide">
           <h2 className="text-lg">Choose Brand</h2>
           <div className="flex flex-col gap-y-2.5">
             {brandsLoading || brands?.length === 0 ? (
@@ -160,7 +160,7 @@ const FilterSidebar = ({ searchParams }) => {
                         dispatch(addProductFilter([filterType, selectedItems]));
                       }}
                     />
-                    {brand.title}
+                    {brand.title} • ({brand.products.length})
                   </label>
                 ))}
               </>
@@ -169,7 +169,7 @@ const FilterSidebar = ({ searchParams }) => {
         </div>
 
         {/* Choose Store */}
-        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl">
+        <div className="flex flex-col gap-y-4 border py-2 px-4 rounded-xl max-h-96 overflow-y-auto scrollbar-hide">
           <h2 className="text-lg">Choose Store</h2>
           <div className="flex flex-col gap-y-2.5">
             {storesLoading || stores?.length === 0 ? (
@@ -200,7 +200,7 @@ const FilterSidebar = ({ searchParams }) => {
                         dispatch(addProductFilter([filterType, selectedItems]));
                       }}
                     />
-                    {store.title}
+                    {store.title} • ({store.products.length})
                   </label>
                 ))}
               </>
