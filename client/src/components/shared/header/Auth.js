@@ -82,7 +82,7 @@ const Auth = () => {
             </>
           ) : (
             <div className="flex flex-col gap-y-2">
-              <div className="flex flex-row gap-x-2 p-2">
+              <div className="flex flex-row gap-x-2 p-4">
                 <Image
                   src={user?.avatar?.url}
                   alt={user?.avatar?.public_id}
@@ -93,7 +93,7 @@ const Auth = () => {
                 <article className="grid grid-cols-1 gap-y-1">
                   <h2 className="line-clamp-1">{user?.name}</h2>
                   <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">{user?.email}</p>
-                  <span className="text-xs border px-2 w-fit rounded">{user?.store?.title}</span>
+                  <span className="text-xs border px-2 w-fit rounded">{user?.store?.title || "No Store Found!"}</span>
                 </article>
               </div>
               <hr />

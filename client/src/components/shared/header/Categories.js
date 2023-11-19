@@ -52,43 +52,49 @@ const Categories = () => {
       {isOpen && (
         <OutsideClick
           onOutsideClick={() => setIsOpen(false)}
-          className="absolute top-full left-0 w-80 max-h-96 overflow-y-auto bg-white border rounded p-2 flex flex-col gap-y-2.5"
+          className="absolute top-full left-0 w-80 max-h-96 overflow-y-auto bg-white border rounded p-4 flex flex-col gap-y-2.5"
         >
-          {categoriesLoading || categories?.length === 0 ? (
-            <>
-              {[1, 2, 3, 4].map((_, index) => (
-                <CategoryCard key={index} />
-              ))}
-            </>
+          {categories?.length === 0 ? (
+            <>No Categories Found!</>
           ) : (
             <>
-              {categories.map((category) => (
-                <div
-                  key={category?._id}
-                  className="w-full flex flex-row items-start gap-x-2 p-2 border border-transparent hover:border-black rounded cursor-pointer"
-                  onClick={() => {
-                    router.push("/products/");
-                    setIsOpen(false);
-                  }}
-                >
-                  <Image
-                    src={category?.thumbnail?.url}
-                    alt={category?.thumbnail?.public_id}
-                    width={40}
-                    height={40}
-                    className="h-[40px] w-[40px] object-cover rounded"
-                  />
-                  <article className="whitespace-normal">
-                    <h2 className="text-sm">{category?.title}</h2>
-                    <p className="text-xs line-clamp-2">
-                      {category?.description}
-                    </p>
-                    <span className="text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
-                      Products: {category?.products?.length}
-                    </span>
-                  </article>
-                </div>
-              ))}
+              {categoriesLoading ? (
+                <>
+                  {[1, 2, 3, 4].map((_, index) => (
+                    <CategoryCard key={index} />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {categories.map((category) => (
+                    <div
+                      key={category?._id}
+                      className="w-full flex flex-row items-start gap-x-2 p-2 border border-transparent hover:border-black rounded cursor-pointer"
+                      onClick={() => {
+                        router.push("/products/");
+                        setIsOpen(false);
+                      }}
+                    >
+                      <Image
+                        src={category?.thumbnail?.url}
+                        alt={category?.thumbnail?.public_id}
+                        width={40}
+                        height={40}
+                        className="h-[40px] w-[40px] object-cover rounded"
+                      />
+                      <article className="whitespace-normal">
+                        <h2 className="text-sm">{category?.title}</h2>
+                        <p className="text-xs line-clamp-2">
+                          {category?.description}
+                        </p>
+                        <span className="text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
+                          Products: {category?.products?.length}
+                        </span>
+                      </article>
+                    </div>
+                  ))}
+                </>
+              )}
             </>
           )}
         </OutsideClick>
