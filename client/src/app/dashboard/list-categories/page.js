@@ -62,19 +62,21 @@ const ListCategories = () => {
                 <p className="text-xs line-clamp-2 mb-1.5">
                   {category?.description}
                 </p>
-                <p className="text-xs flex flex-row flex-wrap gap-2">
-                  {category?.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-purple-100/50 border border-purple-500 text-purple-500 px-1 rounded"
-                    >
-                      {`#${tag}`}
+                <p className="text-xs flex flex-col gap-y-2">
+                    <p className="text-xs flex flex-row gap-2 overflow-x-auto scrollbar-hide">
+                      {category?.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="bg-purple-100/50 border border-purple-500 text-purple-500 px-1.5 rounded whitespace-nowrap"
+                        >
+                          {`#${tag}`}
+                        </span>
+                      ))}
+                    </p>
+                    <span className="!text-xs bg-indigo-100/50 border border-indigo-500 text-indigo-500 rounded w-fit px-2 whitespace-nowrap">
+                      {category?.products?.length} Products
                     </span>
-                  ))}
-                  <span className="!text-xs bg-indigo-100/50 border border-indigo-500 text-indigo-500 rounded w-fit px-2">
-                    {category?.products?.length} Products
-                  </span>
-                </p>
+                  </p>
               </article>
 
               <div className="absolute top-2 right-2 flex flex-row gap-x-2">

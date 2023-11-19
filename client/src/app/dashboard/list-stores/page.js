@@ -62,16 +62,18 @@ const ListStores = () => {
                 <p className="text-xs line-clamp-2 mb-1.5">
                   {store?.description}
                 </p>
-                <p className="text-xs flex flex-row flex-wrap gap-2">
-                  {store?.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-purple-100/50 border border-purple-500 text-purple-500 px-1 rounded"
-                    >
-                      {`#${tag}`}
-                    </span>
-                  ))}
-                  <span className="!text-xs bg-indigo-100/50 border border-indigo-500 text-indigo-500 rounded w-fit px-2">
+                <p className="text-xs flex flex-col gap-y-2">
+                  <p className="text-xs flex flex-row gap-2 overflow-x-auto scrollbar-hide">
+                    {store?.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-purple-100/50 border border-purple-500 text-purple-500 px-1.5 rounded whitespace-nowrap"
+                      >
+                        {`#${tag}`}
+                      </span>
+                    ))}
+                  </p>
+                  <span className="!text-xs bg-indigo-100/50 border border-indigo-500 text-indigo-500 rounded w-fit px-2 whitespace-nowrap">
                     {store?.products?.length} Products
                   </span>
                 </p>

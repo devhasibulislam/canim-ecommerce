@@ -29,7 +29,7 @@ import {
 } from "@/services/product/productApi";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
 const UpdateProduct = () => {
