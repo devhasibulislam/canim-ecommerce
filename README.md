@@ -20,7 +20,8 @@ An eco shop & ecommerce responsive React template built by React.JS & Tailwind C
 ![Gantt_Chart](./csr-ssr/client/public/assets/sdlc/gantt_chart.png)
 
 ## Overview Video
-![Overview_Video](./ciseco-ecommerce.mp4)
+
+> In progress...
 
 ## Technologies
 
