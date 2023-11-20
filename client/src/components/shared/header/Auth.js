@@ -92,8 +92,12 @@ const Auth = () => {
                 />
                 <article className="grid grid-cols-1 gap-y-1">
                   <h2 className="line-clamp-1">{user?.name}</h2>
-                  <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">{user?.email}</p>
-                  <span className="text-xs border px-2 w-fit rounded">{user?.store?.title || "No Store Found!"}</span>
+                  <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+                    {user?.email}
+                  </p>
+                  <span className="text-xs border px-2 w-fit rounded capitalize">
+                    {user?.store?.title || "N/A"} • {user?.role || "N/A"}
+                  </span>
                 </article>
               </div>
               <hr />
