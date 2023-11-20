@@ -30,11 +30,12 @@ const ResetPassword = () => {
   useEffect(() => {
     if (data) {
       alert(data?.description);
+      router.push("/auth/signin");
     }
     if (error?.data) {
       alert(error?.data?.description);
     }
-  }, [data, error]);
+  }, [data, error, router]);
 
   const handleResetPassword = (e) => {
     e.preventDefault();

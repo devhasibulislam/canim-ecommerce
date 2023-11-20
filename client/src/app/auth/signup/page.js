@@ -33,11 +33,12 @@ const Signup = () => {
   useEffect(() => {
     if (data) {
       alert(data?.description);
+      router.push("/auth/signin");
     }
     if (error?.data) {
       alert(error?.data?.description);
     }
-  }, [data, error]);
+  }, [data, error, router]);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];

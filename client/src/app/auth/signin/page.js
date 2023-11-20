@@ -27,6 +27,12 @@ const Signin = () => {
   const [signin, { isLoading, data, error }] = useSigninMutation();
 
   useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      router.push("/");
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (data) {
       localStorage.setItem("accessToken", data?.accessToken);
       alert(data?.description);
