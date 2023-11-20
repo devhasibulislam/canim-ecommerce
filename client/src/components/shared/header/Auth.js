@@ -95,8 +95,9 @@ const Auth = () => {
                   <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
                     {user?.email}
                   </p>
-                  <span className="text-xs border px-2 w-fit rounded capitalize">
-                    {user?.store?.title || "N/A"} • {user?.role || "N/A"}
+                  <span className="text-xs px-2 flex flex-row flex-wrap gap-2">
+                    <span className="px-1 border border-indigo-900 text-indigo-900 bg-indigo-50 rounded-primary">{user?.store?.title || "N/A"}</span>
+                    <span className="px-1 border border-purple-900 text-purple-900 bg-purple-50 rounded-primary">{user?.role || "N/A"}</span>
                   </span>
                 </article>
               </div>
