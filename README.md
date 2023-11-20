@@ -64,7 +64,13 @@ Explore curated deals and trending products on our inviting e-commerce homepage.
 ```bash
 git clone https://github.com/devhasibulislam/ciseco-ecommerce.git
 cd ciseco-ecommerce
-code .
+
+cd client
+yarn install
+
+cd ..
+
+cd server
 yarn install
 ```
 
