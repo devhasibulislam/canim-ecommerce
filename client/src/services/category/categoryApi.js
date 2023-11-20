@@ -22,6 +22,9 @@ const categoryApi = cisecoApi.injectEndpoints({
       query: (category) => ({
         url: "/category/add-category",
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body: category,
       }),
     }),
@@ -41,6 +44,9 @@ const categoryApi = cisecoApi.injectEndpoints({
       query: ({ id, body }) => ({
         url: `/category/update-category/${id}`,
         method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body,
       }),
 

@@ -22,6 +22,9 @@ const brandApi = cisecoApi.injectEndpoints({
       query: (brand) => ({
         url: "/brand/add-brand",
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body: brand,
       }),
     }),
@@ -41,6 +44,9 @@ const brandApi = cisecoApi.injectEndpoints({
       query: ({ id, body }) => ({
         url: `/brand/update-brand/${id}`,
         method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body,
       }),
 

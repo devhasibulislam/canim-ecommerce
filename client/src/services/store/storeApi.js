@@ -22,6 +22,9 @@ const storeApi = cisecoApi.injectEndpoints({
       query: (store) => ({
         url: "/store/add-store",
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body: store,
       }),
     }),
@@ -41,6 +44,9 @@ const storeApi = cisecoApi.injectEndpoints({
       query: ({ id, body }) => ({
         url: `/store/update-store/${id}`,
         method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body,
       }),
 

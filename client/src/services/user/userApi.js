@@ -22,6 +22,9 @@ const userApi = cisecoApi.injectEndpoints({
       query: () => ({
         url: "/user/list-users",
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       }),
 
       providesTags: ["User"],
@@ -32,6 +35,9 @@ const userApi = cisecoApi.injectEndpoints({
       query: ({ id, body }) => ({
         url: `/user/update-user/${id}`,
         method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body,
       }),
 

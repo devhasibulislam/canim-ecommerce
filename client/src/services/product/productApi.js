@@ -22,6 +22,9 @@ const productApi = cisecoApi.injectEndpoints({
       query: (product) => ({
         url: "/product/add-product",
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body: product,
       }),
     }),
@@ -41,6 +44,9 @@ const productApi = cisecoApi.injectEndpoints({
       query: ({ id, body }) => ({
         url: `/product/update-product/${id}`,
         method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body,
       }),
 
