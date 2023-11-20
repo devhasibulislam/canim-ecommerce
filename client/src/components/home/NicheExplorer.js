@@ -80,7 +80,7 @@ const NicheExplorer = () => {
     <Container>
       <section className="flex flex-col gap-y-10">
         <h1 className="text-4xl">
-          Start Exploring. <span className="">By Niche</span>
+          Top Exploring. <span className="">By Niche</span>
         </h1>
 
         <div className="bg-neutral-100/70 rounded-primary lg:p-24 md:p-12 p-6 flex flex-col gap-y-12">
@@ -115,7 +115,7 @@ const NicheExplorer = () => {
                   {brands?.slice(0, 6)?.map((brand, index) => (
                     <div
                       key={index}
-                      className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors cursor-pointer bg-white relative"
+                      className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors bg-white relative"
                     >
                       <Image
                         src={brand?.logo?.url}
@@ -129,7 +129,7 @@ const NicheExplorer = () => {
                         <h2 className="text-xl">{brand?.title}</h2>
                         <p className="flex flex-row gap-x-1 items-center rounded-primary">
                           <BsBoxSeam />{" "}
-                          <span className="text-xs">
+                          <span className="group-hover:text-indigo-500 text-xs">
                             {brand?.products?.length} Products
                           </span>
                         </p>
@@ -145,10 +145,6 @@ const NicheExplorer = () => {
                           </span>
                         ))}
                       </p>
-
-                      <span className="absolute -top-2 -right-2 text-black opacity-0 group-hover:opacity-100 transition-opacity border p-1.5 rounded-secondary bg-white">
-                        <RiShareBoxFill className="h-6 w-6" />
-                      </span>
                     </div>
                   ))}
                 </>
@@ -166,7 +162,7 @@ const NicheExplorer = () => {
                   {categories?.slice(0, 6)?.map((category, index) => (
                     <div
                       key={index}
-                      className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors cursor-pointer bg-white relative"
+                      className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors bg-white relative"
                     >
                       <Image
                         src={category?.thumbnail?.url}
@@ -196,10 +192,6 @@ const NicheExplorer = () => {
                           </span>
                         ))}
                       </p>
-
-                      <span className="absolute -top-2 -right-2 text-black opacity-0 group-hover:opacity-100 transition-opacity border p-1.5 rounded-secondary bg-white">
-                        <RiShareBoxFill className="h-6 w-6" />
-                      </span>
                     </div>
                   ))}
                 </>
@@ -217,7 +209,7 @@ const NicheExplorer = () => {
                   {stores?.slice(0, 6)?.map((store, index) => (
                     <div
                       key={index}
-                      className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors cursor-pointer bg-white relative"
+                      className="group border p-4 rounded-primary flex flex-col gap-y-4 hover:border-black transition-colors bg-white relative"
                     >
                       <Image
                         src={store?.thumbnail?.url}
@@ -247,10 +239,6 @@ const NicheExplorer = () => {
                           </span>
                         ))}
                       </p>
-
-                      <span className="absolute -top-2 -right-2 text-black opacity-0 group-hover:opacity-100 transition-opacity border p-1.5 rounded-secondary bg-white">
-                        <RiShareBoxFill className="h-6 w-6" />
-                      </span>
                     </div>
                   ))}
                 </>
