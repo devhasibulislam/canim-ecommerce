@@ -22,6 +22,7 @@ const verify = require("../middleware/verify.middleware");
 
 /* internal import */
 const userController = require("../controllers/user.controller");
+const authorize = require("../middleware/authorize.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -41,10 +42,15 @@ router.patch("/forgot-password", userController.forgotPassword);
 router.get("/me", verify, userController.persistLogin);
 
 // get all users
-router.get("/list-users", userController.getUsers);
+router.get("/list-users", verify, authorize("admin"), userController.getUsers);
 
 // update user
-router.patch("/update-user/:id", userController.updateUser);
+router.patch(
+  "/update-user/:id",
+  verify,
+  authorize("admin", "seller", "buyer"),
+  userController.updateUser
+);
 
 /* export user router */
 module.exports = router;

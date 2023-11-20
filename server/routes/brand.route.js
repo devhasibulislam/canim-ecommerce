@@ -21,6 +21,8 @@ const upload = require("../middleware/upload.middleware");
 
 /* internal import */
 const brandController = require("../controllers/brand.controller");
+const verify = require("../middleware/verify.middleware");
+const authorize = require("../middleware/authorize.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -28,7 +30,13 @@ const router = express.Router();
 /* router methods integration */
 
 // add new brand
-router.post("/add-brand", upload.single("logo"), brandController.addBrand);
+router.post(
+  "/add-brand",
+  verify,
+  authorize("admin", "seller"),
+  upload.single("logo"),
+  brandController.addBrand
+);
 
 // get all brands
 router.get("/list-brands", brandController.getBrands);
@@ -36,6 +44,8 @@ router.get("/list-brands", brandController.getBrands);
 // update brand
 router.patch(
   "/update-brand/:id",
+  verify,
+  authorize("admin", "seller"),
   upload.single("logo"),
   brandController.updateBrand
 );

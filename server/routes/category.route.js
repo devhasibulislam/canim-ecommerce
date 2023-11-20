@@ -21,6 +21,8 @@ const upload = require("../middleware/upload.middleware");
 
 /* internal import */
 const categoryController = require("../controllers/category.controller");
+const verify = require("../middleware/verify.middleware");
+const authorize = require("../middleware/authorize.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -30,6 +32,8 @@ const router = express.Router();
 // add new category
 router.post(
   "/add-category",
+  verify,
+  authorize("admin", "seller"),
   upload.single("thumbnail"),
   categoryController.addCategory
 );
@@ -40,6 +44,8 @@ router.get("/list-categories", categoryController.getCategories);
 // update category
 router.patch(
   "/update-category/:id",
+  verify,
+  authorize("admin", "seller"),
   upload.single("thumbnail"),
   categoryController.updateCategory
 );

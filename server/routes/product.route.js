@@ -21,6 +21,8 @@ const upload = require("../middleware/upload.middleware");
 
 /* internal import */
 const productController = require("../controllers/product.controller");
+const verify = require("../middleware/verify.middleware");
+const authorize = require("../middleware/authorize.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -30,6 +32,8 @@ const router = express.Router();
 // add new product
 router.post(
   "/add-product",
+  verify,
+  authorize("admin", "seller"),
   upload.fields([
     { name: "thumbnail", maxCount: 1 },
     { name: "gallery", maxCount: 5 },
@@ -43,6 +47,8 @@ router.get("/list-products", productController.getProducts);
 // update product
 router.patch(
   "/update-product/:id",
+  verify,
+  authorize("admin", "seller"),
   upload.fields([
     { name: "thumbnail", maxCount: 1 },
     { name: "gallery", maxCount: 5 },

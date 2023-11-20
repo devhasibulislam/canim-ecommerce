@@ -21,6 +21,9 @@ const upload = require("../middleware/upload.middleware");
 
 /* internal import */
 const storeController = require("../controllers/store.controller");
+const verify = require("../middleware/verify.middleware");
+const authorize = require("../middleware/authorize.middleware");
+const restrict = require("../middleware/restrict.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -28,7 +31,14 @@ const router = express.Router();
 /* router methods integration */
 
 // add new store
-router.post("/add-store", upload.single("thumbnail"), storeController.addStore);
+router.post(
+  "/add-store",
+  verify,
+  authorize("admin", "seller"),
+  restrict,
+  upload.single("thumbnail"),
+  storeController.addStore
+);
 
 // get all stores
 router.get("/list-stores", storeController.getStores);
@@ -36,6 +46,8 @@ router.get("/list-stores", storeController.getStores);
 // update store
 router.patch(
   "/update-store/:id",
+  verify,
+  authorize("admin", "seller"),
   upload.single("thumbnail"),
   storeController.updateStore
 );
