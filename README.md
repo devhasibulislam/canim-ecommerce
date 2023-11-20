@@ -1,53 +1,65 @@
 # Ciseco E-Commerce
 
-An eco shop & ecommerce responsive React template built by React.JS & Tailwind CSS
+> Discover a seamless shopping experience at our e-commerce haven. Browse an extensive selection of products from top brands, enjoy secure transactions, and relish swift deliveries. Elevate your online shopping journey with user-friendly navigation and exclusive deals. Shop effortlessly, anytime, anywhere, and redefine convenience with our digital marketplace.
 
-## Screenshots
+## Overview
 
-![Readme_Banner1](./csr-ssr/client/public/assets/readme/readme_benner1.png)
-![Readme_Banner2](./csr-ssr/client/public/assets/readme/readme_benner2.png)
-![Readme_Banner3](./csr-ssr/client/public/assets/readme/readme_benner3.png)
-![Readme_Banner4](./csr-ssr/client/public/assets/readme/readme_benner4.png)
-![Readme_Banner5](./csr-ssr/client/public/assets/readme/readme_benner5.png)
-![Readme_Banner6](./csr-ssr/client/public/assets/readme/readme_benner6.png)
+Explore curated deals and trending products on our inviting e-commerce homepage. Instantly find what you need for a delightful shopping experience.
 
-## ER Diagram
+![ciseco-ecommerce](./ciseco-ecommerce.png)
 
-![ER_Diagram](./csr-ssr/client/public/assets/sdlc/er_diagram.jpg)
+## Features
 
-## Gantt Chart
+- Total **17** Pages
+  - Home `x1`
+  - Product Detail `x1`
+  - Product Filter `x1`
+  - Auth `x3`
+  - Dashboard `x11`
+- Authentication & Role Authorization `Admin`, `Seller` & `Buyer`
+- Real-Time Cart & Update Activity
+- Admin & Seller Dashboard
+- Secure Channel Bypass
+- Advance Search Filter
+- Advance Product Filter
+- Avatar, Thumbnail & Gallery Review
+- Fully Responsive for `Mobile`, `Tablet`, `Laptop` & `Desktop`
+- Intuitive and user-friendly design
 
-![Gantt_Chart](./csr-ssr/client/public/assets/sdlc/gantt_chart.png)
+## Tech Stack
 
-## Overview Video
-
-> In progress...
+- Framework: `Next.Js 13 App Directory`
+- State Container: `Redux Toolkit`
+- Styling: `Tailwind CSS`
+- Icons: `React Icons`
+- Database: `MongoDB`
+- ORM: `Mongoose`
+- Linting: `ESLint`
+- Formatter: `Prettier`
+- Work Management: `Asana`
+- Backend Directory: `Node.Js Express Server`
 
 ## Technologies
 
-| Client                | Server                    |
-| --------------------- | ------------------------- |
-| React.JS              | Bcrypt.JS                 |
-| Headless UI           | Cloudinary.JS             |
-| React Redux           | Colors.JS                 |
-| Redux Toolkit         | Cors Policy               |
-| Tailwind CSS          | Dotenv                    |
-| Tailwind Forms        | Express.JS                |
-| Tailwind Line Clamp   | JWT                       |
-| Tailwind Typography   | Mongoose.JS               |
-| Tailwind Aspect Ratio | Multer.JS                 |
-| React.JS              | Multer Storage Cloudinary |
-| React Router Dom      | Validator.JS              |
+| Client                  | Server                    |
+| ----------------------- | ------------------------- |
+| @reduxjs/toolkit        | bcryptjs                  |
+| autoprefixer            | cloudinary                |
+| eslint                  | colors                    |
+| eslint-config-next      | cors                      |
+| next                    | dotenv                    |
+| postcss                 | express                   |
+| react                   | jsonwebtoken              |
+| react-dom               | mongoose                  |
+| react-icons             | multer                    |
+| react-redux             | multer-storage-cloudinary |
+| tailwind-scrollbar-hide | validator                 |
+| tailwindcss             | nodemon                   |
+| @tailwindcss/forms      |
 
-## Important Links
+# Development
 
-- [x] Client Side Live Link: [Click Here](https://9t5-ciseco-ecommerce-client.vercel.app) `deprecated`
-- [x] Server Side Live Link: [Click Here](https://ninet5-ciseco-ecommerce-server.onrender.com) `deprecated`
-- [x] Dashboard Reference Link: [Click Here](https://loopinfosol.in/themeforest/ekka-html-v33/ekka-admin/index.html)
-- [x] Reference Site Live Link: [Click Here](https://chisnghiax.com/ciseco/)
-- [x] API Reference `Postman` Link: [Click Here](https://api.postman.com/collections/24099405-e6bf9cce-a731-43ed-9059-a80236dc876a?access_key=PMAT-01GV82439T78SH5D4HY22WXHZ3)
-
-## Make it own
+## Clone Repository
 
 ```bash
 git clone https://github.com/devhasibulislam/ciseco-ecommerce.git
@@ -55,3 +67,45 @@ cd ciseco-ecommerce
 code .
 yarn install
 ```
+
+## Environment Setup
+
+### Client Side
+
+```bash
+NEXT_PUBLIC_BASE_URL="http://localhost:8080/api"
+```
+
+### Server Side
+
+```bash
+# Port number
+PORT=8080
+
+# Origin URL
+ORIGIN_URL="http://localhost:3000"
+
+# MongoDB Atlas URI
+DB_Name="ciseco-template"
+ATLAS_URI="YOUR_MONGODB_ATLAS_URI"
+
+# JWT secret
+TOKEN_SECRET="JWT_TOKEN"
+
+# Cloudinary credentials
+CLOUD_NAME="CLOUDINARY_CLOUD_NAME"
+API_KEY="CLOUDINARY_API_KEY"
+API_SECRET="CLOUDINARY_API_SECRET"
+```
+
+# Important Links
+
+- [x] `Client Side` Live Link: [Click Here](https://ciseco-csr.vercel.app/)
+- [x] `Server Side` Live Link: [Click Here](https://ciseco-ssr.vercel.app/)
+- [x] `Dashboard Reference` Link: [Click Here](https://loopinfosol.in/themeforest/ekka-html-v33/ekka-admin/index.html)
+- [x] `Reference Site` Live Link: [Click Here](https://chisnghiax.com/ciseco/)
+
+# Author
+
+Developer: [Hasibul Islam](https://devhasibulislam.vercel.app/)
+Designer: [Sadia Khanum](https://www.facebook.com/devsadiakhan)
