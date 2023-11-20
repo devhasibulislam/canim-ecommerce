@@ -18,19 +18,16 @@
 import React from "react";
 import Sidebar from "../Sidebar";
 import Container from "../Container";
-import PrivateRoute from "../PrivateRoute";
 
 const Dashboard = ({ children }) => {
   return (
     <Container className="p-4 md:h-screen min-h-screen ">
-      <PrivateRoute allowedRoles={["admin", "seller"]}>
-        <section className="grid grid-cols-12 gap-4 h-full">
-          <Sidebar />
-          <div className="md:col-span-9 col-span-12 overflow-y-auto rounded">
-            {children}
-          </div>
-        </section>
-      </PrivateRoute>
+      <section className="grid grid-cols-12 gap-4 h-full">
+        <Sidebar />
+        <div className="md:col-span-9 col-span-12 overflow-y-auto rounded">
+          {children}
+        </div>
+      </section>
     </Container>
   );
 };
