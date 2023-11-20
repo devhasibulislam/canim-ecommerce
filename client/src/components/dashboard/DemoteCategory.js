@@ -26,7 +26,7 @@ const DemoteCategory = ({ category }) => {
     {
       isLoading: categoryUpdating,
       data: updateCategoryResponse,
-      isError: updateCategoryResponseError,
+      error: updateCategoryResponseError,
     },
   ] = useUpdateCategoryMutation();
 

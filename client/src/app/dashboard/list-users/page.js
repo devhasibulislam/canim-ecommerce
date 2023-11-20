@@ -25,14 +25,14 @@ import React, { useEffect } from "react";
 const ListUsers = () => {
   const {
     data: usersData,
-    isError: usersError,
+    error: usersError,
     isLoading,
   } = useGetUsersQuery();
   const users = usersData?.data || [];
 
   useEffect(() => {
     if (usersError) {
-      alert("Something went wrong, refresh the page.");
+      alert(usersError?.data?.description);
     }
   }, [usersError]);
 

@@ -35,10 +35,10 @@ const UpdateBrand = () => {
     {
       isLoading: brandUpdating,
       data: updatedBrandData,
-      isError: brandUpdatingError,
+      error: brandUpdatingError,
     },
   ] = useUpdateBrandMutation();
-  const { data: brandData, isError: brandError } = useGetBrandQuery(id);
+  const { data: brandData, error: brandError } = useGetBrandQuery(id);
   const brand = useMemo(() => brandData?.data || {}, [brandData]);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const UpdateBrand = () => {
       alert(brandUpdatingError?.data?.description);
     }
     if (brandError) {
-      alert("Something went wrong, refresh the page.");
+      alert(brandError?.data?.description);
     }
   }, [updatedBrandData, brandUpdatingError, brandError]);
 

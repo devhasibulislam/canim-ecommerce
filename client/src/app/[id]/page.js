@@ -29,14 +29,14 @@ const Detail = () => {
   const { id } = useParams();
   const {
     data: productData,
-    isError: productError,
+    error: productError,
     isLoading: productLoading,
   } = useGetProductQuery(id);
   const product = productData?.data || {};
 
   useEffect(() => {
     if (productError) {
-      alert("Something went wrong, refresh the page.");
+      alert(productError?.data?.description);
     }
   }, [productError]);
 

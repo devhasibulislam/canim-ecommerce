@@ -36,12 +36,12 @@ const UpdateStore = () => {
     {
       isLoading: storeUpdating,
       data: updatedStoreData,
-      isError: storeUpdatingError,
+      error: storeUpdatingError,
     },
   ] = useUpdateStoreMutation();
   const {
     data: storeData,
-    isError: storeError,
+    error: storeError,
     isLoading,
   } = useGetStoreQuery(id);
   const store = useMemo(() => storeData?.data || {}, [storeData]);
@@ -54,7 +54,7 @@ const UpdateStore = () => {
       alert(storeUpdatingError?.data?.description);
     }
     if (storeError) {
-      alert("Something went wrong, refresh the page.");
+      alert(storeError?.data?.description);
     }
   }, [updatedStoreData, storeUpdatingError, storeError]);
 

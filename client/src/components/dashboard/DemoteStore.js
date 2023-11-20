@@ -26,7 +26,7 @@ const DemoteStore = ({ store }) => {
     {
       isLoading: storeUpdating,
       data: updateStoreResponse,
-      isError: updateStoreResponseError,
+      error: updateStoreResponseError,
     },
   ] = useUpdateStoreMutation();
 

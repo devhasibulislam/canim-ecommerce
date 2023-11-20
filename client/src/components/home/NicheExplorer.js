@@ -48,17 +48,17 @@ const NicheExplorer = () => {
 
   const {
     data: brandsData,
-    isError: brandsError,
+    error: brandsError,
     isLoading: fetchingBrands,
   } = useGetBrandsQuery();
   const {
     data: categoriesData,
-    isError: categoriesError,
+    error: categoriesError,
     isLoading: fetchingCategories,
   } = useGetCategoriesQuery();
   const {
     data: storesData,
-    isError: storesError,
+    error: storesError,
     isLoading: fetchingStores,
   } = useGetStoresQuery();
 
@@ -68,7 +68,11 @@ const NicheExplorer = () => {
 
   useEffect(() => {
     if (brandsError || categoriesError || storesError) {
-      alert("Something went wrong, refresh the page.");
+      alert(
+        brandsError?.data?.description ||
+          categoriesError?.data?.description ||
+          storesError?.data?.description
+      );
     }
   }, [brandsError, categoriesError, storesError]);
 

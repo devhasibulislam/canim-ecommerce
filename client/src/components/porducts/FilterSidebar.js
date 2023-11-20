@@ -31,17 +31,17 @@ import SelectCard from "../shared/skeletonLoading/SelectCard";
 const FilterSidebar = ({ searchParams }) => {
   const {
     data: brandsData,
-    isError: brandsError,
+    error: brandsError,
     isLoading: brandsLoading,
   } = useGetBrandsQuery();
   const {
     data: categoriesData,
-    isError: categoriesError,
+    error: categoriesError,
     isLoading: categoriesLoading,
   } = useGetCategoriesQuery();
   const {
     data: storesData,
-    isError: storesError,
+    error: storesError,
     isLoading: storesLoading,
   } = useGetStoresQuery();
   const dispatch = useDispatch();
@@ -52,7 +52,11 @@ const FilterSidebar = ({ searchParams }) => {
 
   useEffect(() => {
     if (brandsError || categoriesError || storesError) {
-      alert("Something went wrong, refresh the page.");
+      alert(
+        brandsError?.data?.description ||
+          categoriesError?.data?.description ||
+          storesError?.data?.description
+      );
     }
   }, [brandsError, categoriesError, storesError]);
 

@@ -37,16 +37,16 @@ const AddProduct = () => {
 
   const [
     addProduct,
-    { isLoading, data: addProductResponse, isError: addProductResponseError },
+    { isLoading, data: addProductResponse, error: addProductResponseError },
   ] = useAddProductMutation();
   const {
     data: brandsData,
-    isError: brandsError,
+    error: brandsError,
     isLoading: brandsLoading,
   } = useGetBrandsQuery();
   const {
     data: categoriesData,
-    isError: categoriesError,
+    error: categoriesError,
     isLoading: categoriesLoading,
   } = useGetCategoriesQuery();
 
@@ -61,7 +61,9 @@ const AddProduct = () => {
       alert(addProductResponseError?.data?.description);
     }
     if (brandsError || categoriesError) {
-      alert("Something went wrong, refresh the page.");
+      alert(
+        brandsError?.data?.description || categoriesError?.data?.description
+      );
     }
   }, [
     addProductResponse,

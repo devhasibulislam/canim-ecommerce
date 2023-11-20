@@ -27,7 +27,7 @@ import React, { useEffect } from "react";
 const ListStores = () => {
   const {
     data: storesData,
-    isError: storesError,
+    error: storesError,
     isLoading,
   } = useGetStoresQuery();
   const stores = storesData?.data || [];
@@ -35,7 +35,7 @@ const ListStores = () => {
 
   useEffect(() => {
     if (storesError) {
-      alert("Something went wrong, refresh the page.");
+      alert(storesError?.data?.description);
     }
   }, [storesError]);
 

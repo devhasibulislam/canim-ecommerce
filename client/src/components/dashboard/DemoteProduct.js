@@ -26,7 +26,7 @@ const DemoteProduct = ({ product }) => {
     {
       isLoading: productUpdating,
       data: updateProductResponse,
-      isError: updateProductResponseError,
+      error: updateProductResponseError,
     },
   ] = useUpdateProductMutation();
 

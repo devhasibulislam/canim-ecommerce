@@ -24,7 +24,7 @@ const UserUpdate = ({ user }) => {
     {
       isLoading: userUpdating,
       data: updateUserResponse,
-      isError: updateUserResponseError,
+      error: updateUserResponseError,
     },
   ] = useUpdateUserMutation();
 

@@ -28,7 +28,7 @@ const FilteredProducts = () => {
   const { filterCredentials } = useSelector((state) => state.productFilter);
   const [
     addFilter,
-    { data: productsData, isError: productsError, isLoading: productsLoading },
+    { data: productsData, error: productsError, isLoading: productsLoading },
   ] = useGetFilteredProductsMutation();
   const products = useMemo(() => productsData?.data || [], [productsData]);
 
@@ -38,7 +38,7 @@ const FilteredProducts = () => {
 
   useEffect(() => {
     if (productsError) {
-      alert("Something went wrong, refresh the page.");
+      alert(productsError?.data?.description);
     }
   }, [productsError]);
 

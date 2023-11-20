@@ -27,14 +27,14 @@ const Trending = () => {
   const router = useRouter();
   const {
     data: productsData,
-    isError: productsError,
+    error: productsError,
     isLoading: productsLoading,
   } = useGetProductsQuery();
   const products = productsData?.data || [];
 
   useEffect(() => {
     if (productsError) {
-      alert("Something went wrong, refresh the page.");
+      alert(productsError?.data?.description);
     }
   }, [productsError]);
 

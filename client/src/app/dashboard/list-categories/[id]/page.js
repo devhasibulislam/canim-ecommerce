@@ -36,11 +36,11 @@ const UpdateCategory = () => {
     {
       isLoading: categoryUpdating,
       data: updatedCategoryData,
-      isError: categoryUpdatingError,
+      error: categoryUpdatingError,
       isLoading,
     },
   ] = useUpdateCategoryMutation();
-  const { data: categoryData, isError: categoryError } =
+  const { data: categoryData, error: categoryError } =
     useGetCategoryQuery(id);
   const category = useMemo(() => categoryData?.data || {}, [categoryData]);
 
@@ -52,7 +52,7 @@ const UpdateCategory = () => {
       alert(categoryUpdatingError?.data?.description);
     }
     if (categoryError) {
-      alert("Something went wrong, refresh the page.");
+      alert(categoryError?.data?.description);
     }
   }, [updatedCategoryData, categoryUpdatingError, categoryError]);
 

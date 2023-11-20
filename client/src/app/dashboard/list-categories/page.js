@@ -27,7 +27,7 @@ import React, { useEffect } from "react";
 const ListCategories = () => {
   const {
     data: categoriesData,
-    isError: categoriesError,
+    error: categoriesError,
     isLoading,
   } = useGetCategoriesQuery();
   const categories = categoriesData?.data || [];
@@ -35,7 +35,7 @@ const ListCategories = () => {
 
   useEffect(() => {
     if (categoriesError) {
-      alert("Something went wrong, refresh the page.");
+      alert(categoriesError?.data?.description);
     }
   }, [categoriesError]);
 

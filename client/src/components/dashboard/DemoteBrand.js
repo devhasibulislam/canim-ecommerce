@@ -24,7 +24,7 @@ const DemoteBrand = ({ brand }) => {
     {
       isLoading: brandUpdating,
       data: updateBrandResponse,
-      isError: updateBrandResponseError,
+      error: updateBrandResponseError,
     },
   ] = useUpdateBrandMutation();
 

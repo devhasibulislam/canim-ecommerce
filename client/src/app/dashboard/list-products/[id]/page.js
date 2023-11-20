@@ -46,22 +46,22 @@ const UpdateProduct = () => {
     {
       isLoading: productUpdating,
       data: updateProductResponse,
-      isError: updateProductResponseError,
+      error: updateProductResponseError,
     },
   ] = useUpdateProductMutation();
   const {
     data: brandsData,
-    isError: brandsError,
+    error: brandsError,
     isLoading: brandsLoading,
   } = useGetBrandsQuery();
   const {
     data: categoriesData,
-    isError: categoriesError,
+    error: categoriesError,
     isLoading: categoriesLoading,
   } = useGetCategoriesQuery();
   const {
     data: productData,
-    isError: productError,
+    error: productError,
     isLoading: productLoading,
   } = useGetProductQuery(id);
 
@@ -73,7 +73,11 @@ const UpdateProduct = () => {
       alert(updateProductResponseError?.data?.description);
     }
     if (brandsError || categoriesError || productError) {
-      alert("Something went wrong, refresh the page.");
+      alert(
+        brandsError?.data?.description ||
+          categoriesError?.data?.description ||
+          productError?.data?.description
+      );
     }
   }, [
     updateProductResponse,
@@ -84,7 +88,10 @@ const UpdateProduct = () => {
   ]);
 
   const brands = useMemo(() => brandsData?.data || [], [brandsData]);
-  const categories = useMemo(() => categoriesData?.data || [], [categoriesData]);
+  const categories = useMemo(
+    () => categoriesData?.data || [],
+    [categoriesData]
+  );
   const product = useMemo(() => productData?.data || {}, [productData]);
 
   const handleThumbnailChange = (e) => {

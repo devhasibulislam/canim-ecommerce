@@ -28,14 +28,14 @@ const ListBrands = () => {
   const {
     data: brandsData,
     isLoading: brandsLoading,
-    isError: brandsError,
+    error: brandsError,
   } = useGetBrandsQuery();
   const brands = brandsData?.data || [];
   const router = useRouter();
 
   useEffect(() => {
     if (brandsError) {
-      alert("Something went wrong, refresh the page.");
+      alert(brandsError?.data?.description);
     }
   }, [brandsError]);
 

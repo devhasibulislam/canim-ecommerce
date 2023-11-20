@@ -23,16 +23,12 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 
 const AddUsers = () => {
-  const {
-    data: usersData,
-    isError: usersError,
-    isLoading,
-  } = useGetUsersQuery();
+  const { data: usersData, error: usersError, isLoading } = useGetUsersQuery();
   const users = usersData?.data || [];
 
   useEffect(() => {
     if (usersError) {
-      alert("Something went wrong, refresh the page.");
+      alert(usersError?.data?.description);
     }
   }, [usersError]);
 

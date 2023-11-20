@@ -27,7 +27,7 @@ const Categories = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
     data: categoriesData,
-    isError: categoriesError,
+    error: categoriesError,
     isLoading: categoriesLoading,
   } = useGetCategoriesQuery();
   const categories = categoriesData?.data || [];
@@ -35,7 +35,7 @@ const Categories = () => {
 
   useEffect(() => {
     if (categoriesError) {
-      alert("Something went wrong, refresh the page.");
+      alert(categoriesError?.data?.description);
     }
   }, [categoriesError]);
 
