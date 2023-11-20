@@ -15,7 +15,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Bag from "../icons/Bag";
 import { useUpdateUserMutation } from "@/services/user/userApi";
@@ -26,7 +26,17 @@ const CartButton = ({ product }) => {
   const [qty, setQty] = useState(0);
   const { user } = useSelector((state) => state.auth);
 
-  const [updateCart, { isLoading: cartUpdating }] = useUpdateUserMutation();
+  const [updateCart, { isLoading: cartUpdating, data, error }] =
+    useUpdateUserMutation();
+
+  useEffect(() => {
+    if (data) {
+      alert(data?.description);
+    }
+    if (error) {
+      alert(error?.data?.description);
+    }
+  }, [error]);
 
   return (
     <section className="flex flex-row items-center gap-x-4">
