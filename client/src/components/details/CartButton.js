@@ -36,7 +36,7 @@ const CartButton = ({ product }) => {
     if (error) {
       alert(error?.data?.description);
     }
-  }, [error]);
+  }, [data, error]);
 
   return (
     <section className="flex flex-row items-center gap-x-4">
