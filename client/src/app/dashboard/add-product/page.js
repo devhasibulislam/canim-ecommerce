@@ -397,11 +397,7 @@ const AddProduct = () => {
           </label>
           <label htmlFor="campaign" className="flex flex-col gap-y-1">
             <span className="text-sm">Enter Product Campaign*</span>
-<<<<<<< HEAD
-            <div className="flex flex-row gap-x-2">
-=======
             <div className="flex lg:flex-row flex-col gap-2">
->>>>>>> 4b7f664 (final commit)
               <input
                 type="text"
                 name="campaignTitle"
