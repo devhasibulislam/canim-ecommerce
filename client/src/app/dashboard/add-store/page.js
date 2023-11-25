@@ -113,7 +113,7 @@ const AddStore = () => {
         className="w-full h-full grid grid-cols-12 gap-4"
         onSubmit={handleAddStore}
       >
-        <div className="col-span-4">
+        <div className="md:col-span-4 col-span-12">
           <div className="flex flex-col gap-4 h-full w-full">
             {thumbnailPreview ? (
               <Image
@@ -142,7 +142,7 @@ const AddStore = () => {
             )}
           </div>
         </div>
-        <div className="col-span-8 flex flex-col gap-y-4">
+        <div className="md:col-span-8 col-span-12 flex flex-col gap-y-4">
           <label htmlFor="title" className="flex flex-col gap-y-1">
             <span className="text-sm">Enter Store Title*</span>
             <input

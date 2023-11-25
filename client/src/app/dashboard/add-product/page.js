@@ -197,7 +197,7 @@ const AddProduct = () => {
         className="w-full h-full grid grid-cols-12 gap-4 relative"
         onSubmit={handleAddProduct}
       >
-        <div className="col-span-4 sticky top-2 h-fit">
+        <div className="md:col-span-4 col-span-12 sticky top-2 h-fit">
           <div className="flex flex-col gap-4 h-full w-full">
             {thumbnailPreview ? (
               <Image
@@ -258,7 +258,7 @@ const AddProduct = () => {
             )}
           </div>
         </div>
-        <div className="col-span-8 flex flex-col gap-y-4">
+        <div className="md:col-span-8 col-span-12 flex flex-col gap-y-4">
           <label htmlFor="productTitle" className="flex flex-col gap-y-1">
             <span className="text-sm">Enter Product Title*</span>
             <input
@@ -374,7 +374,7 @@ const AddProduct = () => {
           </div>
           <label htmlFor="variations" className="flex flex-col gap-y-1">
             <span className="text-sm">Enter Product Variations*</span>
-            <div className="flex flex-row gap-x-2">
+            <div className="flex lg:flex-row flex-col gap-2">
               <input
                 type="number"
                 name="color"
@@ -397,7 +397,11 @@ const AddProduct = () => {
           </label>
           <label htmlFor="campaign" className="flex flex-col gap-y-1">
             <span className="text-sm">Enter Product Campaign*</span>
+<<<<<<< HEAD
             <div className="flex flex-row gap-x-2">
+=======
+            <div className="flex lg:flex-row flex-col gap-2">
+>>>>>>> 4b7f664 (final commit)
               <input
                 type="text"
                 name="campaignTitle"
