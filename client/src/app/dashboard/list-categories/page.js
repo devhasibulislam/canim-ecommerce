@@ -44,7 +44,7 @@ const ListCategories = () => {
       {isLoading || categories?.length === 0 ? (
         <DashboardLading />
       ) : (
-        <div className="w-full grid grid-cols-3 gap-4">
+        <div className="w-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
           {categories.map((category) => (
             <div
               key={category?._id}
