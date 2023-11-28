@@ -45,7 +45,7 @@ const ListBrands = () => {
         <DashboardLading />
       ) : (
         <>
-          <div className="w-full grid grid-cols-3 gap-4">
+          <div className="w-full grid lg:grid-cols-3 md:grid-cols-6 grid-cols-12 gap-4">
             {brands.map((brand) => (
               <div
                 key={brand?._id}
