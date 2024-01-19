@@ -31,7 +31,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (_, file) => {
     return {
-      folder: "ciseco-template",
+      folder: "canim-template",
       public_id: `${Date.now()}_${file.originalname
         .replace(/[^\w\s.-]/g, "")
         .replace(/\s+/g, "-")
