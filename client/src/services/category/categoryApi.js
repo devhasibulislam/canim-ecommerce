@@ -13,9 +13,9 @@
  * Date: 11, November 2023
  */
 
-const { cisecoApi } = require("../ciseco");
+const { canimApi } = require("../canim");
 
-const categoryApi = cisecoApi.injectEndpoints({
+const categoryApi = canimApi.injectEndpoints({
   endpoints: (builder) => ({
     // add new category
     addCategory: builder.mutation({
@@ -27,12 +27,14 @@ const categoryApi = cisecoApi.injectEndpoints({
         },
         body: category,
       }),
+
+      invalidatesTags: ["Category", "User"],
     }),
 
     // get all categories
     getCategories: builder.query({
       query: () => ({
-        url: "/category/list-categories",
+        url: "/category/get-categories",
         method: "GET",
       }),
 
@@ -50,7 +52,7 @@ const categoryApi = cisecoApi.injectEndpoints({
         body,
       }),
 
-      invalidatesTags: ["Category"],
+      invalidatesTags: ["Category", "User"],
     }),
 
     // get a category
@@ -62,6 +64,19 @@ const categoryApi = cisecoApi.injectEndpoints({
 
       providesTags: ["Category"],
     }),
+
+    // delete category
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/category/delete-category/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      invalidatesTags: ["Category", "User"],
+    }),
   }),
 });
 
@@ -70,4 +85,5 @@ export const {
   useGetCategoriesQuery,
   useUpdateCategoryMutation,
   useGetCategoryQuery,
+  useDeleteCategoryMutation,
 } = categoryApi;
