@@ -27,6 +27,7 @@ const productSchema = new mongoose.Schema(
       required: [true, "Please, provide a product title"],
       trim: true,
       unique: [true, "Same product already exists"],
+      maxLength: [100, "Your title would be at most 100 characters"],
     },
 
     // for summary
@@ -34,6 +35,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, provide product summary"],
       trim: true,
+      maxLength: [500, "Your summary would be at most 500 characters"],
     },
 
     // for thumbnail
@@ -81,24 +83,20 @@ const productSchema = new mongoose.Schema(
         title: {
           type: String,
           required: [true, "Please, provide a feature title"],
+          maxLength: [100, "Your title would be at most 100 characters"],
         },
         content: {
           type: [String],
           required: [true, "Please, provide a feature content"],
+          maxLength: [200, "Your content would be at most 200 characters"],
         },
       },
     ],
 
     // for variations
     variations: {
-      colors: {
-        type: Number,
-        default: 1,
-      },
-      sizes: {
-        type: Number,
-        default: 1,
-      },
+      colors: [String],
+      sizes: [String],
     },
 
     // for campaigns
@@ -138,11 +136,21 @@ const productSchema = new mongoose.Schema(
       ref: "Store",
     },
 
-    // for trashable
-    trashable: {
-      type: Boolean,
-      default: false,
-    },
+    // for buyers
+    buyers: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
+
+    // for reviews
+    reviews: [
+      {
+        type: ObjectId,
+        ref: "Review",
+      },
+    ],
 
     createdAt: {
       type: Date,

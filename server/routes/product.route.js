@@ -18,11 +18,11 @@ const express = require("express");
 
 /* middleware imports */
 const upload = require("../middleware/upload.middleware");
+const verify = require("../middleware/verify.middleware");
+const authorize = require("../middleware/authorize.middleware");
 
 /* internal import */
 const productController = require("../controllers/product.controller");
-const verify = require("../middleware/verify.middleware");
-const authorize = require("../middleware/authorize.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -42,7 +42,7 @@ router.post(
 );
 
 // get all products
-router.get("/list-products", productController.getProducts);
+router.get("/get-products", productController.getProducts);
 
 // update product
 router.patch(
@@ -61,5 +61,13 @@ router.get("/get-product/:id", productController.getProduct);
 
 // filtered products
 router.post("/filtered-products", productController.getFilteredProducts);
+
+// delete product
+router.delete(
+  "/delete-product/:id",
+  verify,
+  authorize("admin", "seller"),
+  productController.deleteProduct
+);
 
 module.exports = router;

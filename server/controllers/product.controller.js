@@ -70,3 +70,14 @@ exports.getFilteredProducts = async (req, res, next) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* delete product */
+exports.deleteProduct = async (req, res, next) => {
+  try {
+    await productService.deleteProduct(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};

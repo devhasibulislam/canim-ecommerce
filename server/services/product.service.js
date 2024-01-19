@@ -19,6 +19,8 @@ const Category = require("../models/category.model");
 const Store = require("../models/store.model");
 const Brand = require("../models/brand.model");
 const remove = require("../utils/remove.util");
+const Review = require("../models/review.model");
+const User = require("../models/user.model");
 
 /* add new product */
 exports.addProduct = async (req, res) => {
@@ -30,14 +32,14 @@ exports.addProduct = async (req, res) => {
   const parsedCampaign = JSON.parse(campaign);
   const parsedVariations = JSON.parse(variations);
 
-  if (req.files.thumbnail) {
+  if (req.files.thumbnail.length) {
     thumbnail = {
       url: req.files.thumbnail[0].path,
       public_id: req.files.thumbnail[0].filename,
     };
   }
 
-  if (req.files) {
+  if (req.files.gallery.length) {
     gallery = req.files.gallery.map((file) => ({
       url: file.path,
       public_id: file.filename,
@@ -77,6 +79,18 @@ exports.getProducts = async (res) => {
     "category",
     "brand",
     "store",
+    {
+      path: "reviews",
+      options: { sort: { updatedAt: -1 } },
+      populate: [
+        "reviewer",
+        {
+          path: "product",
+          populate: ["brand", "category", "store"],
+        },
+      ],
+    },
+    "buyers",
   ]);
 
   res.status(200).json({
@@ -87,67 +101,23 @@ exports.getProducts = async (res) => {
   });
 };
 
-/* update product */
-exports.updateProduct = async (req, res) => {
-  let productInformation = {};
-
-  const {
-    body: {
-      oldThumbnail,
-      oldGallery,
-      features,
-      campaign,
-      variations,
-      ...otherInformation
-    },
-    files,
-  } = req;
-
-  if (req.body.trashable) {
-    await Product.findByIdAndUpdate(req.params.id, req.body);
-  } else {
-    if (oldThumbnail) {
-      await remove(oldThumbnail);
-      productInformation.thumbnail = {
-        url: files.thumbnail[0].path,
-        public_id: files.thumbnail[0].filename,
-      };
-    }
-
-    if (oldGallery?.length > 0) {
-      for (let i = 0; i < oldGallery.length; i++) {
-        await remove(oldGallery[i]);
-      }
-      productInformation.gallery = files.gallery.map((file) => ({
-        url: file.path,
-        public_id: file.filename,
-      }));
-    }
-
-    productInformation = {
-      ...otherInformation,
-      features: JSON.parse(features),
-      campaign: JSON.parse(campaign),
-      variations: JSON.parse(variations),
-      ...productInformation,
-    };
-
-    await Product.findByIdAndUpdate(req.params.id, productInformation);
-  }
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "Product updated successfully",
-  });
-};
-
 /* get a single product */
 exports.getProduct = async (req, res) => {
   const product = await Product.findById(req.params.id).populate([
     "category",
     "brand",
     "store",
+    {
+      path: "reviews",
+      options: { sort: { updatedAt: -1 } },
+      populate: [
+        "reviewer",
+        {
+          path: "product",
+          populate: ["brand", "category", "store"],
+        },
+      ],
+    },
   ]);
 
   res.status(200).json({
@@ -198,4 +168,92 @@ exports.getFilteredProducts = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+/* update product */
+exports.updateProduct = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  const updatedProduct = req.body;
+
+  if (!req.body.thumbnail && req.files && req.files.thumbnail?.length > 0) {
+    remove(product.thumbnail.public_id);
+
+    updatedProduct.thumbnail = {
+      url: req.files.thumbnail[0].path,
+      public_id: req.files.thumbnail[0].filename,
+    };
+  }
+
+  if (
+    !req.body.gallery?.length > 0 &&
+    req.files &&
+    req.files.gallery?.length > 0
+  ) {
+    for (let i = 0; i < product.gallery.length; i++) {
+      await remove(product.gallery[i].public_id);
+    }
+
+    updatedProduct.gallery = req.files.gallery.map((file) => ({
+      url: file.path,
+      public_id: file.filename,
+    }));
+  }
+
+  updatedProduct.features = JSON.parse(req.body.features);
+  updatedProduct.campaign = JSON.parse(req.body.campaign);
+  updatedProduct.variations = JSON.parse(req.body.variations);
+
+  await Product.findByIdAndUpdate(req.params.id, { $set: updatedProduct });
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Product updated successfully",
+  });
+};
+
+/* delete product */
+exports.deleteProduct = async (req, res) => {
+  const product = await Product.findByIdAndDelete(req.params.id);
+
+  // delete product thumbnail & gallery
+  if (product.thumbnail) {
+    await remove(product.thumbnail.public_id);
+  }
+
+  if (product.gallery && product.gallery.length > 0) {
+    for (let i = 0; i < product.gallery.length; i++) {
+      await remove(product.gallery[i].public_id);
+    }
+  }
+
+  // also delete from category, brand & store
+  await Category.findByIdAndUpdate(product.category, {
+    $pull: { products: product._id },
+  });
+  await Brand.findByIdAndUpdate(product.brand, {
+    $pull: { products: product._id },
+  });
+  await Store.findByIdAndUpdate(product.store, {
+    $pull: { products: product._id },
+  });
+
+  // delete this product from users products array
+  await User.updateMany(
+    { products: product._id },
+    { $pull: { products: product._id } }
+  );
+
+  // delete reviews that belong to this product also remove those reviews from users reviews array
+  await Review.deleteMany({ product: product._id });
+  await User.updateMany(
+    { reviews: { $in: product.reviews } },
+    { $pull: { reviews: { $in: product.reviews } } }
+  );
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Product deleted successfully",
+  });
 };
