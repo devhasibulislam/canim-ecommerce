@@ -1,4 +1,4 @@
-# Ciseco E-Commerce
+# Canim eCommerce
 
 > Discover a seamless shopping experience at our e-commerce haven. Browse an extensive selection of products from top brands, enjoy secure transactions, and relish swift deliveries. Elevate your online shopping journey with user-friendly navigation and exclusive deals. Shop effortlessly, anytime, anywhere, and redefine convenience with our digital marketplace.
 
@@ -6,7 +6,7 @@
 
 Explore curated deals and trending products on our inviting e-commerce homepage. Instantly find what you need for a delightful shopping experience.
 
-![ciseco-ecommerce](./ciseco-ecommerce.png)
+![canim-ecommerce](./canim-ecommerce.png)
 
 ## Features
 
@@ -62,8 +62,8 @@ Explore curated deals and trending products on our inviting e-commerce homepage.
 ## Clone Repository
 
 ```bash
-git clone https://github.com/devhasibulislam/ciseco-ecommerce.git
-cd ciseco-ecommerce
+git clone https://github.com/devhasibulislam/canim-ecommerce.git
+cd canim-ecommerce
 
 cd client
 yarn install
@@ -92,7 +92,7 @@ PORT=8080
 ORIGIN_URL="http://localhost:3000"
 
 # MongoDB Atlas URI
-DB_Name="ciseco-template"
+DB_Name="canim-template"
 ATLAS_URI="YOUR_MONGODB_ATLAS_URI"
 
 # JWT secret
@@ -106,8 +106,8 @@ API_SECRET="CLOUDINARY_API_SECRET"
 
 # Important Links
 
-- [x] `Client Side` Live Link: [Click Here](https://ciseco-csr.vercel.app/)
-- [x] `Server Side` Live Link: [Click Here](https://ciseco-ssr.vercel.app/)
+- [x] `Client Side` Live Link: [Click Here](https://canim-csr.vercel.app/)
+- [x] `Server Side` Live Link: [Click Here](https://canim-ssr.vercel.app/)
 - [x] `Dashboard Reference` Link: [Click Here](https://loopinfosol.in/themeforest/ekka-html-v33/ekka-admin/index.html)
 - [x] `Reference Site` Live Link: [Click Here](https://chisnghiax.com/ciseco/)
 
