@@ -15,11 +15,12 @@
 
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Container from "../shared/Container";
 import Card from "../shared/Card";
 import { useGetProductsQuery } from "@/services/product/productApi";
 import ProductCard from "../shared/skeletonLoading/ProductCard";
+import { toast } from "react-hot-toast";
 
 const NewArrivals = () => {
   const {
@@ -27,11 +28,13 @@ const NewArrivals = () => {
     error: productsError,
     isLoading: productsLoading,
   } = useGetProductsQuery();
-  const products = productsData?.data || [];
+  const products = useMemo(() => productsData?.data || [], [productsData]);
 
   useEffect(() => {
     if (productsError) {
-      alert(productsError?.data?.description);
+      toast.error(productsError?.data?.description, {
+        id: "new-arrivals",
+      });
     }
   }, [productsError]);
 
@@ -41,6 +44,7 @@ const NewArrivals = () => {
         <h1 className="text-4xl">
           New Arrivals. <span className="">New Equipment</span>
         </h1>
+
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-x-6 gap-y-8">
           {productsLoading || products?.length === 0 ? (
             <>
