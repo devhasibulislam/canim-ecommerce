@@ -92,17 +92,14 @@ const SearchFilter = () => {
         className="lg:w-1/3 md:w-3/4 w-full h-96 md:mx-0 mx-4 !z-[9999] bg-white p-8 drop-shadow-2xl"
       >
         <div className="flex flex-col gap-y-4 h-full">
-          <div className="flex flex-col gap-y-2">
-            <h1 className="text-2xl text-center">Search Your Products</h1>
-            <input
-              type="search"
-              name="search"
-              id="search"
-              placeholder="🔎 Type any product's title or keyword..."
-              className="!rounded w-full text-center"
-              onChange={handleSearch}
-            />
-          </div>
+          <input
+            type="search"
+            name="search"
+            id="search"
+            placeholder="🔎 Type any product's title or keyword..."
+            className="!rounded w-full text-center"
+            onChange={handleSearch}
+          />
           <div className="flex flex-row items-center gap-x-2 text-xs">
             <hr className="flex-1" />
             Your Search Results
