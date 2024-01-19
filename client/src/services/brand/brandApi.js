@@ -13,26 +13,28 @@
  * Date: 11, November 2023
  */
 
-const { cisecoApi } = require("../ciseco");
+const { canimApi } = require("../canim");
 
-const brandApi = cisecoApi.injectEndpoints({
+const brandApi = canimApi.injectEndpoints({
   endpoints: (builder) => ({
     // add new brand
     addBrand: builder.mutation({
-      query: (brand) => ({
+      query: (body) => ({
         url: "/brand/add-brand",
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: brand,
+        body,
       }),
+
+      invalidatesTags: ["Brand", "User"],
     }),
 
     // get all brands
     getBrands: builder.query({
       query: () => ({
-        url: "/brand/list-brands",
+        url: "/brand/get-brands",
         method: "GET",
       }),
 
@@ -50,7 +52,7 @@ const brandApi = cisecoApi.injectEndpoints({
         body,
       }),
 
-      invalidatesTags: ["Brand"],
+      invalidatesTags: ["Brand", "User"],
     }),
 
     // get a brand
@@ -62,6 +64,19 @@ const brandApi = cisecoApi.injectEndpoints({
 
       providesTags: ["Brand"],
     }),
+
+    // delete a brand
+    deleteBrand: builder.mutation({
+      query: (id) => ({
+        url: `/brand/delete-brand/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      invalidatesTags: ["Brand", "User"],
+    }),
   }),
 });
 
@@ -70,4 +85,5 @@ export const {
   useGetBrandsQuery,
   useUpdateBrandMutation,
   useGetBrandQuery,
+  useDeleteBrandMutation,
 } = brandApi;
