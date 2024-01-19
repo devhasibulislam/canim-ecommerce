@@ -123,11 +123,11 @@ const Categories = () => {
               {tab === "categories" && (
                 <>
                   {categoriesLoading || categories?.length === 0 ? (
-                    <>
-                      {[1, 2, 3, 4].map((_, index) => (
+                    <div className="flex flex-col gap-y-4">
+                      {[1, 2, 3, 4, 5, 6].map((_, index) => (
                         <CategoryCard key={index} />
                       ))}
-                    </>
+                    </div>
                   ) : (
                     <>
                       {categories.map((category) => (
@@ -164,11 +164,11 @@ const Categories = () => {
               {tab === "brands" && (
                 <>
                   {brandsLoading || brands?.length === 0 ? (
-                    <>
-                      {[1, 2, 3, 4].map((_, index) => (
+                    <div className="flex flex-col gap-y-4">
+                      {[1, 2, 3, 4, 5, 6].map((_, index) => (
                         <CategoryCard key={index} />
                       ))}
-                    </>
+                    </div>
                   ) : (
                     <>
                       {brands.map((brand) => (
@@ -205,11 +205,11 @@ const Categories = () => {
               {tab === "stores" && (
                 <>
                   {storesLoading || stores?.length === 0 ? (
-                    <>
-                      {[1, 2, 3, 4].map((_, index) => (
+                    <div className="flex flex-col gap-y-4">
+                      {[1, 2, 3, 4, 5, 6].map((_, index) => (
                         <CategoryCard key={index} />
                       ))}
-                    </>
+                    </div>
                   ) : (
                     <>
                       {stores.map((store) => (
