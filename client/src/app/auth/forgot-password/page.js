@@ -21,6 +21,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const ResetPassword = () => {
   const router = useRouter();
@@ -28,12 +29,16 @@ const ResetPassword = () => {
     useForgotPasswordMutation();
 
   useEffect(() => {
+    if (isLoading) {
+      toast.loading("Resetting password...", { id: "forgot-password" });
+    }
+
     if (data) {
-      alert(data?.description);
+      toast.success(data?.description, { id: "forgot-password" });
       router.push("/auth/signin");
     }
     if (error?.data) {
-      alert(error?.data?.description);
+      toast.error(error?.data?.description, { id: "forgot-password" });
     }
   }, [data, error, router]);
 
