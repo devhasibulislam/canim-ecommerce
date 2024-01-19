@@ -14,7 +14,16 @@
  */
 
 /* internal imports */
+const Brand = require("../models/brand.model");
+const Cart = require("../models/cart.model");
+const Category = require("../models/category.model");
+const Favorite = require("../models/favorite.model");
+const Product = require("../models/product.model");
+const Purchase = require("../models/purchase.model");
+const Review = require("../models/review.model");
+const Store = require("../models/store.model");
 const User = require("../models/user.model");
+const remove = require("../utils/remove.util");
 const token = require("../utils/token.util");
 
 /* sign up an user */
@@ -70,20 +79,28 @@ exports.signIn = async (req, res) => {
         description: "Invalid password",
       });
     } else {
-      const accessToken = token({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        status: user.status,
-      });
+      if (user.status === "inactive") {
+        res.status(401).json({
+          acknowledgement: false,
+          message: "Unauthorized",
+          description: "Your seller account in a review state",
+        });
+      } else {
+        const accessToken = token({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          status: user.status,
+        });
 
-      res.status(200).json({
-        acknowledgement: true,
-        message: "OK",
-        description: "Login successful",
-        accessToken,
-      });
+        res.status(200).json({
+          acknowledgement: true,
+          message: "OK",
+          description: "Login successful",
+          accessToken,
+        });
+      }
     }
   }
 };
@@ -119,19 +136,50 @@ exports.forgotPassword = async (req, res) => {
 exports.persistLogin = async (req, res) => {
   const user = await User.findById(req.user._id).populate([
     {
-      path: "cart.product",
-      select: "_id title summary price thumbnail",
-      populate: ["category", "brand", "store"],
+      path: "cart",
+      populate: [
+        { path: "product", populate: ["brand", "category", "store"] },
+        "user",
+      ],
+    },
+    {
+      path: "reviews",
+      populate: ["product", "reviewer"],
+    },
+    {
+      path: "favorites",
+      populate: [
+        {
+          path: "product",
+          populate: ["brand", "category", "store"],
+        },
+        "user",
+      ],
+    },
+    {
+      path: "purchases",
+      populate: ["customer", "products.product"],
     },
     "store",
+    "brand",
+    "category",
+    "products",
   ]);
 
-  res.status(200).json({
-    acknowledgement: true,
-    message: "OK",
-    description: "Login successful",
-    data: user,
-  });
+  if (!user) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "User not found",
+    });
+  } else {
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: "Login successful",
+      data: user,
+    });
+  }
 };
 
 /* get all users */
@@ -146,22 +194,175 @@ exports.getUsers = async (res) => {
   });
 };
 
-/* update user */
-exports.updateUser = async (req, res) => {
-  if (req.body.quantity) {
-    await User.findByIdAndUpdate(req.params.id, {
-      $push: {
-        cart: {
-          product: req.body.product,
-          quantity: req.body.quantity,
-        },
-      },
-    });
-  } else await User.findByIdAndUpdate(req.params.id, req.body);
+/* get single user */
+exports.getUser = async (req, res) => {
+  const user = await User.findById(req.params.id).populate("store");
 
   res.status(200).json({
     acknowledgement: true,
     message: "OK",
-    description: "User updated successfully",
+    description: `${user.name}'s information retrieved successfully`,
+    data: user,
+  });
+};
+
+/* update user information */
+exports.updateUser = async (req, res) => {
+  const existingUser = await User.findById(req.user._id);
+  const user = req.body;
+
+  if (!req.body.avatar && req.file) {
+    await remove(existingUser.avatar.public_id);
+
+    user.avatar = {
+      url: req.file.path,
+      public_id: req.file.filename,
+    };
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    existingUser._id,
+    { $set: user },
+    {
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "OK",
+    description: `${updatedUser.name}'s information updated successfully`,
+  });
+};
+
+/* delete user information */
+exports.deleteUser = async (req, res) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+
+  // remove user avatar
+  await remove(user.avatar.public_id);
+
+  // remove user cart
+  if (user.cart.length > 0) {
+    user.cart.forEach(async (cart) => {
+      await Cart.findByIdAndDelete(cart._id);
+    });
+  }
+
+  // remove user favorites
+  if (user.favorites.length > 0) {
+    user.favorites.forEach(async (favorite) => {
+      await Favorite.findByIdAndDelete(favorite._id);
+    });
+  }
+
+  // remove user reviews
+  if (user.reviews.length > 0) {
+    user.reviews.forEach(async (review) => {
+      await Review.findByIdAndDelete(review._id);
+    });
+  }
+
+  // remove user purchases
+  if (user.purchases.length > 0) {
+    user.purchases.forEach(async (purchase) => {
+      await Purchase.findByIdAndDelete(purchase._id);
+    });
+  }
+
+  // remove store
+  if (user.store) {
+    const store = await Store.findByIdAndDelete(user.store);
+
+    // remove store thumbnail
+    await remove(store.thumbnail.public_id);
+
+    // remove store products
+    store.products.forEach(async (prod) => {
+      const product = await Product.findByIdAndDelete(prod);
+
+      // remove product thumbnail
+      await remove(product.thumbnail.public_id);
+
+      // remove product gallery
+      product.gallery.forEach(async (gallery) => {
+        await remove(gallery.public_id);
+      });
+
+      // remove product reviews
+      product.reviews.forEach(async (review) => {
+        await Review.findByIdAndDelete(review._id);
+      });
+    });
+  }
+
+  // remove category
+  if (user.category) {
+    const category = await Category.findByIdAndDelete(user.category);
+
+    // remove category thumbnail
+    await remove(category.thumbnail.public_id);
+
+    // remove category products
+    category.products.forEach(async (prod) => {
+      const product = await Product.findByIdAndDelete(prod);
+
+      // remove product thumbnail
+      await remove(product.thumbnail.public_id);
+
+      // remove product gallery
+      product.gallery.forEach(async (gallery) => {
+        await remove(gallery.public_id);
+      });
+
+      // remove product reviews
+      product.reviews.forEach(async (review) => {
+        await Review.findByIdAndDelete(review._id);
+      });
+    });
+  }
+
+  // remove brand
+  if (user.brand) {
+    const brand = await Brand.findByIdAndDelete(user.brand);
+
+    // remove brand logo
+    await remove(brand.logo.public_id);
+
+    // remove brand products
+    brand.products.forEach(async (prod) => {
+      const product = await Product.findByIdAndDelete(prod);
+
+      // remove product thumbnail
+      await remove(product.thumbnail.public_id);
+
+      // remove product gallery
+      product.gallery.forEach(async (gallery) => {
+        await remove(gallery.public_id);
+      });
+
+      // remove product reviews
+      product.reviews.forEach(async (review) => {
+        await Review.findByIdAndDelete(review._id);
+      });
+    });
+  }
+
+  // remove user from product's buyers array
+  if (user.products.length > 0) {
+    await Product.updateMany(
+      {},
+      {
+        $pull: {
+          buyers: user._id,
+        },
+      }
+    );
+  }
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "OK",
+    description: `${user.name}'s information deleted successfully`,
   });
 };

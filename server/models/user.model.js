@@ -22,7 +22,7 @@ const { ObjectId } = mongoose.Schema.Types;
 /* create user schema */
 const userSchema = new mongoose.Schema(
   {
-    // for user full name
+    // for full name
     name: {
       type: String,
       required: [true, "Please, provide your full name"],
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
       maxLength: [100, "Your name would be at most 100 characters"],
     },
 
-    // for user email
+    // for email
     email: {
       type: String,
       required: [true, "Please, provide your email address"],
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema(
       unique: [true, "Email already exist. Please, provide new"],
     },
 
-    // for user initial password
+    // for password
     password: {
       type: String,
       required: [true, "Please, provide a strong password"],
@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema(
       maxLength: [20, "Password should be at most 20 characters"],
     },
 
-    // for user avatar
+    // for avatar
     avatar: {
       url: {
         type: String,
@@ -70,7 +70,7 @@ const userSchema = new mongoose.Schema(
       },
     },
 
-    // for user contact number
+    // for contact number
     phone: {
       type: String,
       required: [
@@ -86,35 +86,49 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
 
-    // for user role to be played
+    // for role
     role: {
       type: String,
       enum: ["admin", "buyer", "seller"],
       default: "buyer",
     },
 
-    // for user account status
+    // for account status
     status: {
       type: String,
       enum: ["active", "inactive"],
       default: "active",
     },
 
-    // for carting orders
+    // for cart
     cart: [
       {
-        product: {
-          type: ObjectId,
-          ref: "Product",
-        },
-        quantity: {
-          type: Number,
-          min: [1, "Quantity won't be less than 1"],
-        },
-        cartedAt: {
-          type: Date,
-          default: Date.now,
-        },
+        type: ObjectId,
+        ref: "Cart",
+      },
+    ],
+
+    // for wishlist
+    favorites: [
+      {
+        type: ObjectId,
+        ref: "Favorite",
+      },
+    ],
+
+    // for reviews
+    reviews: [
+      {
+        type: ObjectId,
+        ref: "Review",
+      },
+    ],
+
+    // for purchases
+    purchases: [
+      {
+        type: ObjectId,
+        ref: "Purchase",
       },
     ],
 
@@ -122,6 +136,34 @@ const userSchema = new mongoose.Schema(
     store: {
       type: ObjectId,
       ref: "Store",
+    },
+
+    // for brand creation
+    brand: {
+      type: ObjectId,
+      ref: "Brand",
+    },
+
+    // for category creation
+    category: {
+      type: ObjectId,
+      ref: "Category",
+    },
+
+    // for buying products
+    products: [
+      {
+        type: ObjectId,
+        ref: "Product",
+      },
+    ],
+
+    // for address
+    address: {
+      type: String,
+      default: "N/A",
+      trim: true,
+      maxLength: [500, "Your address would be at most 500 characters"],
     },
 
     // for user account time stamps

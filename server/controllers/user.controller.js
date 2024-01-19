@@ -71,10 +71,32 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 
-/* update user */
+/* get single user */
+exports.getUser = async (req, res, next) => {
+  try {
+    await userService.getUser(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* update user information */
 exports.updateUser = async (req, res, next) => {
   try {
     await userService.updateUser(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* delete user information */
+exports.deleteUser = async (req, res, next) => {
+  try {
+    await userService.deleteUser(req, res);
   } catch (error) {
     next(error);
   } finally {
