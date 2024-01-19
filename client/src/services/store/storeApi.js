@@ -13,9 +13,9 @@
  * Date: 11, November 2023
  */
 
-const { cisecoApi } = require("../ciseco");
+const { canimApi } = require("../canim");
 
-const storeApi = cisecoApi.injectEndpoints({
+const storeApi = canimApi.injectEndpoints({
   endpoints: (builder) => ({
     // add new store
     addStore: builder.mutation({
@@ -27,12 +27,14 @@ const storeApi = cisecoApi.injectEndpoints({
         },
         body: store,
       }),
+
+      invalidatesTags: ["Store", "User"],
     }),
 
     // get all stores
     getStores: builder.query({
       query: () => ({
-        url: "/store/list-stores",
+        url: "/store/get-stores",
         method: "GET",
       }),
 
@@ -50,7 +52,7 @@ const storeApi = cisecoApi.injectEndpoints({
         body,
       }),
 
-      invalidatesTags: ["Store"],
+      invalidatesTags: ["Store", "User"],
     }),
 
     // get a store
@@ -62,6 +64,19 @@ const storeApi = cisecoApi.injectEndpoints({
 
       providesTags: ["Store"],
     }),
+
+    // delete store
+    deleteStore: builder.mutation({
+      query: (id) => ({
+        url: `/store/delete-store/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      invalidatesTags: ["Store", "User"],
+    }),
   }),
 });
 
@@ -70,4 +85,5 @@ export const {
   useGetStoresQuery,
   useUpdateStoreMutation,
   useGetStoreQuery,
+  useDeleteStoreMutation,
 } = storeApi;
