@@ -27,7 +27,7 @@ const Sidebar = () => {
 
   let routes = [];
 
-  if (user.role === "buyer") {
+  if (user?.role === "buyer") {
     routes = [
       {
         name: "My Profile",
@@ -67,7 +67,7 @@ const Sidebar = () => {
     ];
   }
 
-  if (user.role === "seller") {
+  if (user?.role === "seller") {
     routes = [
       {
         name: "My Profile",
@@ -108,6 +108,87 @@ const Sidebar = () => {
           },
         ],
       },
+    ];
+  }
+
+  if (user?.role === "admin") {
+    routes = [
+      {
+        name: "Retail Landscape",
+        paths: [
+          {
+            name: "List Brands",
+            path: "/dashboard/admin/list-brands",
+          },
+          {
+            name: "List Categories",
+            path: "/dashboard/admin/list-categories",
+          },
+          {
+            name: "List Stores",
+            path: "/dashboard/admin/list-stores",
+          },
+          {
+            name: "List Products",
+            path: "/dashboard/admin/list-products",
+          },
+        ],
+      },
+      {
+        name: "Account Features",
+        paths: [
+          {
+            name: "List Favorites",
+            path: "/dashboard/admin/list-favorites",
+          },
+          {
+            name: "List Cart",
+            path: "/dashboard/admin/list-cart",
+          },
+          {
+            name: "List Purchases",
+            path: "/dashboard/admin/list-purchases",
+          },
+        ],
+      },
+      {
+        name: "Account Manager",
+        paths: [
+          {
+            name: "List Buyers",
+            path: "/dashboard/admin/list-buyers",
+          },
+          {
+            name: "List Sellers",
+            path: "/dashboard/admin/list-sellers",
+          },
+          {
+            name: "List Admins",
+            path: "/dashboard/admin/list-admins",
+          },
+        ],
+      },
+      {
+        name: "Additional Options",
+        paths: [
+          {
+            name: "My Profile",
+            path: "/dashboard/admin/my-profile",
+          },
+          {
+            name: "Seller Requests",
+            path: "/dashboard/admin/my-profile",
+          },
+          {
+            name: "List Reviews",
+            path: "/dashboard/admin/list-reviews",
+          },
+          {
+            name: "List Purchases",
+            path: "/dashboard/admin/list-purchases",
+          },
+        ]
+      }
     ];
   }
 
