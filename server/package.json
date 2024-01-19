@@ -27,6 +27,7 @@
     "mongoose": "^8.0.0",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
+    "stripe": "^14.13.0",
     "validator": "^13.11.0"
   },
   "devDependencies": {
