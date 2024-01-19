@@ -14,19 +14,19 @@
  */
 
 import { configureStore } from "@reduxjs/toolkit";
-import { cisecoApi } from "../services/ciseco";
+import { canimApi } from "../services/canim";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import authSlice from "@/features/auth/authSlice";
 import productFilterSlice from "@/features/productFilter/productFilterSlice";
 
 export const store = configureStore({
   reducer: {
-    [cisecoApi.reducerPath]: cisecoApi.reducer,
+    [canimApi.reducerPath]: canimApi.reducer,
     auth: authSlice,
     productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(cisecoApi.middleware),
+    getDefaultMiddleware().concat(canimApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 
