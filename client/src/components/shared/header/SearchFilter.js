@@ -14,12 +14,14 @@
  */
 
 import Search from "@/components/icons/Search";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Modal from "../Modal";
 import { useGetProductsQuery } from "@/services/product/productApi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import SearchCard from "../skeletonLoading/SearchCard";
+import { toast } from "react-hot-toast";
+import Inform from "@/components/icons/Inform";
 
 const SearchFilter = () => {
   const [open, setOpen] = useState();
@@ -29,12 +31,12 @@ const SearchFilter = () => {
     error: productsError,
     isLoading: productsLoading,
   } = useGetProductsQuery();
-  const products = productsData?.data || [];
+  const products = useMemo(() => productsData?.data || [], [productsData]);
   const router = useRouter();
 
   useEffect(() => {
     if (productsError) {
-      alert(productsError?.data?.description);
+      toast.error(productsError?.data?.description, { id: "search-filter" });
     }
   }, [productsError]);
 
@@ -87,17 +89,17 @@ const SearchFilter = () => {
       <Modal
         isOpen={open}
         onClose={() => setOpen(false)}
-        className="lg:w-1/3 md:w-3/4 w-full md:mx-0 mx-4 z-50 bg-white p-4 drop-shadow-2xl"
+        className="lg:w-1/3 md:w-3/4 w-full h-96 md:mx-0 mx-4 !z-[9999] bg-white p-8 drop-shadow-2xl"
       >
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-4 h-full">
           <div className="flex flex-col gap-y-2">
-            <h1 className="text-2xl">Search Your Interests!</h1>
+            <h1 className="text-2xl text-center">Search Your Products</h1>
             <input
               type="search"
               name="search"
               id="search"
-              placeholder="🔎 Type anything you love"
-              className="!rounded w-full"
+              placeholder="🔎 Type any product's title or keyword..."
+              className="!rounded w-full text-center"
               onChange={handleSearch}
             />
           </div>
@@ -106,9 +108,11 @@ const SearchFilter = () => {
             Your Search Results
             <hr className="flex-1" />
           </div>
-          <div className="max-h-96 overflow-y-auto flex flex-col gap-y-8">
-            {products?.length === 0 ? (
-              <>No Products Found!</>
+          <div className="overflow-y-auto scrollbar-hide flex flex-col gap-y-8 h-full">
+            {filteredProducts?.length === 0 ? (
+              <p className="text-sm flex flex-row gap-x-1 items-center justify-center">
+                <Inform /> No Products Found!
+              </p>
             ) : (
               <>
                 {productsLoading ? (
@@ -135,7 +139,9 @@ const SearchFilter = () => {
                           className="flex flex-row gap-x-2 cursor-pointer"
                           onClick={() =>
                             router.push(
-                              `/${product?._id}?product_title=${product?.title
+                              `/product?product_id=${
+                                product?._id
+                              }&product_title=${product?.title
                                 .replace(/ /g, "-")
                                 .toLowerCase()}}`
                             )
