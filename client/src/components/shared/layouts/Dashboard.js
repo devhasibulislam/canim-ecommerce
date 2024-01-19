@@ -21,10 +21,10 @@ import Container from "../Container";
 
 const Dashboard = ({ children }) => {
   return (
-    <Container className="p-4 md:h-screen min-h-screen ">
+    <Container className="p-4 md:h-screen min-h-screen !max-w-5xl">
       <section className="grid grid-cols-12 gap-4 h-full overflow-y-auto">
         <Sidebar />
-        <div className="md:col-span-9 col-span-12 overflow-y-auto rounded">
+        <div className="md:col-span-8 col-span-12 overflow-y-auto rounded">
           {children}
         </div>
       </section>
