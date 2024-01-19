@@ -41,7 +41,10 @@ router.post(
 );
 
 // get all stores
-router.get("/list-stores", storeController.getStores);
+router.get("/get-stores", storeController.getStores);
+
+// get a store
+router.get("/get-store/:id", storeController.getStore);
 
 // update store
 router.patch(
@@ -52,7 +55,12 @@ router.patch(
   storeController.updateStore
 );
 
-// get a store
-router.get("/get-store/:id", storeController.getStore);
+// delete store
+router.delete(
+  "/delete-store/:id",
+  verify,
+  authorize("admin", "seller"),
+  storeController.deleteStore
+);
 
 module.exports = router;

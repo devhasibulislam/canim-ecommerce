@@ -14,6 +14,7 @@
  */
 
 /* internal imports */
+const Product = require("../models/product.model");
 const Store = require("../models/store.model");
 const User = require("../models/user.model");
 const remove = require("../utils/remove.util");
@@ -31,13 +32,13 @@ exports.addStore = async (req, res) => {
     },
     keynotes: JSON.parse(body.keynotes),
     tags: JSON.parse(body.tags),
-    seller: JSON.parse(body.seller),
+    owner: req.user._id,
   });
 
-  await store.save();
+  const result = await store.save();
 
-  await User.findByIdAndUpdate(store.seller, {
-    $set: { store: store._id },
+  await User.findByIdAndUpdate(result.owner, {
+    $set: { store: result._id },
   });
 
   res.status(201).json({
@@ -48,7 +49,7 @@ exports.addStore = async (req, res) => {
 };
 
 /* get all stores */
-exports.getStores = async (req, res) => {
+exports.getStores = async (res) => {
   const stores = await Store.find();
 
   res.status(200).json({
@@ -56,46 +57,6 @@ exports.getStores = async (req, res) => {
     message: "Ok",
     description: "Stores fetched successfully",
     data: stores,
-  });
-};
-
-/* update store */
-exports.updateStore = async (req, res) => {
-  if (req.body.trashable) {
-    await Store.findByIdAndUpdate(req.params.id, req.body);
-  } else {
-    if (req.body.oldThumbnail) {
-      const {
-        body: { oldThumbnail, ...otherInformation },
-        file,
-      } = req;
-
-      await remove(oldThumbnail);
-
-      await Store.findByIdAndUpdate(req.params.id, {
-        title: otherInformation.title,
-        description: otherInformation.description,
-        keynotes: JSON.parse(otherInformation.keynotes),
-        tags: JSON.parse(otherInformation.tags),
-        thumbnail: {
-          url: file.path,
-          public_id: file.filename,
-        },
-      });
-    } else {
-      await Store.findByIdAndUpdate(req.params.id, {
-        title: req.body.title,
-        description: req.body.description,
-        keynotes: JSON.parse(req.body.keynotes),
-        tags: JSON.parse(req.body.tags),
-      });
-    }
-  }
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "Store updated successfully",
   });
 };
 
@@ -108,5 +69,48 @@ exports.getStore = async (req, res) => {
     message: "Ok",
     description: "Store fetched successfully",
     data: store,
+  });
+};
+
+/* update store */
+exports.updateStore = async (req, res) => {
+  const store = await Store.findByIdAndUpdate(req.params.id, req.body);
+  const updatedStore = req.body;
+
+  if (!req.body.thumbnail && req.file) {
+    await remove(store.thumbnail.public_id);
+
+    updatedStore.thumbnail = {
+      url: req.file.path,
+      public_id: req.file.filename,
+    };
+  }
+
+  updatedStore.keynotes = JSON.parse(req.body.keynotes);
+  updatedStore.tags = JSON.parse(req.body.tags);
+
+  await Store.findByIdAndUpdate(req.params.id, updatedStore);
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Store updated successfully",
+  });
+};
+
+/* delete store */
+exports.deleteStore = async (req, res) => {
+  const store = await Store.findByIdAndDelete(req.params.id);
+  await remove(store.thumbnail.public_id);
+
+  await Product.updateMany({ store: req.params.id }, { $unset: { store: "" } });
+  await User.findByIdAndUpdate(store.owner, {
+    $unset: { store: "" },
+  });
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Store deleted successfully",
   });
 };

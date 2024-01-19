@@ -30,7 +30,18 @@ exports.addStore = async (req, res, next) => {
 /* get all stores */
 exports.getStores = async (req, res, next) => {
   try {
-    await storeService.getStores(req, res);
+    await storeService.getStores(res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+// get a store
+exports.getStore = async (req, res, next) => {
+  try {
+    await storeService.getStore(req, res);
   } catch (error) {
     next(error);
   } finally {
@@ -49,10 +60,10 @@ exports.updateStore = async (req, res, next) => {
   }
 };
 
-// get a store
-exports.getStore = async (req, res, next) => {
+/* delete store */
+exports.deleteStore = async (req, res, next) => {
   try {
-    await storeService.getStore(req, res);
+    await storeService.deleteStore(req, res);
   } catch (error) {
     next(error);
   } finally {

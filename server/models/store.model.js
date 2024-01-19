@@ -27,6 +27,7 @@ const storeSchema = new mongoose.Schema(
       required: [true, "Please, provide a valid store name"],
       trim: true,
       unique: [true, "Same store already exists"],
+      maxLength: [100, "Your title would be at most 100 characters"],
     },
 
     // for description
@@ -34,6 +35,7 @@ const storeSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, provide store description"],
       trim: true,
+      maxLength: [500, "Your description would be at most 500 characters"],
     },
 
     // for thumbnail
@@ -49,8 +51,8 @@ const storeSchema = new mongoose.Schema(
       },
     },
 
-    // for seller
-    seller: {
+    // for owner
+    owner: {
       type: ObjectId,
       ref: "User",
     },
@@ -88,12 +90,6 @@ const storeSchema = new mongoose.Schema(
         trim: true,
       },
     ],
-
-    // for trashable
-    trashable: {
-      type: Boolean,
-      default: false,
-    },
 
     // for category  time stamps
     createdAt: {
