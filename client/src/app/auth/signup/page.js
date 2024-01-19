@@ -18,27 +18,32 @@
 import Trash from "@/components/icons/Trash";
 import Upload from "@/components/icons/Upload";
 import Spinner from "@/components/shared/Spinner";
-import { useSignupMutation } from "@/services/auth/authApi";
+import { useSignUpMutation } from "@/services/auth/authApi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const Signup = () => {
   const router = useRouter();
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatar, setAvatar] = useState(null);
-  const [signup, { isLoading, data, error }] = useSignupMutation();
+  const [signup, { isLoading, data, error }] = useSignUpMutation();
 
   useEffect(() => {
+    if (isLoading) {
+      toast.loading("Signing up...", { id: "signup" });
+    }
+
     if (data) {
-      alert(data?.description);
+      toast.success(data?.description, { id: "signup" });
       router.push("/auth/signin");
     }
     if (error?.data) {
-      alert(error?.data?.description);
+      toast.error(error?.data?.description, { id: "signup" });
     }
-  }, [data, error, router]);
+  }, [isLoading, data, error, router]);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
