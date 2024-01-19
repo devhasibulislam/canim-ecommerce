@@ -18,33 +18,39 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Bag from "../icons/Bag";
-import { useUpdateUserMutation } from "@/services/user/userApi";
-import { useSelector } from "react-redux";
 import Spinner from "../shared/Spinner";
+import { useAddToCartMutation } from "@/services/cart/cartApi";
+import { toast } from "react-hot-toast";
 
 const CartButton = ({ product }) => {
-  const [qty, setQty] = useState(0);
-  const { user } = useSelector((state) => state.auth);
+  const [qty, setQty] = useState(1);
 
-  const [updateCart, { isLoading: cartUpdating, data, error }] =
-    useUpdateUserMutation();
+  const [
+    addToCart,
+    { isLoading: addingToCart, data: cartData, error: cartError },
+  ] = useAddToCartMutation();
 
   useEffect(() => {
-    if (data) {
-      alert(data?.description);
+    if (addingToCart) {
+      toast.loading("Adding to cart...", { id: "addToCart" });
     }
-    if (error) {
-      alert(error?.data?.description);
+
+    if (cartData) {
+      toast.success(cartData?.description, { id: "addToCart" });
+      setQty(1);
     }
-  }, [data, error]);
+    if (cartError?.data) {
+      toast.error(cartError?.data?.description, { id: "addToCart" });
+    }
+  }, [addingToCart, cartData, cartError]);
 
   return (
     <section className="flex flex-row items-center gap-x-4">
-      <div className="flex flex-row gap-x-2 items-center border px-4 rounded-secondary h-full">
+      <div className="flex flex-row gap-x-2 items-center border px-1 py-0.5 rounded-secondary h-full">
         <button
           className="border border-black/30 disabled:border-zinc-100 p-1.5 rounded-secondary"
           onClick={() => setQty(qty - 1)}
-          disabled={qty === 0}
+          disabled={qty === 1}
         >
           <AiOutlineMinus className="w-4 h-4" />
         </button>
@@ -60,15 +66,12 @@ const CartButton = ({ product }) => {
       </div>
       <button
         className="px-8 py-2 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow w-fit flex flex-row gap-x-2 items-center"
-        disabled={qty === 0 || cartUpdating}
+        disabled={qty === 0 || addingToCart}
         onClick={() => {
-          updateCart({
-            id: user?._id,
-            body: { product: product._id, quantity: qty },
-          });
+          addToCart({ product: product._id, quantity: qty });
         }}
       >
-        {cartUpdating ? (
+        {addingToCart ? (
           <Spinner />
         ) : (
           <>
