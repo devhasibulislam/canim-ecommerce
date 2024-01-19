@@ -33,7 +33,7 @@ const Right = ({ product }) => {
             </span>
             <div className="border-l h-7 rounded" />
             <span className="text-xs flex items-center gap-x-1 px-2 h-full bg-zinc-50 rounded">
-              <AiFillStar className="w-4 h-4 text-yellow-500" /> {Math.floor(Math.random() * (500 - 100 + 1)) + 100}
+              <AiFillStar className="w-4 h-4 text-yellow-500" /> {product?.reviews?.length}
             </span>
           </p>
         </div>

@@ -52,7 +52,7 @@ const Left = ({ product }) => {
           alt={product.thumbnail?.public_id}
           width={480}
           height={200}
-          className="rounded w-full object-cover"
+          className="rounded w-full h-full object-cover"
         />
         <div className="grid grid-cols-12 gap-4">
           {product?.gallery?.map((thumbnail, index) => (
@@ -61,7 +61,7 @@ const Left = ({ product }) => {
               key={index}
               alt={thumbnail?.public_id}
               className={
-                "rounded object-center max-w-full w-full" +
+                "rounded object-cover max-w-full w-full h-full" +
                 " " +
                 getColumnSpanClass(index, product.gallery.length)
               }
@@ -74,10 +74,10 @@ const Left = ({ product }) => {
       <article className="flex flex-col gap-y-4">
         <div className="flex flex-row gap-x-2.5">
           <Badge className="text-indigo-800 bg-indigo-100">
-            {product?.variations?.colors + " " + "Colors"}
+            {product?.variations?.colors?.length + " " + "Colors"}
           </Badge>
           <Badge className="text-purple-800 bg-purple-100">
-            {product?.variations?.sizes + " " + "Sizes"}
+            {product?.variations?.sizes?.length + " " + "Sizes"}
           </Badge>
           {product?.campaign?.state === "discount" && (
             <Badge className="text-cyan-800 bg-cyan-100 flex flex-row items-center gap-x-1">
@@ -102,21 +102,21 @@ const Left = ({ product }) => {
         </div>
         <div className="flex flex-col gap-y-2.5">
           <DetailCard
-            title={`Category: ${product?.category?.title}`}
+            title={`From ${product?.category?.title} Category`}
             content={product?.category?.keynotes}
           />
           <DetailCard
-            title={`Brand: ${product?.brand?.title}`}
+            title={`From ${product?.brand?.title} Brand`}
             content={product?.brand?.keynotes}
           />
           <DetailCard
-            title={`Store: ${product?.store?.title}`}
+            title={`From ${product?.store?.title} Store`}
             content={product?.store?.keynotes}
           />
 
           <div className="flex flex-row flex-wrap gap-1 mt-4">
             {hashTags.map((hashTag, index) => (
-              <span key={index} className="!text-xs border px-2 py-0.5 rounded-primary">{`#${hashTag}`}</span>
+              <span key={index} className="!text-xs border px-2 py-0.5 rounded-sm">{`#${hashTag}`}</span>
             ))}
           </div>
         </div>
