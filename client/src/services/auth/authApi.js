@@ -13,27 +13,27 @@
  * Date: 09, November 2023
  */
 
-const { cisecoApi } = require("../ciseco");
+const { canimApi } = require("../canim");
 
-const authApi = cisecoApi.injectEndpoints({
+const authApi = canimApi.injectEndpoints({
   endpoints: (builder) => ({
-    // signup
-    signup: builder.mutation({
-      query: (userInfo) => ({
-        url: "/user/signup",
+    // signUp
+    signUp: builder.mutation({
+      query: (body) => ({
+        url: "/user/sign-up",
         method: "POST",
-        body: userInfo,
+        body,
       }),
 
       invalidatesTags: ["User"],
     }),
 
-    // signin
-    signin: builder.mutation({
-      query: (userInfo) => ({
-        url: "/user/signin",
+    // signIn
+    signIn: builder.mutation({
+      query: (body) => ({
+        url: "/user/sign-in",
         method: "POST",
-        body: userInfo,
+        body,
       }),
     }),
 
@@ -62,8 +62,8 @@ const authApi = cisecoApi.injectEndpoints({
 });
 
 export const {
-  useSignupMutation,
-  useSigninMutation,
+  useSignUpMutation,
+  useSignInMutation,
   useForgotPasswordMutation,
   usePersistLoginQuery,
 } = authApi;
