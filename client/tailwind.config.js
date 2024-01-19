@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       borderRadius: {
-        DEFAULT: "10px",
+        DEFAULT: "5px",
         primary: "1.5rem",
         secondary: "9999px",
       },
