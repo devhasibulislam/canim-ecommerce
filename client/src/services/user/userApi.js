@@ -13,14 +13,27 @@
  * Date: 12, November 2023
  */
 
-const { cisecoApi } = require("../ciseco");
+const { canimApi } = require("../canim");
 
-const userApi = cisecoApi.injectEndpoints({
+const userApi = canimApi.injectEndpoints({
   endpoints: (builder) => ({
     // get all users
     getUsers: builder.query({
       query: () => ({
-        url: "/user/list-users",
+        url: "/user/all-users",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      providesTags: ["User"],
+    }),
+
+    // get user
+    getUser: builder.query({
+      query: (id) => ({
+        url: `/user/get-user/${id}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -32,8 +45,8 @@ const userApi = cisecoApi.injectEndpoints({
 
     // update user
     updateUser: builder.mutation({
-      query: ({ id, body }) => ({
-        url: `/user/update-user/${id}`,
+      query: (body) => ({
+        url: `/user/update-information`,
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -43,7 +56,25 @@ const userApi = cisecoApi.injectEndpoints({
 
       invalidatesTags: ["User"],
     }),
+
+    // delete user
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/user/delete-user/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useUpdateUserMutation } = userApi;
+export const {
+  useGetUsersQuery,
+  useGetUserQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = userApi;
