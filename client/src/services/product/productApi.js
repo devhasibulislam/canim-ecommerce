@@ -13,26 +13,28 @@
  * Date: 11, November 2023
  */
 
-const { cisecoApi } = require("../ciseco");
+const { canimApi } = require("../canim");
 
-const productApi = cisecoApi.injectEndpoints({
+const productApi = canimApi.injectEndpoints({
   endpoints: (builder) => ({
     // add new product
     addProduct: builder.mutation({
-      query: (product) => ({
+      query: (body) => ({
         url: "/product/add-product",
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: product,
+        body,
       }),
+
+      invalidatesTags: ["Product", "Brand", "Category", "Store", "User"],
     }),
 
     // get all products
     getProducts: builder.query({
       query: () => ({
-        url: "/product/list-products",
+        url: "/product/get-products",
         method: "GET",
       }),
 
@@ -50,7 +52,7 @@ const productApi = cisecoApi.injectEndpoints({
         body,
       }),
 
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["Product", "Brand", "Category", "Store", "User"],
     }),
 
     // get a single product
@@ -73,6 +75,19 @@ const productApi = cisecoApi.injectEndpoints({
 
       providesTags: ["Product"],
     }),
+
+    // delete product
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/product/delete-product/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      invalidatesTags: ["Product", "Brand", "Category", "Store", "User"],
+    }),
   }),
 });
 
@@ -82,4 +97,5 @@ export const {
   useUpdateProductMutation,
   useGetProductQuery,
   useGetFilteredProductsMutation,
+  useDeleteProductMutation,
 } = productApi;
