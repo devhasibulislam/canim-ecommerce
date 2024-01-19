@@ -39,7 +39,10 @@ router.post(
 );
 
 // get all brands
-router.get("/list-brands", brandController.getBrands);
+router.get("/get-brands", brandController.getBrands);
+
+// get a brand
+router.get("/get-brand/:id", brandController.getBrand);
 
 // update brand
 router.patch(
@@ -50,7 +53,12 @@ router.patch(
   brandController.updateBrand
 );
 
-// get a brand
-router.get("/get-brand/:id", brandController.getBrand);
+// delete brand
+router.delete(
+  "/delete-brand/:id",
+  verify,
+  authorize("admin", "seller"),
+  brandController.deleteBrand
+);
 
 module.exports = router;

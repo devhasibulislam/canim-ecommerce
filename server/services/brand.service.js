@@ -15,6 +15,8 @@
 
 /* internal import */
 const Brand = require("../models/brand.model");
+const Product = require("../models/product.model");
+const User = require("../models/user.model");
 const remove = require("../utils/remove.util");
 
 /* add new brand */
@@ -30,9 +32,14 @@ exports.addBrand = async (req, res) => {
     },
     keynotes: JSON.parse(body.keynotes),
     tags: JSON.parse(body.tags),
+    creator: req.user._id,
   });
 
-  await brand.save();
+  const result = await brand.save();
+
+  await User.findByIdAndUpdate(result.creator, {
+    $set: { brand: result._id },
+  });
 
   res.status(201).json({
     acknowledgement: true,
@@ -53,46 +60,6 @@ exports.getBrands = async (res) => {
   });
 };
 
-/* update brand */
-exports.updateBrand = async (req, res) => {
-  if (req.body.trashable) {
-    await Brand.findByIdAndUpdate(req.params.id, req.body);
-  } else {
-    if (req.body.oldLogo) {
-      const {
-        body: { oldLogo, ...otherInformation },
-        file,
-      } = req;
-
-      await remove(oldLogo);
-
-      await Brand.findByIdAndUpdate(req.params.id, {
-        title: otherInformation.title,
-        description: otherInformation.description,
-        keynotes: JSON.parse(otherInformation.keynotes),
-        tags: JSON.parse(otherInformation.tags),
-        logo: {
-          url: file.path,
-          public_id: file.filename,
-        },
-      });
-    } else {
-      await Brand.findByIdAndUpdate(req.params.id, {
-        title: req.body.title,
-        description: req.body.description,
-        keynotes: JSON.parse(req.body.keynotes),
-        tags: JSON.parse(req.body.tags),
-      });
-    }
-  }
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "Brand updated successfully",
-  });
-};
-
 /* get a brand */
 exports.getBrand = async (req, res) => {
   const brand = await Brand.findById(req.params.id);
@@ -102,5 +69,48 @@ exports.getBrand = async (req, res) => {
     message: "Ok",
     description: "Brand fetched successfully",
     data: brand,
+  });
+};
+
+/* update brand */
+exports.updateBrand = async (req, res) => {
+  const brand = await Brand.findById(req.params.id);
+  let updatedBrand = req.body;
+
+  if (!req.body.logo && req.file) {
+    await remove(brand.logo.public_id);
+
+    updatedBrand.logo = {
+      url: req.file.path,
+      public_id: req.file.filename,
+    };
+  }
+
+  updatedBrand.keynotes = JSON.parse(req.body.keynotes);
+  updatedBrand.tags = JSON.parse(req.body.tags);
+
+  await Brand.findByIdAndUpdate(req.params.id, updatedBrand);
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Brand updated successfully",
+  });
+};
+
+/* delete brand */
+exports.deleteBrand = async (req, res) => {
+  const brand = await Brand.findByIdAndDelete(req.params.id);
+  await remove(brand.logo.public_id);
+
+  await Product.updateMany({ brand: req.params.id }, { $unset: { brand: "" } });
+  await User.findByIdAndUpdate(brand.creator, {
+    $unset: { brand: "" },
+  });
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Brand deleted successfully",
   });
 };

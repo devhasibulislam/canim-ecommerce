@@ -16,6 +16,7 @@
 /* external imports */
 const mongoose = require("mongoose");
 const validator = require("validator");
+const { ObjectId } = mongoose.Schema.Types;
 
 /* create brand schema */
 const brandSchema = new mongoose.Schema(
@@ -27,6 +28,7 @@ const brandSchema = new mongoose.Schema(
       trim: true,
       uppercase: true,
       unique: [true, "Same brand already exists"],
+      maxLength: [100, "Your title would be at most 100 characters"],
     },
 
     // for description
@@ -34,6 +36,7 @@ const brandSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please, provide brand description"],
       trim: true,
+      maxLength: [500, "Your description would be at most 500 characters"],
     },
 
     // for logo
@@ -52,7 +55,7 @@ const brandSchema = new mongoose.Schema(
     // for products
     products: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "Product",
       },
     ],
@@ -73,10 +76,10 @@ const brandSchema = new mongoose.Schema(
       },
     ],
 
-    // for trashable
-    trashable: {
-      type: Boolean,
-      default: false,
+    // for creator
+    creator: {
+      type: ObjectId,
+      ref: "User",
     },
 
     // for brand  time stamps

@@ -38,6 +38,17 @@ exports.getBrands = async (req, res, next) => {
   }
 };
 
+/* get a brand */
+exports.getBrand = async (req, res, next) => {
+  try {
+    await brandService.getBrand(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* update brand */
 exports.updateBrand = async (req, res, next) => {
   try {
@@ -49,10 +60,10 @@ exports.updateBrand = async (req, res, next) => {
   }
 };
 
-/* get a brand */
-exports.getBrand = async (req, res, next) => {
+/* delete brand */
+exports.deleteBrand = async (req, res, next) => {
   try {
-    await brandService.getBrand(req, res);
+    await brandService.deleteBrand(req, res);
   } catch (error) {
     next(error);
   } finally {
