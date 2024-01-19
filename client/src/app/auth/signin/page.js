@@ -20,28 +20,31 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import Spinner from "@/components/shared/Spinner";
 import Link from "next/link";
-import { useSigninMutation } from "@/services/auth/authApi";
+import { useSignInMutation } from "@/services/auth/authApi";
+import { toast } from "react-hot-toast";
 
 const Signin = () => {
   const router = useRouter();
-  const [signin, { isLoading, data, error }] = useSigninMutation();
+  const [signin, { isLoading, data, error }] = useSignInMutation();
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      router.push("/");
+    if (isLoading) {
+      toast.loading("Signing in...", { id: "signin" });
     }
-  }, [router]);
 
-  useEffect(() => {
     if (data) {
+      toast.success(data?.description, { id: "signin" });
       localStorage.setItem("accessToken", data?.accessToken);
-      alert(data?.description);
       window.location.reload();
     }
     if (error?.data) {
-      alert(error?.data?.description);
+      toast.error(error?.data?.description, { id: "signin" });
     }
-  }, [data, error]);
+
+    if (localStorage.getItem("accessToken")) {
+      router.push("/");
+    }
+  }, [isLoading, data, error, router]);
 
   const handleSignin = async (e) => {
     e.preventDefault();
