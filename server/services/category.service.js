@@ -15,6 +15,8 @@
 
 /* internal import */
 const Category = require("../models/category.model");
+const Product = require("../models/product.model");
+const User = require("../models/user.model");
 const remove = require("../utils/remove.util");
 
 /* add new category */
@@ -30,9 +32,16 @@ exports.addCategory = async (req, res) => {
     },
     keynotes: JSON.parse(body.keynotes),
     tags: JSON.parse(body.tags),
+    creator: req.user._id,
   });
 
-  await category.save();
+  const result = await category.save();
+
+  await User.findByIdAndUpdate(result.creator, {
+    $set: {
+      category: result._id,
+    },
+  });
 
   res.status(201).json({
     acknowledgement: true,
@@ -53,46 +62,6 @@ exports.getCategories = async (res) => {
   });
 };
 
-/* update category */
-exports.updateCategory = async (req, res) => {
-  if (req.body.trashable) {
-    await Category.findByIdAndUpdate(req.params.id, req.body);
-  } else {
-    if (req.body.oldThumbnail) {
-      const {
-        body: { oldThumbnail, ...otherInformation },
-        file,
-      } = req;
-
-      await remove(oldThumbnail);
-
-      await Category.findByIdAndUpdate(req.params.id, {
-        title: otherInformation.title,
-        description: otherInformation.description,
-        keynotes: JSON.parse(otherInformation.keynotes),
-        tags: JSON.parse(otherInformation.tags),
-        thumbnail: {
-          url: file.path,
-          public_id: file.filename,
-        },
-      });
-    } else {
-      await Category.findByIdAndUpdate(req.params.id, {
-        title: req.body.title,
-        description: req.body.description,
-        keynotes: JSON.parse(req.body.keynotes),
-        tags: JSON.parse(req.body.tags),
-      });
-    }
-  }
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "Category updated successfully",
-  });
-};
-
 /* get a category */
 exports.getCategory = async (req, res) => {
   const category = await Category.findById(req.params.id);
@@ -102,5 +71,51 @@ exports.getCategory = async (req, res) => {
     message: "Ok",
     description: "Category fetched successfully",
     data: category,
+  });
+};
+
+/* update category */
+exports.updateCategory = async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  let updatedCategory = req.body;
+
+  if (!req.body.thumbnail && req.file) {
+    await remove(category.thumbnail.public_id);
+
+    updatedCategory.thumbnail = {
+      url: req.file.path,
+      public_id: req.file.filename,
+    };
+  }
+
+  updatedCategory.keynotes = JSON.parse(req.body.keynotes);
+  updatedCategory.tags = JSON.parse(req.body.tags);
+
+  await Category.findByIdAndUpdate(req.params.id, updatedCategory);
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Category updated successfully",
+  });
+};
+
+/* delete category */
+exports.deleteCategory = async (req, res, next) => {
+  const category = await Category.findByIdAndDelete(req.params.id);
+  await remove(category.thumbnail.public_id);
+
+  await Product.updateMany(
+    { category: req.params.id },
+    { $unset: { category: "" } }
+  );
+  await User.findByIdAndUpdate(category.creator, {
+    $unset: { category: "" },
+  });
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Category deleted successfully",
   });
 };

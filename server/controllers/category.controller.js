@@ -38,6 +38,17 @@ exports.getCategories = async (req, res, next) => {
   }
 };
 
+/* get a category */
+exports.getCategory = async (req, res, next) => {
+  try {
+    await categoryService.getCategory(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* update category */
 exports.updateCategory = async (req, res, next) => {
   try {
@@ -49,10 +60,10 @@ exports.updateCategory = async (req, res, next) => {
   }
 };
 
-/* get a category */
-exports.getCategory = async (req, res, next) => {
+/* delete category */
+exports.deleteCategory = async (req, res, next) => {
   try {
-    await categoryService.getCategory(req, res);
+    await categoryService.deleteCategory(req, res);
   } catch (error) {
     next(error);
   } finally {

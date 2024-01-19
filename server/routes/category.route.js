@@ -39,7 +39,10 @@ router.post(
 );
 
 // get all categories
-router.get("/list-categories", categoryController.getCategories);
+router.get("/get-categories", categoryController.getCategories);
+
+// get a category
+router.get("/get-category/:id", categoryController.getCategory);
 
 // update category
 router.patch(
@@ -50,7 +53,12 @@ router.patch(
   categoryController.updateCategory
 );
 
-// get a category
-router.get("/get-category/:id", categoryController.getCategory);
+// delete category
+router.delete(
+  "/delete-category/:id",
+  verify,
+  authorize("admin", "seller"),
+  categoryController.deleteCategory
+);
 
 module.exports = router;
