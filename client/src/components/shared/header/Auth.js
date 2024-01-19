@@ -90,14 +90,13 @@ const Auth = () => {
                   width={50}
                   className="rounded object-cover h-[50px] w-[50px]"
                 />
-                <article className="grid grid-cols-1 gap-y-1">
+                <article className="flex flex-col">
                   <h2 className="line-clamp-1">{user?.name}</h2>
                   <p className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
                     {user?.email}
                   </p>
-                  <span className="text-xs px-2 flex flex-row flex-wrap gap-2">
-                    <span className="px-1 border border-indigo-900 text-indigo-900 bg-indigo-50 rounded-primary">{user?.store?.title || "N/A"}</span>
-                    <span className="px-1 border border-purple-900 text-purple-900 bg-purple-50 rounded-primary">{user?.role || "N/A"}</span>
+                  <span className="px-2 border border-purple-900 text-purple-900 bg-purple-50 rounded-primary text-xs w-fit mt-1.5">
+                    {user?.role || "N/A"}
                   </span>
                 </article>
               </div>
