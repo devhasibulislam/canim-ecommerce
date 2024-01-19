@@ -38,7 +38,7 @@ input {
 [type="number"],
 [type="tel"],
 [type="search"] {
-  @apply form-input rounded rounded-tl-none text-sm;
+  @apply form-input rounded text-sm;
 }
 
 input,
@@ -48,9 +48,9 @@ select {
 }
 
 textarea {
-  @apply form-textarea rounded rounded-tl-none text-sm resize-none;
+  @apply form-textarea rounded text-sm resize-none;
 }
 
 select {
-  @apply form-select rounded rounded-tl-none text-sm resize-none;
+  @apply form-select rounded text-sm resize-none;
 }
