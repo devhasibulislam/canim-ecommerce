@@ -23,31 +23,35 @@ import SoldOut from "../icons/SoldOut";
 import Arrival from "../icons/Arrival";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import {
+  useAddToFavoriteMutation,
+  useRemoveFromFavoriteMutation,
+} from "@/services/favorite/favoriteApi";
+import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import Spinner from "./Spinner";
 
 const Card = ({ index, product, ...rest }) => {
   const router = useRouter();
+  const user = useSelector((state) => state?.auth?.user);
 
-  const [isInCart, setIsInCart] = useState(
-    localStorage?.getItem("cart")?.includes(product._id)
+  // check if product._id match with favorites array of object's product._id
+  const favorite = user?.favorites?.find(
+    (fav) => fav?.product?._id === product?._id
   );
-  const cartItems = localStorage?.getItem("cart");
-
-  useEffect(() => {
-    setIsInCart(cartItems?.includes(product._id));
-  }, [cartItems, product._id]);
 
   return (
     <div
       {...rest}
-      className="flex-shrink-0 flex flex-col gap-y-6 group border hover:border-black transition-colors rounded-primary"
+      className="flex-shrink-0 flex flex-col gap-y-6 group border hover:border-black transition-colors rounded-lg"
     >
-      <div className="relative h-[200px] w-full rounded-primary">
+      <div className="relative h-[200px] w-full rounded-lg">
         <Image
           src={product?.thumbnail?.url}
           alt={product?.thumbnail?.public_id}
           width={296}
           height={200}
-          className="h-[200px] w-full rounded-t-primary object-cover"
+          className="h-[200px] w-full rounded-t-lg object-cover"
         />
         <div className="flex flex-row gap-x-2.5 absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
           <Logo
@@ -83,51 +87,29 @@ const Card = ({ index, product, ...rest }) => {
             )}
           </span>
         )}
-        <button
-          className="border border-transparent bg-white hover:border-black shadow p-1 absolute bottom-4 left-4 rounded-secondary opacity-0 group-hover:opacity-100 transition-all"
-          onClick={() => {
-            if (localStorage?.getItem("cart") === null) {
-              localStorage?.setItem("cart", JSON.stringify([]));
-            }
-
-            localStorage?.setItem(
-              "cart",
-              JSON.stringify([
-                ...JSON.parse(localStorage?.getItem("cart")),
-                product._id,
-              ])
-            );
-
-            setIsInCart(true);
-
-            // if (localStorage?.getItem("cart")?.includes(product._id)) {
-            //   const cart = JSON.parse(localStorage?.getItem("cart")).filter(
-            //     (item) => item !== product._id
-            //   );
-            //   localStorage?.setItem("cart", JSON.stringify(cart));
-            // }
-          }}
-        >
-          <MdFavorite
-            className={`w-5 h-5 text-black ${isInCart ? "text-red-500" : ""}`}
-          />
-        </button>
+        {favorite ? (
+          <RemoveFromFavorite favorite={favorite} />
+        ) : (
+          <AddToFavorite product={product} />
+        )}
       </div>
       <article className="flex flex-col gap-y-3.5 px-4">
         <div className="flex flex-row items-center gap-x-1.5">
           <Badge className="text-indigo-800 bg-indigo-100">
-            {product?.variations?.colors + " " + "Colors"}
+            {product?.variations?.colors?.length + " " + "Colors"}
           </Badge>
           <div className="h-5 border-l w-[1px]"></div>
           <Badge className="text-purple-800 bg-purple-100">
-            {product?.variations?.sizes + " " + "Sizes"}
+            {product?.variations?.sizes?.length + " " + "Sizes"}
           </Badge>
         </div>
         <div
           className="flex flex-col gap-y-4 cursor-pointer"
           onClick={() =>
             router.push(
-              `/${product?._id}?product_title=${product?.title
+              `/product?product_id=${
+                product?._id
+              }&product_title=${product?.title
                 .replace(/ /g, "-")
                 .toLowerCase()}}`
             )
@@ -143,7 +125,7 @@ const Card = ({ index, product, ...rest }) => {
             <span className="flex flex-row items-center gap-x-0.5">
               <AiFillStar className="text-[#ffc242]" />
               <span className="text-sm">
-                {Math.floor(Math.random() * (500 - 100 + 1)) + 100}
+                {product?.reviews?.length}
               </span>
             </span>
           </div>
@@ -158,8 +140,7 @@ function Badge({ props, children, className }) {
   return (
     <span
       className={
-        "px-3 py-1 rounded-primary text-xs w-fit" +
-        (className ? " " + className : "")
+        "px-3 py-1 rounded text-xs w-fit" + (className ? " " + className : "")
       }
       {...props}
     >
@@ -181,6 +162,72 @@ function Logo({ src, alt, props, className }) {
         (className ? " " + className : "")
       }
     />
+  );
+}
+
+function AddToFavorite({ product }) {
+  const user = useSelector((state) => state?.auth?.user);
+  const [addToFavorite, { isLoading, data, error }] =
+    useAddToFavoriteMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Adding to favorite...", { id: "addToFavorite" });
+    }
+
+    if (data) {
+      toast.success(data?.description, { id: "addToFavorite" });
+    }
+
+    if (error?.data) {
+      toast.error(error?.data?.description, { id: "addToFavorite" });
+    }
+  }, [isLoading, data, error]);
+
+  return (
+    <button
+      className="border border-transparent bg-white hover:border-black shadow p-1 absolute bottom-4 left-4 rounded-secondary opacity-0 group-hover:opacity-100 transition-all"
+      onClick={() => addToFavorite({ product: product?._id })}
+    >
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <MdFavorite className={`w-5 h-5 text-black`} />
+      )}
+    </button>
+  );
+}
+
+function RemoveFromFavorite({ favorite }) {
+  const user = useSelector((state) => state?.auth?.user);
+  const [removeFromFavorite, { isLoading, data, error }] =
+    useRemoveFromFavoriteMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Adding to favorite...", { id: "addToFavorite" });
+    }
+
+    if (data) {
+      toast.success(data?.description, { id: "addToFavorite" });
+    }
+
+    if (error?.data) {
+      toast.error(error?.data?.description, { id: "addToFavorite" });
+    }
+  }, [isLoading, data, error]);
+
+  return (
+    <button
+      className="border border-transparent bg-white hover:border-black shadow p-1 absolute bottom-4 left-4 rounded-secondary opacity-0 group-hover:opacity-100 transition-all"
+      onClick={() => removeFromFavorite({ id: favorite?._id })}
+    >
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <MdFavorite className={`w-5 h-5 text-red-500`} />
+      )}
+    </button>
   );
 }
 
