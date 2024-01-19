@@ -32,8 +32,8 @@ const Page = () => {
         </p>
       ) : (
         <div className="grid grid-cols-2 gap-4">
-          {user?.reviews?.map((review) => (
-            <div className="flex flex-col gap-y-4 border p-2 rounded h-40">
+          {user?.reviews?.map((review, index) => (
+            <div key={index} className="flex flex-col gap-y-4 border p-2 rounded h-40">
               <div className="flex flex-row items-center justify-between">
                 <Image
                   src={review?.product?.thumbnail?.url}
