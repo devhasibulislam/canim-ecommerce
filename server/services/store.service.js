@@ -50,7 +50,13 @@ exports.addStore = async (req, res) => {
 
 /* get all stores */
 exports.getStores = async (res) => {
-  const stores = await Store.find();
+  const stores = await Store.find().populate([
+    "owner",
+    {
+      path: "products",
+      populate: ["category", "brand", "store"],
+    },
+  ]);
 
   res.status(200).json({
     acknowledgement: true,

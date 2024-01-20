@@ -61,7 +61,7 @@ const storeSchema = new mongoose.Schema(
     products: [
       {
         type: ObjectId,
-        ref: "Products",
+        ref: "Product",
       },
     ],
 

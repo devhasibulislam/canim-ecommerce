@@ -20,13 +20,17 @@ import authSlice from "@/features/auth/authSlice";
 import productFilterSlice from "@/features/productFilter/productFilterSlice";
 import brandSlice from "@/features/brand/brandSlice";
 import productSlice from "@/features/product/productSlice";
+import categorySlice from "@/features/category/categorySlice";
+import storeSlice from "@/features/store/storeSlice";
 
 export const store = configureStore({
   reducer: {
     [canimApi.reducerPath]: canimApi.reducer,
     auth: authSlice,
     brand: brandSlice,
+    category: categorySlice,
     product: productSlice,
+    store: storeSlice,
     productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>
