@@ -37,7 +37,7 @@ const Signin = () => {
       localStorage.setItem("accessToken", data?.accessToken);
 
       // open new tab
-      window.open("/", "_blank");
+      window.open("/", "_self");
     }
     if (error?.data) {
       toast.error(error?.data?.description, { id: "signin" });

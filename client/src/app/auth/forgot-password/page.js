@@ -36,7 +36,7 @@ const ResetPassword = () => {
     if (data) {
       toast.success(data?.description, { id: "forgot-password" });
       // open new tab
-      window.open("/auth/signin", "_blank");
+      window.open("/auth/signin", "_self");
     }
     if (error?.data) {
       toast.error(error?.data?.description, { id: "forgot-password" });
