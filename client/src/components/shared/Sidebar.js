@@ -193,7 +193,7 @@ const Sidebar = () => {
   }
 
   return (
-    <section className="md:col-span-4 col-span-12 overflow-hidden bg-white z-50 min-w-full max-w-lg px-2 overflow-y-auto">
+    <section className="lg:col-span-3 md:col-span-4 col-span-12 overflow-hidden bg-white z-50 min-w-full max-w-lg px-2 overflow-y-auto md:block hidden">
       <div className="w-full h-full flex flex-col gap-y-4">
         {routes.map((route, index) => (
           <div
