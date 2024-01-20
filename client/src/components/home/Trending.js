@@ -73,7 +73,7 @@ const Trending = () => {
               className="px-8 py-4 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow w-fit mx-auto flex flex-row gap-x-2 items-center"
               onClick={() => router.push("/products")}
             >
-              <Spinner /> Show Me More
+              Show Me More
             </button>
           </div>
         )}
