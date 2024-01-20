@@ -185,11 +185,7 @@ const Dashboard = ({ children }) => {
           {
             name: "List Reviews",
             path: "/dashboard/admin/list-reviews",
-          },
-          {
-            name: "List Purchases",
-            path: "/dashboard/admin/list-purchases",
-          },
+          }
         ],
       },
     ];
