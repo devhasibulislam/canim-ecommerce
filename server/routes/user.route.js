@@ -64,5 +64,11 @@ router.delete(
   userController.deleteUser
 );
 
+// seller request and approve
+router
+  .route("/seller-review")
+  .get(verify, authorize("admin"), userController.getSellers)
+  .patch(verify, authorize("admin"), userController.reviewSeller);
+
 /* export user router */
 module.exports = router;
