@@ -50,7 +50,13 @@ exports.addBrand = async (req, res) => {
 
 /* get all brands */
 exports.getBrands = async (res) => {
-  const brands = await Brand.find();
+  const brands = await Brand.find().populate([
+    "creator",
+    {
+      path: "products",
+      populate: ["category", "brand", "store"],
+    },
+  ]);
 
   res.status(200).json({
     acknowledgement: true,

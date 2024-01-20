@@ -18,11 +18,15 @@ import { canimApi } from "../services/canim";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import authSlice from "@/features/auth/authSlice";
 import productFilterSlice from "@/features/productFilter/productFilterSlice";
+import brandSlice from "@/features/brand/brandSlice";
+import productSlice from "@/features/product/productSlice";
 
 export const store = configureStore({
   reducer: {
     [canimApi.reducerPath]: canimApi.reducer,
     auth: authSlice,
+    brand: brandSlice,
+    product: productSlice,
     productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>
