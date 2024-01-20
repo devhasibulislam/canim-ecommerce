@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import Down from "@/components/icons/Down";
 import Link from "next/link";
+import Logout from "@/components/icons/Logout";
 
 const Dashboard = ({ children }) => {
   const user = useSelector((state) => state?.auth?.user);
@@ -221,6 +222,18 @@ const Dashboard = ({ children }) => {
             <h2 className="text-sm">{user?.name}</h2>
             <p className="text-xs">{user?.email}</p>
           </div>
+
+          <button
+            type="button"
+            className="p-1 rounded-secondary border md:block hidden"
+            title="Logout"
+            onClick={() => {
+              localStorage.removeItem("accessToken");
+              window.open("/", "_self");
+            }}
+          >
+            <Logout />
+          </button>
         </nav>
 
         <div className="grid grid-cols-12 gap-x-2 h-full relative">
