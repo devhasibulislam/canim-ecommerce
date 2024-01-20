@@ -35,16 +35,17 @@ const Signin = () => {
     if (data) {
       toast.success(data?.description, { id: "signin" });
       localStorage.setItem("accessToken", data?.accessToken);
-      window.location.reload();
+
+      // open new tab
+      window.open("/", "_blank");
+
+      // close current tab
+      window.close();
     }
     if (error?.data) {
       toast.error(error?.data?.description, { id: "signin" });
     }
-
-    if (localStorage.getItem("accessToken")) {
-      router.push("/");
-    }
-  }, [isLoading, data, error, router]);
+  }, [isLoading, data, error]);
 
   const handleSignin = async (e) => {
     e.preventDefault();
