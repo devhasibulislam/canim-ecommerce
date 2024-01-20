@@ -54,7 +54,7 @@ router.patch(
 router.delete(
   "/delete-review/:id",
   verify,
-  authorize("seller"),
+  authorize("seller", "admin"),
   reviewController.deleteReview
 );
 
