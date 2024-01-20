@@ -22,6 +22,7 @@ import brandSlice from "@/features/brand/brandSlice";
 import productSlice from "@/features/product/productSlice";
 import categorySlice from "@/features/category/categorySlice";
 import storeSlice from "@/features/store/storeSlice";
+import favoriteSlice from "@/features/favorite/favoriteSlice";
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
     category: categorySlice,
     product: productSlice,
     store: storeSlice,
+    favorite: favoriteSlice,
     productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>

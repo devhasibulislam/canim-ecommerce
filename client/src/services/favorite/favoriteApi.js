@@ -29,6 +29,19 @@ const favoriteApi = canimApi.injectEndpoints({
 
       invalidatesTags: ["Favorite", "User"],
     }),
+
+    getFavorites: build.query({
+      query: () => ({
+        url: `/favorite/get-favorites`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      providesTags: ["Favorite"],
+    }),
+
     removeFromFavorite: build.mutation({
       query: ({ id }) => ({
         url: `/favorite/delete-from-favorite/${id}`,
@@ -43,5 +56,8 @@ const favoriteApi = canimApi.injectEndpoints({
   }),
 });
 
-export const { useAddToFavoriteMutation, useRemoveFromFavoriteMutation } =
-  favoriteApi;
+export const {
+  useAddToFavoriteMutation,
+  useGetFavoritesQuery,
+  useRemoveFromFavoriteMutation,
+} = favoriteApi;

@@ -39,8 +39,8 @@ exports.addToFavorite = async (req, res) => {
 };
 
 /* get favorite */
-exports.getFavorite = async (res) => {
-  const favorites = await Favorite.find().populate("product");
+exports.getFavorites = async (res) => {
+  const favorites = await Favorite.find().populate(["product", "user"]);
 
   res.status(200).json({
     acknowledgement: true,
