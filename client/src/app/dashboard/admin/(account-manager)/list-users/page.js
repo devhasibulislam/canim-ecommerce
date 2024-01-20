@@ -108,21 +108,28 @@ const Page = () => {
                 <p className="truncate text-sm">{user?.email}</p>
                 <p className="truncate text-xs">{user?.phone}</p>
               </div>
-              {user?.role === "buyer" && (
-                <span className="bg-indigo-50 border border-indigo-900 px-2 rounded-secondary text-indigo-900 text-xs uppercase w-fit">
-                  {user?.role}
-                </span>
-              )}
-              {user?.role === "seller" && (
-                <span className="bg-cyan-50 border border-cyan-900 px-2 rounded-secondary text-cyan-900 text-xs uppercase w-fit">
-                  {user?.role}
-                </span>
-              )}
-              {user?.role === "admin" && (
-                <span className="bg-purple-50 border border-purple-900 px-2 rounded-secondary text-purple-900 text-xs uppercase w-fit">
-                  {user?.role}
-                </span>
-              )}
+              <p className="flex flex-row gap-x-2">
+                {user?.role === "buyer" && (
+                  <span className="bg-indigo-50 border border-indigo-900 px-2 rounded-secondary text-indigo-900 text-xs uppercase w-fit">
+                    {user?.role}
+                  </span>
+                )}
+                {user?.role === "seller" && (
+                  <span className="bg-cyan-50 border border-cyan-900 px-2 rounded-secondary text-cyan-900 text-xs uppercase w-fit">
+                    {user?.role}
+                  </span>
+                )}
+                {user?.role === "admin" && (
+                  <span className="bg-purple-50 border border-purple-900 px-2 rounded-secondary text-purple-900 text-xs uppercase w-fit">
+                    {user?.role}
+                  </span>
+                )}
+                {user?.status === "inactive" && (
+                  <span className="bg-red-50 border border-red-900 px-2 rounded-secondary text-red-900 text-xs uppercase w-fit">
+                    in review
+                  </span>
+                )}
+              </p>
 
               <Disapprove id={user?._id} role={user?.role} />
               <DeleteUser id={user?._id} role={user?.role} />
