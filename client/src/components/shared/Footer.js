@@ -30,7 +30,7 @@ const Footer = () => {
     <Container className="">
       <footer className="bg-slate-50 rounded-xl shadow my-4">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-          <div className="sm:flex sm:items-center sm:justify-between">
+          <div className="flex items-center justify-between">
             <Link
               href="/"
               className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
@@ -40,7 +40,7 @@ const Footer = () => {
                 alt="logo"
                 width={141}
                 height={40}
-                className="h-[40px] object-contain md:block hidden cursor-pointer"
+                className="h-[40px] object-contain cursor-pointer"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap sr-only">
                 Canim eCommerce
@@ -54,7 +54,7 @@ const Footer = () => {
             </button>
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto" />
-          <span className="block text-sm text-gray-500 sm:text-center">
+          <span className="block text-sm text-gray-500 text-center">
             © {year}{" "}
             <Link href="/" className="hover:underline">
               Canim eCommerce™
