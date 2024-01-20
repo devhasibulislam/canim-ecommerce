@@ -103,3 +103,24 @@ exports.deleteUser = async (req, res, next) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* seller request & approve */
+exports.getSellers = async (req, res, next) => {
+  try {
+    await userService.getSellers(res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+exports.reviewSeller = async (req, res, next) => {
+  try {
+    await userService.reviewSeller(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};

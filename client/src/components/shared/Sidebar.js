@@ -155,36 +155,15 @@ const Sidebar = () => {
         name: "Account Manager",
         paths: [
           {
-            name: "List Buyers",
-            path: "/dashboard/admin/list-buyers",
+            name: "List Users",
+            path: "/dashboard/admin/list-users",
           },
           {
-            name: "List Sellers",
-            path: "/dashboard/admin/list-sellers",
-          },
-          {
-            name: "List Admins",
-            path: "/dashboard/admin/list-admins",
+            name: "Sellers Requests",
+            path: "/dashboard/admin/seller-requests",
           },
         ],
       },
-      {
-        name: "Additional Options",
-        paths: [
-          {
-            name: "My Profile",
-            path: "/dashboard/admin/my-profile",
-          },
-          {
-            name: "Seller Requests",
-            path: "/dashboard/admin/my-profile",
-          },
-          {
-            name: "List Reviews",
-            path: "/dashboard/admin/list-reviews",
-          }
-        ]
-      }
     ];
   }
 

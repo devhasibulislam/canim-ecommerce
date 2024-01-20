@@ -28,12 +28,12 @@ const Footer = () => {
 
   return (
     <Container className="">
-      <footer class="bg-slate-50 rounded-xl shadow my-4">
-        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-          <div class="sm:flex sm:items-center sm:justify-between">
+      <footer className="bg-slate-50 rounded-xl shadow my-4">
+        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+          <div className="sm:flex sm:items-center sm:justify-between">
             <Link
               href="/"
-              class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+              className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
             >
               <Image
                 src="/logo.png"
@@ -42,7 +42,7 @@ const Footer = () => {
                 height={40}
                 className="h-[40px] object-contain md:block hidden cursor-pointer"
               />
-              <span class="self-center text-2xl font-semibold whitespace-nowrap sr-only">
+              <span className="self-center text-2xl font-semibold whitespace-nowrap sr-only">
                 Canim eCommerce
               </span>
             </Link>
@@ -53,10 +53,10 @@ const Footer = () => {
               <IoAccessibilityOutline className="h-5 w-5" />
             </button>
           </div>
-          <hr class="my-6 border-gray-200 sm:mx-auto" />
-          <span class="block text-sm text-gray-500 sm:text-center">
+          <hr className="my-6 border-gray-200 sm:mx-auto" />
+          <span className="block text-sm text-gray-500 sm:text-center">
             © {year}{" "}
-            <Link href="/" class="hover:underline">
+            <Link href="/" className="hover:underline">
               Canim eCommerce™
             </Link>
             . All Rights Reserved.

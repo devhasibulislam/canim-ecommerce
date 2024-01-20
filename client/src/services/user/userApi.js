@@ -69,6 +69,33 @@ const userApi = canimApi.injectEndpoints({
 
       invalidatesTags: ["User"],
     }),
+
+    // get seller request
+    getSellerRequest: builder.query({
+      query: () => ({
+        url: "/user/seller-review",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      providesTags: ["User"],
+    }),
+
+    // review seller
+    reviewSeller: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/user/seller-review?id=${id}`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body,
+      }),
+
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -77,4 +104,6 @@ export const {
   useGetUserQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useGetSellerRequestQuery,
+  useReviewSellerMutation,
 } = userApi;

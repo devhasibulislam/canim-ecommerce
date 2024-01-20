@@ -366,3 +366,27 @@ exports.deleteUser = async (req, res) => {
     description: `${user.name}'s information deleted successfully`,
   });
 };
+
+// seller request & approve
+exports.getSellers = async (res) => {
+  const users = await User.find({ role: "seller", status: "inactive" });
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "OK",
+    description: "Sellers retrieved successfully",
+    data: users,
+  });
+};
+
+exports.reviewSeller = async (req, res) => {
+  await User.findByIdAndUpdate(req.query.id, {
+    $set: req.body,
+  });
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "OK",
+    description: "Seller reviewed successfully",
+  });
+};
