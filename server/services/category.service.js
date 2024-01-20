@@ -52,7 +52,13 @@ exports.addCategory = async (req, res) => {
 
 /* get all categories */
 exports.getCategories = async (res) => {
-  const categories = await Category.find();
+  const categories = await Category.find().populate([
+    "creator",
+    {
+      path: "products",
+      populate: ["category", "brand", "store"],
+    },
+  ]);
 
   res.status(200).json({
     acknowledgement: true,
