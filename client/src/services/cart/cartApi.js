@@ -31,6 +31,19 @@ const cartApi = canimApi.injectEndpoints({
       invalidatesTags: ["Cart", "User"],
     }),
 
+    // get from cart
+    getFromCart: build.query({
+      query: () => ({
+        url: "/cart/get-from-cart",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      providesTags: ["Cart"],
+    }),
+
     // delete from cart
     deleteFromCart: build.mutation({
       query: (id) => ({
@@ -46,4 +59,8 @@ const cartApi = canimApi.injectEndpoints({
   }),
 });
 
-export const { useAddToCartMutation, useDeleteFromCartMutation } = cartApi;
+export const {
+  useAddToCartMutation,
+  useGetFromCartQuery,
+  useDeleteFromCartMutation,
+} = cartApi;

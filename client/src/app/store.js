@@ -23,6 +23,7 @@ import productSlice from "@/features/product/productSlice";
 import categorySlice from "@/features/category/categorySlice";
 import storeSlice from "@/features/store/storeSlice";
 import favoriteSlice from "@/features/favorite/favoriteSlice";
+import cartSlice from "@/features/cart/cartSlice";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     product: productSlice,
     store: storeSlice,
     favorite: favoriteSlice,
+    cart: cartSlice,
     productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>

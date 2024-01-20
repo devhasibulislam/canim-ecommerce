@@ -40,8 +40,8 @@ exports.addToCart = async (req, res) => {
 };
 
 /* get from cart */
-exports.getCart = async (res) => {
-  const cart = await Cart.find();
+exports.getFromCart = async (res) => {
+  const cart = await Cart.find().populate(["user", "product"]);
 
   res.status(200).json({
     acknowledgement: true,
