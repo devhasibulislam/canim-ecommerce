@@ -38,9 +38,6 @@ const Signin = () => {
 
       // open new tab
       window.open("/", "_blank");
-
-      // close current tab
-      window.close();
     }
     if (error?.data) {
       toast.error(error?.data?.description, { id: "signin" });
