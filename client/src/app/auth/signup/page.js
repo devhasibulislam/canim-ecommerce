@@ -141,7 +141,7 @@ const Signup = () => {
                     alt="avatar"
                     height={100}
                     width={100}
-                    className="rounded h-[100px] w-[100px] object-center"
+                    className="rounded h-[100px] w-[100px] object-cover"
                   />
                   <button
                     className="absolute bottom-0 -right-10 p-1 rounded bg-red-500 text-white shadow-2xl"
