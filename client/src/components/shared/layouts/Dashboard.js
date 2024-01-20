@@ -250,7 +250,7 @@ const Dashboard = ({ children }) => {
 
         <div className="grid grid-cols-12 gap-x-2 h-full relative">
           <Sidebar />
-          <div className="lg:col-span-9 md:col-span-8 col-span-12 overflow-y-auto rounded">
+          <div className="md:col-span-8 col-span-12 overflow-y-auto rounded">
             {children}
           </div>
 
