@@ -38,8 +38,11 @@ const Signup = () => {
 
     if (data) {
       toast.success(data?.description, { id: "signup" });
+      
       // open new tab
-      window.open("/auth/signin", "_self");
+      setTimeout(() => {
+        window.open("/auth/signin", "_self");
+      }, 1000);
     }
     if (error?.data) {
       toast.error(error?.data?.description, { id: "signup" });
