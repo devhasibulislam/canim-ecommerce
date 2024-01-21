@@ -168,13 +168,13 @@ function AddBrand() {
         {/* title */}
         <label htmlFor="title" className="w-full flex flex-col gap-y-1">
           <span className="text-sm">Title*</span>
-          <input type="text" name="title" id="title" required />
+          <input type="text" name="title" id="title" maxlength="100" required />
         </label>
 
         {/* description */}
         <label htmlFor="email" className="w-full flex flex-col gap-y-1">
           <span className="text-sm">Description*</span>
-          <textarea name="description" id="description" rows="4" required />
+          <textarea name="description" id="description" rows="4" maxlength="500" required />
         </label>
       </div>
 
@@ -406,6 +406,7 @@ function UpdateBrand() {
               id="title"
               value={brand?.title}
               onChange={(e) => setBrand({ ...brand, title: e.target.value })}
+              maxlength="100"
             />
           </label>
 
@@ -420,6 +421,7 @@ function UpdateBrand() {
               onChange={(e) =>
                 setBrand({ ...brand, description: e.target.value })
               }
+              maxlength="500"
             />
           </label>
         </div>
