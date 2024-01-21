@@ -181,15 +181,23 @@ const Footer = () => {
           <div className="px-4 sm:w-1/2 md:w-1/4 mt-4 md:mt-0">
             <h6 className="font-bold mb-2">Free Resources</h6>
             <p className="mb-4 text-sm">
-              This Full-Stack Project for <strong>FREE</strong>.<br />
-              <em>All are MIT License</em>
+              Check This{" "}
+              <Link
+                href="https://www.youtube.com/@CodeCraftMERN"
+                className="border-b border-dashed border-black"
+                target="_blank"
+              >
+                YouTube Video
+              </Link>
+              <br />
+              <em>To Know More.</em>
             </p>
           </div>
           <div className="px-4 md:w-1/4 md:ml-auto mt-6 sm:mt-4 md:mt-0">
             <button
               className="px-4 py-2 bg-black rounded-primary text-white"
               onClick={() =>
-                window.open("https://www.youtube.com/@CodeCraftMERN", "_self")
+                window.open("https://www.youtube.com/@CodeCraftMERN", "_blank")
               }
             >
               CodeCraftMERN
