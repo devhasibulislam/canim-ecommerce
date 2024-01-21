@@ -40,13 +40,7 @@ const Detail = () => {
     if (productError) {
       toast.error(productError?.data?.description, { id: "productData" });
     }
-
-    // if product object is empty then redirect to 404 page
-    if (Object.keys(product).length === 0) {
-      // redirect to 404 page
-      window.location.href = "/not-found";
-    }
-  }, [productError, product]);
+  }, [productError]);
 
   return (
     <Main>
