@@ -23,7 +23,7 @@ import Container from "@/components/shared/Container";
 import Main from "@/components/shared/layouts/Main";
 import { useGetProductQuery } from "@/services/product/productApi";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 const Detail = () => {
@@ -34,7 +34,7 @@ const Detail = () => {
     error: productError,
     isLoading: productLoading,
   } = useGetProductQuery(id);
-  const product = productData?.data || {};
+  const product = useMemo(() => productData?.data || {}, [productData]);
 
   useEffect(() => {
     if (productError) {
@@ -46,7 +46,7 @@ const Detail = () => {
       // redirect to 404 page
       window.location.href = "/not-found";
     }
-  }, [productError]);
+  }, [productError, product]);
 
   return (
     <Main>

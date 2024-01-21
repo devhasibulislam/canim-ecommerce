@@ -44,7 +44,7 @@ const ResetPassword = () => {
     if (error?.data) {
       toast.error(error?.data?.description, { id: "forgot-password" });
     }
-  }, [data, error, router]);
+  }, [data, error, router, isLoading]);
 
   const handleResetPassword = (e) => {
     e.preventDefault();
