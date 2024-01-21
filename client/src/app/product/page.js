@@ -24,6 +24,7 @@ import Main from "@/components/shared/layouts/Main";
 import { useGetProductQuery } from "@/services/product/productApi";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const Detail = () => {
   const searchParams = useSearchParams();
@@ -37,7 +38,13 @@ const Detail = () => {
 
   useEffect(() => {
     if (productError) {
-      alert(productError?.data?.description);
+      toast.error(productError?.data?.description, { id: "productData" });
+    }
+
+    // if product object is empty then redirect to 404 page
+    if (Object.keys(product).length === 0) {
+      // redirect to 404 page
+      window.location.href = "/not-found";
     }
   }, [productError]);
 
