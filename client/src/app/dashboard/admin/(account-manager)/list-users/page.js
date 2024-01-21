@@ -16,7 +16,9 @@
 "use client";
 
 import Cross from "@/components/icons/Cross";
+import Inform from "@/components/icons/Inform";
 import Trash from "@/components/icons/Trash";
+import Modal from "@/components/shared/Modal";
 import Dashboard from "@/components/shared/layouts/Dashboard";
 import {
   useDeleteUserMutation,
@@ -131,8 +133,8 @@ const Page = () => {
                 )}
               </p>
 
-              <Disapprove id={user?._id} role={user?.role} />
-              <DeleteUser id={user?._id} role={user?.role} />
+              <Disapprove user={user} />
+              <DeleteUser user={user} />
             </div>
           ))}
         </div>
@@ -141,7 +143,8 @@ const Page = () => {
   );
 };
 
-function DeleteUser({ id, role }) {
+function DeleteUser({ user }) {
+  const [isOpen, setIsOpen] = useState(false);
   const [deleteUser, { isLoading, data, error }] = useDeleteUserMutation();
 
   useEffect(() => {
@@ -158,21 +161,53 @@ function DeleteUser({ id, role }) {
 
   return (
     <>
-      {!(role === "admin" || role === "seller") && (
+      {!(user?.role === "admin" || user?.role === "seller") && (
         <button
           type="button"
           className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900 absolute top-2 right-2 group-hover:opacity-100 opacity-0 transition-opacity"
-          onClick={() => deleteUser(id)}
+          onClick={() => setIsOpen(true)}
           title="Delete User from DB"
         >
           <Trash />
         </button>
       )}
+
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          className="p-4 lg:w-1/5"
+        >
+          <article className="flex flex-col gap-y-4">
+            <p className="text-xs bg-yellow-500/50 text-black px-2 py-0.5 rounded-sm text-center">
+              Account will be deleted permanently!
+            </p>
+            <div className="flex flex-col gap-y-2 items-center">
+              <h1 className="text-xl">Are you sure?</h1>
+            </div>
+            <div className="flex flex-row justify-center gap-x-4">
+              <button
+                className="text-white bg-slate-500 px-3 py-1.5 rounded text-sm"
+                onClick={() => setIsOpen(false)}
+              >
+                No, cancel
+              </button>
+              <button
+                className="flex flex-row gap-x-2 items-center text-white bg-red-500 px-3 py-1.5 rounded text-sm"
+                onClick={() => deleteUser(user?._id)}
+              >
+                <Trash /> Yes, delete
+              </button>
+            </div>
+          </article>
+        </Modal>
+      )}
     </>
   );
 }
 
-function Disapprove({ id, role }) {
+function Disapprove({ user }) {
+  const [isOpen, setIsOpen] = useState(false);
   const [disapproveSeller, { isLoading, data, error }] =
     useReviewSellerMutation();
 
@@ -190,18 +225,51 @@ function Disapprove({ id, role }) {
 
   return (
     <>
-      {!(role === "admin" || role === "buyer") && (
+      {!(user?.role === "admin" || user?.role === "buyer") && (
         <button
           type="button"
           className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900 absolute top-2 right-2 group-hover:opacity-100 opacity-0 transition-opacity"
-          onClick={() =>
-            disapproveSeller({ id, body: { status: "active", role: "buyer" } })
-          }
+          onClick={() => setIsOpen(true)}
           title="Demote User to Buyer"
         >
           <Cross />
         </button>
       )}
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          className="p-4 lg:w-1/5"
+        >
+          <article className="flex flex-col gap-y-4">
+            <p className="text-xs bg-yellow-500/50 text-black px-2 py-0.5 rounded-sm text-center">
+              Permanently Demote <b>{user?.name?.split(" ")[0]}</b> to Buyer?
+            </p>
+            <div className="flex flex-col gap-y-2 items-center">
+              <h1 className="text-xl">Are you sure?</h1>
+            </div>
+            <div className="flex flex-row justify-center gap-x-4">
+              <button
+                className="text-white bg-slate-500 px-3 py-1.5 rounded text-sm"
+                onClick={() => setIsOpen(false)}
+              >
+                No, cancel
+              </button>
+              <button
+                className="flex flex-row gap-x-2 items-center text-white bg-red-500 px-3 py-1.5 rounded text-sm"
+                onClick={() =>
+                  disapproveSeller({
+                    id: user?._id,
+                    body: { status: "active", role: "buyer" },
+                  })
+                }
+              >
+                <Trash /> Yes, continue
+              </button>
+            </div>
+          </article>
+        </Modal>
+      )}{" "}
     </>
   );
 }

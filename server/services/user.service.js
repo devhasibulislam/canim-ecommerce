@@ -184,7 +184,7 @@ exports.persistLogin = async (req, res) => {
 
 /* get all users */
 exports.getUsers = async (res) => {
-  const users = await User.find().populate("store");
+  const users = await User.find().populate("store").populate(["brand", "category", "store"]);
 
   res.status(200).json({
     acknowledgement: true,
@@ -369,7 +369,7 @@ exports.deleteUser = async (req, res) => {
 
 // seller request & approve
 exports.getSellers = async (res) => {
-  const users = await User.find({ role: "seller", status: "inactive" });
+  const users = await User.find({ role: "seller", status: "inactive" }).populate(["brand", "category", "store"]);
 
   res.status(200).json({
     acknowledgement: true,
