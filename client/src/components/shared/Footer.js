@@ -26,44 +26,178 @@ const Footer = () => {
   const router = useRouter();
   const year = new Date().getFullYear();
 
+  const sitemaps = [
+    {
+      name: "Features",
+      paths: [
+        {
+          name: "Cool stuff",
+          path: "/",
+        },
+        {
+          name: "Random feature",
+          path: "/",
+        },
+        {
+          name: "Team feature",
+          path: "/",
+        },
+        {
+          name: "Stuff for developers",
+          path: "/",
+        },
+        {
+          name: "Another one",
+          path: "/",
+        },
+        {
+          name: "Last time",
+          path: "/",
+        },
+      ],
+    },
+    {
+      name: "Resources",
+      paths: [
+        {
+          name: "Resource",
+          path: "/",
+        },
+        {
+          name: "Resource name",
+          path: "/",
+        },
+        {
+          name: "Another resource",
+          path: "/",
+        },
+        {
+          name: "Final resource",
+          path: "/",
+        },
+      ],
+    },
+    {
+      name: "About",
+      paths: [
+        {
+          name: "Team",
+          path: "/",
+        },
+        {
+          name: "Locations",
+          path: "/",
+        },
+        {
+          name: "Privacy",
+          path: "/",
+        },
+        {
+          name: "Terms",
+          path: "/",
+        },
+      ],
+    },
+    {
+      name: "Contact",
+      paths: [
+        {
+          name: "Help",
+          path: "/",
+        },
+        {
+          name: "Sales",
+          path: "/",
+        },
+        {
+          name: "Advertise",
+          path: "/",
+        },
+      ],
+    },
+  ];
+
   return (
-    <Container className="">
-      <footer className="bg-slate-50 rounded-xl shadow my-4">
-        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/"
-              className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
-            >
-              <Image
-                src="/logo.png"
-                alt="logo"
-                width={141}
-                height={40}
-                className="h-[40px] object-contain cursor-pointer"
-              />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap sr-only">
-                Canim eCommerce
-              </span>
-            </Link>
+    <footer className="footer-1 bg-gray-100 py-8 sm:py-12 m-4 p-4 rounded-xl">
+      <div className="container mx-auto px-4">
+        <div className="sm:flex sm:flex-wrap sm:-mx-4 md:py-4">
+          {sitemaps.map((sitemap, index) => (
+            <div key={index} className="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6">
+              <h5 className="text-xl font-bold mb-6">{sitemap.name}</h5>
+              <ul className="list-none footer-links">
+                {sitemap.paths.map((path, index) => (
+                  <li key={index} className="mb-2">
+                    <Link
+                      href={path.path}
+                      className="border-b border-solid border-transparent hover:border-black hover:text-black"
+                    >
+                      {path.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          <div className="px-4 mt-4 sm:w-1/3 xl:w-1/6 sm:mx-auto xl:mt-0 xl:ml-auto">
+            <h5 className="text-xl font-bold mb-6 sm:text-center xl:text-left">
+              Stay connected
+            </h5>
+            <div className="flex flex-col sm:justify-center xl:justify-start">
+              <Link
+                href="https://github.com/devhasibulislam"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black w-fit mb-2"
+              >
+                GitHub
+              </Link>
+              <Link
+                href="https://www.linkedin.com/in/devhasibulislam/"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black w-fit mb-2"
+              >
+                LinkedIn
+              </Link>
+              <Link
+                href="https://www.facebook.com/devhasibulislam/"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black w-fit mb-2"
+              >
+                Facebook
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="sm:flex sm:flex-wrap sm:-mx-4 mt-6 pt-6 sm:mt-12 sm:pt-12 border-t">
+          <div className="sm:w-full px-4 md:w-1/6">
+            <strong>Canim eCommerce</strong>
+          </div>
+          <div className="px-4 sm:w-1/2 md:w-1/4 mt-4 md:mt-0">
+            <h6 className="font-bold mb-2">Address</h6>
+            <address className="not-italic mb-4 text-sm">
+              41/02/01, Pathantola
+              <br />
+              Dhamrai, Dhaka-1350
+            </address>
+          </div>
+          <div className="px-4 sm:w-1/2 md:w-1/4 mt-4 md:mt-0">
+            <h6 className="font-bold mb-2">Free Resources</h6>
+            <p className="mb-4 text-sm">
+              This Full-Stack Project for <strong>FREE</strong>.<br />
+              <em>All are MIT License</em>
+            </p>
+          </div>
+          <div className="px-4 md:w-1/4 md:ml-auto mt-6 sm:mt-4 md:mt-0">
             <button
-              className="border p-1.5 rounded-secondary focus:border-black"
-              onClick={() => router.push("https://bento.me/devhasibulislam")}
+              className="px-4 py-2 bg-black rounded-primary text-white"
+              onClick={() =>
+                window.open("https://www.youtube.com/@CodeCraftMERN", "_self")
+              }
             >
-              <IoAccessibilityOutline className="h-5 w-5" />
+              CodeCraftMERN
             </button>
           </div>
-          <hr className="my-6 border-gray-200 sm:mx-auto" />
-          <span className="block text-sm text-gray-500 text-center">
-            © {year}{" "}
-            <Link href="/" className="hover:underline">
-              Canim eCommerce™
-            </Link>
-            . All Rights Reserved.
-          </span>
         </div>
-      </footer>
-    </Container>
+      </div>
+    </footer>
   );
 };
 
