@@ -269,7 +269,7 @@ function Disapprove({ user }) {
             </div>
           </article>
         </Modal>
-      )}{" "}
+      )}
     </>
   );
 }
