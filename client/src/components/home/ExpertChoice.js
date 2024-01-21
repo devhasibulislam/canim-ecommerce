@@ -79,7 +79,9 @@ const ExpertChoice = ({ className }) => {
                         width={296}
                         height={200}
                         className={`${
-                          product.gallery.length === 2
+                          product.gallery.length === 1
+                            ? "col-span-12 row-span-6"
+                            : product.gallery.length === 2
                             ? "col-span-12 row-span-3"
                             : product.gallery.length === 3
                             ? idx === 0
@@ -94,6 +96,7 @@ const ExpertChoice = ({ className }) => {
                       />
                     ))}
                   </div>
+
                   <article className="flex flex-col gap-y-3.5">
                     <div className="flex flex-row items-center gap-x-1.5">
                       <Badge className="text-indigo-800 bg-indigo-100">
