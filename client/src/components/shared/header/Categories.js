@@ -135,7 +135,7 @@ const Categories = () => {
                           key={category?._id}
                           className="w-full flex flex-row items-start gap-x-2 p-2 border border-transparent hover:border-black rounded cursor-pointer"
                           onClick={() => {
-                            router.push("/products/");
+                            router.push("/products?category=" + category?._id);
                             setIsOpen(false);
                           }}
                         >
@@ -176,7 +176,7 @@ const Categories = () => {
                           key={brand?._id}
                           className="w-full flex flex-row items-start gap-x-2 p-2 border border-transparent hover:border-black rounded cursor-pointer"
                           onClick={() => {
-                            router.push("/products/");
+                            router.push("/products?brand=" + brand?._id);
                             setIsOpen(false);
                           }}
                         >
@@ -217,7 +217,7 @@ const Categories = () => {
                           key={store?._id}
                           className="w-full flex flex-row items-start gap-x-2 p-2 border border-transparent hover:border-black rounded cursor-pointer"
                           onClick={() => {
-                            router.push("/products/");
+                            router.push("/products?store=" + store?._id);
                             setIsOpen(false);
                           }}
                         >
