@@ -166,7 +166,7 @@ const SearchFilter = () => {
                                 }}
                               />
                             </div>
-                            <div className="flex flex-row justify-between items-center">
+                            <div className="flex flex-row justify-between gap-x-4 items-center">
                               <span className="text-xs flex flex-row items-baseline">
                                 $
                                 <span className="text-sm text-black">
@@ -174,13 +174,13 @@ const SearchFilter = () => {
                                 </span>
                               </span>
                               <div className="flex flex-row gap-x-1">
-                                <span className="text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
+                                <span className="whitespace-nowrap text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
                                   {product?.store?.title}
                                 </span>
-                                <span className="text-[10px] bg-indigo-300/50 text-indigo-500 border border-indigo-500 px-1.5 rounded">
+                                <span className="whitespace-nowrap text-[10px] bg-indigo-300/50 text-indigo-500 border border-indigo-500 px-1.5 rounded">
                                   {product?.brand?.title}
                                 </span>
-                                <span className="text-[10px] bg-blue-300/50 text-blue-500 border border-blue-500 px-1.5 rounded">
+                                <span className="whitespace-nowrap text-[10px] bg-blue-300/50 text-blue-500 border border-blue-500 px-1.5 rounded">
                                   {product?.category?.title}
                                 </span>
                               </div>
