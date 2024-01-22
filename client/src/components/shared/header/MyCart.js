@@ -64,7 +64,7 @@ const MyCart = () => {
         >
           <div className="w-full h-full flex flex-col gap-y-8">
             {Object.keys(user).length === 0 || user?.cart?.length === 0 ? (
-              <p className="text-sm flex flex-row gap-x-1 items-center justify-center">
+              <p className="text-sm flex flex-row gap-x-1 items-center justify-center h-full w-full">
                 <Inform /> No Products in Cart!
               </p>
             ) : (
