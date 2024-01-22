@@ -21,17 +21,14 @@ import FilterSidebar from "@/components/porducts/FilterSidebar";
 import FilteredProducts from "@/components/porducts/FilteredProducts";
 import Container from "@/components/shared/Container";
 import Main from "@/components/shared/layouts/Main";
-import { useSearchParams } from "next/navigation";
 import React from "react";
 
 const Products = () => {
-  const searchParams = useSearchParams();
-
   return (
     <Main>
       <Container className="flex flex-col gap-y-12 py-8">
         <section className="grid grid-cols-12 gap-8 pb-12 md:relative">
-          <FilterSidebar searchParams={searchParams.get("category")} />
+          <FilterSidebar />
           <FilteredProducts />
         </section>
         <ExpertChoice className="!px-0" />
