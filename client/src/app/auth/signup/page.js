@@ -180,7 +180,7 @@ const Signup = () => {
               type="text"
               name="name"
               id="name"
-              placeholder="i.e. Hasibul Islam"
+              placeholder="i.e. John Doe"
               className=""
               required
             />
@@ -191,7 +191,7 @@ const Signup = () => {
               type="email"
               name="email"
               id="email"
-              placeholder="i.e. devhasibulislam@gmail.com"
+              placeholder="i.e. example@gmail.com"
               className=""
               required
             />
@@ -202,7 +202,7 @@ const Signup = () => {
               type="password"
               name="password"
               id="password"
-              placeholder="i.e. Hasib@123"
+              placeholder="i.e. Admin@123"
               className=""
               required
             />

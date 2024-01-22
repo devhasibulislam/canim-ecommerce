@@ -79,7 +79,7 @@ const Signin = () => {
               type="email"
               name="email"
               id="email"
-              placeholder="i.e. devhasibulislam@gmail.com"
+              placeholder="i.e. example@gmail.com"
               className=""
               required
             />
@@ -90,7 +90,7 @@ const Signin = () => {
               type="password"
               name="password"
               id="password"
-              placeholder="i.e. Hasib@123"
+              placeholder="i.e. Admin@123"
               className=""
               required
             />
