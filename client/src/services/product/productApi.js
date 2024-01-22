@@ -67,10 +67,9 @@ const productApi = canimApi.injectEndpoints({
 
     // filtered products
     getFilteredProducts: builder.mutation({
-      query: (body) => ({
-        url: "/product/filtered-products",
-        method: "POST",
-        body,
+      query: (query) => ({
+        url: `/product/filtered-products?${query}`,
+        method: "GET",
       }),
 
       providesTags: ["Product"],
