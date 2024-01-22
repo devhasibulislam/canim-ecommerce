@@ -93,7 +93,7 @@ const Card = ({ index, product, ...rest }) => {
           <AddToFavorite product={product} />
         )}
       </div>
-      <article className="flex flex-col gap-y-3.5 px-4">
+      <article className="flex flex-col gap-y-3.5 px-4 h-full">
         <div className="flex flex-row items-center gap-x-1.5">
           <Badge className="text-indigo-800 bg-indigo-100">
             {product?.variations?.colors?.length + " " + "Colors"}
@@ -104,7 +104,7 @@ const Card = ({ index, product, ...rest }) => {
           </Badge>
         </div>
         <div
-          className="flex flex-col gap-y-4 cursor-pointer"
+          className="flex flex-col gap-y-4 cursor-pointer h-full"
           onClick={() =>
             router.push(
               `/product?product_id=${
@@ -115,8 +115,8 @@ const Card = ({ index, product, ...rest }) => {
             )
           }
         >
-          <h2 className="line-clamp-1">{product?.title}</h2>
-          <div className="flex flex-row items-end justify-between">
+          <h2 className="line-clamp-2 h-full">{product?.title}</h2>
+          <div className="flex flex-row items-end justify-between mt-auto">
             <span className="flex items-center border-2 border-green-500 rounded py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium">
               <span className="text-green-500 !leading-none">
                 ${product?.price}.00
