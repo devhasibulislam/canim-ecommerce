@@ -122,7 +122,7 @@ const Categories = () => {
             <div className="h-full overflow-y-auto scrollbar-hide">
               {tab === "categories" && (
                 <>
-                  {categoriesLoading || categories?.length === 0 ? (
+                  {categoriesLoading ? (
                     <div className="flex flex-col gap-y-4">
                       {[1, 2, 3, 4, 5, 6].map((_, index) => (
                         <CategoryCard key={index} />
@@ -158,6 +158,10 @@ const Categories = () => {
                         </div>
                       ))}
                     </>
+                  )}
+
+                  {!categoriesLoading && categories?.length === 0 && (
+                    <p className="text-xs">Oops! No categories found!</p>
                   )}
                 </>
               )}
@@ -200,6 +204,10 @@ const Categories = () => {
                       ))}
                     </>
                   )}
+
+                  {!brandsLoading && brands?.length === 0 && (
+                    <p className="text-xs">Oops! No brands found!</p>
+                  )}
                 </>
               )}
               {tab === "stores" && (
@@ -240,6 +248,10 @@ const Categories = () => {
                         </div>
                       ))}
                     </>
+                  )}
+
+                  {!storesLoading && stores?.length === 0 && (
+                    <p className="text-xs">Oops! No stores found!</p>
                   )}
                 </>
               )}

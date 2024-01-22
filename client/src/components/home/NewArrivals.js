@@ -46,7 +46,7 @@ const NewArrivals = () => {
         </h1>
 
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-x-6 gap-y-8">
-          {productsLoading || products?.length === 0 ? (
+          {productsLoading ? (
             <>
               {[1, 2, 3, 4].map((_, index) => (
                 <ProductCard key={index} />
@@ -60,6 +60,9 @@ const NewArrivals = () => {
             </>
           )}
         </div>
+        {!productsLoading && products?.length === 0 && (
+          <p className="text-sm">No products found</p>
+        )}
       </section>
     </Container>
   );

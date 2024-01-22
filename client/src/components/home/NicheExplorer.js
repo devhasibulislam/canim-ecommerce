@@ -110,7 +110,7 @@ function DisplayBrands() {
   return (
     <>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-        {fetchingBrands || brands?.length === 0 ? (
+        {fetchingBrands ? (
           <>
             {[1, 2, 3].map((_, index) => (
               <Niche key={index} />
@@ -160,6 +160,10 @@ function DisplayBrands() {
           </>
         )}
       </div>
+
+      {!fetchingBrands && brands?.length === 0 && (
+        <p className="text-sm">Oops! No brands found!</p>
+      )}
 
       {isOpen && (
         <Modal
@@ -257,7 +261,7 @@ function DisplayCategories() {
   return (
     <>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-        {fetchingCategories || categories?.length === 0 ? (
+        {fetchingCategories ? (
           <>
             {[1, 2, 3].map((_, index) => (
               <Niche key={index} />
@@ -307,6 +311,10 @@ function DisplayCategories() {
           </>
         )}
       </div>
+
+      {!fetchingCategories && categories?.length === 0 && (
+        <p className="text-sm">Oops! No categories found!</p>
+      )}
 
       {isOpen && (
         <Modal
@@ -401,7 +409,7 @@ function DisplayStores() {
   return (
     <>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-        {fetchingStores || stores?.length === 0 ? (
+        {fetchingStores ? (
           <>
             {[1, 2, 3].map((_, index) => (
               <Niche key={index} />
@@ -451,6 +459,10 @@ function DisplayStores() {
           </>
         )}
       </div>
+
+      {!fetchingStores && stores?.length === 0 && (
+        <p className="text-sm">Oops! No stores found!</p>
+      )}
 
       {isOpen && (
         <Modal

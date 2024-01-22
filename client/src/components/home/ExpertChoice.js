@@ -48,7 +48,7 @@ const ExpertChoice = ({ className }) => {
         </h1>
 
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-x-6 gap-y-8">
-          {productsLoading || products?.length === 0 ? (
+          {productsLoading ? (
             <>
               {[1, 2, 3, 4].map((_, index) => (
                 <ExpertCard key={index} />
@@ -129,6 +129,9 @@ const ExpertChoice = ({ className }) => {
             </>
           )}
         </div>
+        {!productsLoading && products?.length === 0 && (
+          <p className="text-sm">Oops! No products found!</p>
+        )}
       </section>
     </Container>
   );

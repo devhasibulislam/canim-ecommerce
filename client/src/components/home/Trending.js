@@ -50,32 +50,31 @@ const Trending = () => {
             Discover the most trending products in Canim.
           </p>
         </div>
-        {products?.length === 0 ? (
-          <p className="">Oops! No products found!</p>
-        ) : (
-          <div className="flex flex-col gap-y-12">
-            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-x-6 gap-y-8">
-              {productsLoading ? (
-                <>
-                  {[1, 2, 3, 4].map((_, index) => (
-                    <ProductCard key={index} />
-                  ))}
-                </>
-              ) : (
-                <>
-                  {products?.slice(-8)?.map((product, index) => (
-                    <Card key={index} product={product} />
-                  ))}
-                </>
-              )}
-            </div>
-            <button
-              className="px-8 py-4 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow w-fit mx-auto flex flex-row gap-x-2 items-center"
-              onClick={() => router.push("/products")}
-            >
-              Show Me More
-            </button>
+        <div className="flex flex-col gap-y-12">
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-x-6 gap-y-8">
+            {productsLoading ? (
+              <>
+                {[1, 2, 3, 4].map((_, index) => (
+                  <ProductCard key={index} />
+                ))}
+              </>
+            ) : (
+              <>
+                {products?.slice(-8)?.map((product, index) => (
+                  <Card key={index} product={product} />
+                ))}
+              </>
+            )}
           </div>
+          <button
+            className="px-8 py-4 border border-black rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow w-fit mx-auto flex flex-row gap-x-2 items-center"
+            onClick={() => router.push("/products")}
+          >
+            Show Me More
+          </button>
+        </div>
+        {!productsLoading && products?.length === 0 && (
+          <p className="text-sm">Oops! No products found!</p>
         )}
       </section>
     </Container>
