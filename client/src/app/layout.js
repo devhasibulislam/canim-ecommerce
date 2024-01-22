@@ -15,7 +15,7 @@ export const metadata = {
     url: "https://canim-csr.vercel.app",
     siteName: "Canim Template",
     images:
-      "https://res.cloudinary.com/dho0rpn5a/image/upload/v1700475060/ciseco-template/ciseco-ecommerce_chsdds.png",
+      "https://github.com/devhasibulislam/canim-ecommerce/blob/master/client/public/og.png?raw=true",
     locale: "en_US",
     type: "website",
   },
@@ -26,7 +26,7 @@ export const metadata = {
     description:
       "Buy Canim - Shop & eCommerce Next.Js Template by Hasibul Islam. Canim | Shop & eCommerce React Template - a responsive React template. Canim is built with the latest Next.Js 13 App Directory",
     image:
-      "https://res.cloudinary.com/dho0rpn5a/image/upload/v1700475060/ciseco-template/ciseco-ecommerce_chsdds.png",
+      "https://github.com/devhasibulislam/canim-ecommerce/blob/master/client/public/og.png?raw=true",
   },
 };
 
