@@ -31,6 +31,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const Page = () => {
   const {
@@ -42,6 +43,7 @@ const Page = () => {
     () => fetchProductsData?.data || [],
     [fetchProductsData]
   );
+  const user = useSelector((state) => state?.auth?.user);
 
   useEffect(() => {
     if (fetchProductsError) {
@@ -215,7 +217,9 @@ const Page = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex flex-row gap-x-2 justify-end">
                         <ViewProduct product={product} />
-                        <DeleteProduct product={product} />
+                        {user?.store?._id === product?.store?._id && (
+                          <DeleteProduct product={product} />
+                        )}
                         <Link
                           href={`/dashboard/seller/update-product?id=${product?._id}`}
                           className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
