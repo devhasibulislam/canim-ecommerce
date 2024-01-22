@@ -115,95 +115,62 @@ const Footer = () => {
         },
       ],
     },
+    {
+      name: "Legal",
+      paths: [
+        {
+          name: "Claim",
+          path: "/",
+        },
+        {
+          name: "Terms of Services",
+          path: "/",
+        },
+        {
+          name: "Privacy & Policy",
+          path: "/",
+        },
+      ],
+    },
+    {},
+    {
+      name: "Stay Connected",
+      paths: [
+        {
+          name: "Facebook",
+          path: "https://www.facebook.com/devhasibulislam/",
+        },
+        {
+          name: "LinkedIn",
+          path: "https://www.linkedin.com/in/devhasibulislam/",
+        },
+        {
+          name: "GitHub",
+          path: "https://github.com/devhasibulislam/",
+        },
+      ],
+    },
   ];
 
   return (
-    <footer className="footer-1 bg-gray-100 py-8 sm:py-12 m-4 p-4 rounded-xl">
-      <div className="container mx-auto px-4">
-        <div className="sm:flex sm:flex-wrap sm:-mx-4 md:py-4">
-          {sitemaps.map((sitemap, index) => (
-            <div key={index} className="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6">
-              <h5 className="text-xl font-bold mb-6">{sitemap.name}</h5>
-              <ul className="list-none footer-links">
-                {sitemap.paths.map((path, index) => (
-                  <li key={index} className="mb-2">
-                    <Link
-                      href={path.path}
-                      className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                    >
-                      {path.name}
-                    </Link>
-                  </li>
+    <footer className="footer-1 bg-gray-100 py-8 sm:py-12 m-6 p-6 rounded-xl">
+      <div className="container mx-auto px-4 flex flex-col gap-y-10">
+        <div className="flex md:flex-row md:flex-wrap md:justify-between flex-col gap-x-4 gap-y-8">
+          {sitemaps?.map((sitemap, index) => (
+            <div key={index} className="flex flex-col gap-y-3">
+              <h2 className="text-2xl">{sitemap.name}</h2>
+              <div className="flex flex-col gap-y-1.5">
+                {sitemap?.paths?.map((path, index) => (
+                  <Link key={index} href={path?.path} className="text-base">
+                    {path?.name}
+                  </Link>
                 ))}
-              </ul>
+              </div>
             </div>
           ))}
-
-          <div className="px-4 mt-4 sm:w-1/3 xl:w-1/6 sm:mx-auto xl:mt-0 xl:ml-auto">
-            <h5 className="text-xl font-bold mb-6 sm:text-center xl:text-left">
-              Stay connected
-            </h5>
-            <div className="flex flex-col sm:justify-center xl:justify-start">
-              <Link
-                href="https://github.com/devhasibulislam"
-                className="border-b border-solid border-transparent hover:border-black hover:text-black w-fit mb-2"
-              >
-                GitHub
-              </Link>
-              <Link
-                href="https://www.linkedin.com/in/devhasibulislam/"
-                className="border-b border-solid border-transparent hover:border-black hover:text-black w-fit mb-2"
-              >
-                LinkedIn
-              </Link>
-              <Link
-                href="https://www.facebook.com/devhasibulislam/"
-                className="border-b border-solid border-transparent hover:border-black hover:text-black w-fit mb-2"
-              >
-                Facebook
-              </Link>
-            </div>
-          </div>
         </div>
-
-        <div className="sm:flex sm:flex-wrap sm:-mx-4 mt-6 pt-6 sm:mt-12 sm:pt-12 border-t">
-          <div className="sm:w-full px-4 md:w-1/6">
-            <strong>Canim eCommerce</strong>
-          </div>
-          <div className="px-4 sm:w-1/2 md:w-1/4 mt-4 md:mt-0">
-            <h6 className="font-bold mb-2">Address</h6>
-            <address className="not-italic mb-4 text-sm">
-              41/02/01, Pathantola
-              <br />
-              Dhamrai, Dhaka-1350
-            </address>
-          </div>
-          <div className="px-4 sm:w-1/2 md:w-1/4 mt-4 md:mt-0">
-            <h6 className="font-bold mb-2">Free Resources</h6>
-            <p className="mb-4 text-sm">
-              Check This{" "}
-              <Link
-                href="https://www.youtube.com/@CodeCraftMERN"
-                className="border-b border-dashed border-black"
-                target="_blank"
-              >
-                YouTube Video
-              </Link>
-              <br />
-              <em>To Know More.</em>
-            </p>
-          </div>
-          <div className="px-4 md:w-1/4 md:ml-auto mt-6 sm:mt-4 md:mt-0">
-            <button
-              className="px-4 py-2 bg-black rounded-primary text-white"
-              onClick={() =>
-                window.open("https://www.youtube.com/@CodeCraftMERN", "_blank")
-              }
-            >
-              CodeCraftMERN
-            </button>
-          </div>
-        </div>
+        <hr />
+        <p className="text-center">&copy; {year} Canim. All rights reserved.</p>
       </div>
     </footer>
   );
