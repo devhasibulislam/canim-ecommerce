@@ -133,7 +133,7 @@ const ListStores = () => {
                       />
                     </td>
                     <td className="px-6 py-4">
-                      <span className="whitespace-nowrap w-60 overflow-x-auto block scrollbar-hide text-sm">
+                      <span className="whitespace-nowrap overflow-x-auto block scrollbar-hide text-sm">
                         {store?.title}
                       </span>
                     </td>

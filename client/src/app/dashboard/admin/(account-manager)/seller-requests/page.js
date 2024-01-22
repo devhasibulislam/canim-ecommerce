@@ -52,7 +52,7 @@ const Page = () => {
           <Inform /> No Seller Request Found!
         </p>
       ) : (
-        <section className="grid grid-cols-3 gap-4">
+        <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
           {users?.map((user) => (
             <div
               key={user?._id}

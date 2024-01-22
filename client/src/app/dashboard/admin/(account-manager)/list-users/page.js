@@ -92,7 +92,7 @@ const Page = () => {
             Seller
           </button>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
           {filteredUsers?.map((user) => (
             <div
               key={user?._id}
