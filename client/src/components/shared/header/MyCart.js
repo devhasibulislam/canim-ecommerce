@@ -60,7 +60,7 @@ const MyCart = () => {
       {isOpen && (
         <OutsideClick
           onOutsideClick={() => setIsOpen(false)}
-          className="absolute top-full right-0 w-80 max-h-96 overflow-y-auto bg-white border rounded p-4 flex flex-col gap-y-2.5"
+          className="absolute top-full right-0 w-80 h-96 overflow-y-auto bg-white border rounded p-4 flex flex-col gap-y-2.5"
         >
           <div className="w-full h-full flex flex-col gap-y-8">
             {Object.keys(user).length === 0 || user?.cart?.length === 0 ? (
@@ -68,68 +68,70 @@ const MyCart = () => {
                 <Inform /> No Products in Cart!
               </p>
             ) : (
-              <>
-                {user?.cart?.map(({ product, quantity, _id }) => (
-                  <div
-                    key={product?._id}
-                    className="flex flex-row gap-x-2 transition-all border border-transparent p-2 rounded hover:border-black group relative"
-                  >
-                    <Image
-                      src={product?.thumbnail?.url}
-                      alt={product?.thumbnail?.public_id}
-                      width={50}
-                      height={50}
-                      className="rounded h-[50px] w-[50px] object-cover"
-                    />
-                    <article className="flex flex-col gap-y-2">
-                      <div className="flex flex-col gap-y-0.5">
-                        <h2 className="text-base line-clamp-1">
-                          {product?.title}
-                        </h2>
-                        <p className="text-xs line-clamp-2">
-                          {product?.summary}
-                        </p>
-                      </div>
-                      <div className="flex flex-col gap-y-1">
-                        <p className="flex flex-row justify-between">
-                          <span className="text-xs flex flex-row gap-x-0.5 items-baseline">
-                            $
-                            <span className="text-sm text-black">
-                              {product?.price * quantity}.00
-                            </span>
-                          </span>
-                          <span className="text-xs flex flex-row gap-x-0.5 items-baseline">
-                            QTY
-                            <span className="text-sm text-black">
-                              {quantity}
-                            </span>
-                          </span>
-                        </p>
-                        <div className="flex flex-row gap-x-1">
-                          <span className="text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
-                            {product?.store?.title}
-                          </span>
-                          <span className="text-[10px] bg-indigo-300/50 text-indigo-500 border border-indigo-500 px-1.5 rounded">
-                            {product?.brand?.title}
-                          </span>
-                          <span className="text-[10px] bg-blue-300/50 text-blue-500 border border-blue-500 px-1.5 rounded">
-                            {product?.category?.title}
-                          </span>
-                        </div>
-                      </div>
-                    </article>
-
-                    <button
-                      type="button"
-                      className="opacity-0 transition-opacity group-hover:opacity-100 absolute top-2 right-2 border p-2 rounded-secondary bg-red-500"
-                      onClick={() => removeFromCart(_id)}
+              <div className="h-full w-full flex flex-col gap-y-4">
+                <div className="h-full overflow-y-auto scrollbar-hide">
+                  {user?.cart?.map(({ product, quantity, _id }) => (
+                    <div
+                      key={product?._id}
+                      className="flex flex-row gap-x-2 transition-all border border-transparent p-2 rounded hover:border-black group relative"
                     >
-                      <Trash />
-                    </button>
-                  </div>
-                ))}
+                      <Image
+                        src={product?.thumbnail?.url}
+                        alt={product?.thumbnail?.public_id}
+                        width={50}
+                        height={50}
+                        className="rounded h-[50px] w-[50px] object-cover"
+                      />
+                      <article className="flex flex-col gap-y-2">
+                        <div className="flex flex-col gap-y-0.5">
+                          <h2 className="text-base line-clamp-1">
+                            {product?.title}
+                          </h2>
+                          <p className="text-xs line-clamp-2">
+                            {product?.summary}
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-y-1">
+                          <p className="flex flex-row justify-between">
+                            <span className="text-xs flex flex-row gap-x-0.5 items-baseline">
+                              $
+                              <span className="text-sm text-black">
+                                {product?.price * quantity}.00
+                              </span>
+                            </span>
+                            <span className="text-xs flex flex-row gap-x-0.5 items-baseline">
+                              QTY
+                              <span className="text-sm text-black">
+                                {quantity}
+                              </span>
+                            </span>
+                          </p>
+                          <div className="flex flex-row gap-x-1">
+                            <span className="whitespace-nowrap text-[10px] bg-purple-300/50 text-purple-500 border border-purple-500 px-1.5 rounded">
+                              {product?.store?.title}
+                            </span>
+                            <span className="whitespace-nowrap text-[10px] bg-indigo-300/50 text-indigo-500 border border-indigo-500 px-1.5 rounded">
+                              {product?.brand?.title}
+                            </span>
+                            <span className="whitespace-nowrap text-[10px] bg-blue-300/50 text-blue-500 border border-blue-500 px-1.5 rounded">
+                              {product?.category?.title}
+                            </span>
+                          </div>
+                        </div>
+                      </article>
+
+                      <button
+                        type="button"
+                        className="opacity-0 transition-opacity group-hover:opacity-100 absolute top-2 right-2 border p-2 rounded-secondary bg-red-500"
+                        onClick={() => removeFromCart(_id)}
+                      >
+                        <Trash />
+                      </button>
+                    </div>
+                  ))}
+                </div>
                 <Purchase cart={user?.cart} />
-              </>
+              </div>
             )}
           </div>
         </OutsideClick>
