@@ -25,6 +25,7 @@ import storeSlice from "@/features/store/storeSlice";
 import favoriteSlice from "@/features/favorite/favoriteSlice";
 import cartSlice from "@/features/cart/cartSlice";
 import purchaseSlice from "@/features/purchase/purchaseSlice";
+import filterSlice from "@/features/filter/filterSlice";
 
 export const store = configureStore({
   reducer: {
@@ -37,7 +38,8 @@ export const store = configureStore({
     favorite: favoriteSlice,
     cart: cartSlice,
     purchase: purchaseSlice,
-    productFilter: productFilterSlice,
+    filter: filterSlice,
+    // productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(canimApi.middleware),
