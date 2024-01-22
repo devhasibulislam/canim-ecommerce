@@ -60,7 +60,7 @@ router.patch(
 router.get("/get-product/:id", productController.getProduct);
 
 // filtered products
-router.post("/filtered-products", productController.getFilteredProducts);
+router.get("/filtered-products", productController.getFilteredProducts);
 
 // delete product
 router.delete(

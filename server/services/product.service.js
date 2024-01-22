@@ -133,18 +133,16 @@ exports.getFilteredProducts = async (req, res) => {
   try {
     let filter = {};
 
-    if (req.body && Object.keys(req.body).length > 0) {
-      if (req.body.categories && req.body.categories.length > 0) {
-        filter.category = { $in: req.body.categories };
-      }
+    if (req.query.category != "null") {
+      filter.category = req.query.category;
+    }
 
-      if (req.body.brands && req.body.brands.length > 0) {
-        filter.brand = { $in: req.body.brands };
-      }
+    if (req.query.brand != "null") {
+      filter.brand = req.query.brand;
+    }
 
-      if (req.body.stores && req.body.stores.length > 0) {
-        filter.store = { $in: req.body.stores };
-      }
+    if (req.query.store != "null") {
+      filter.store = req.query.store;
     }
 
     const products = await Product.find(filter).populate([
