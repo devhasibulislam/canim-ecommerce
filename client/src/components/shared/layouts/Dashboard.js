@@ -243,7 +243,7 @@ const Dashboard = ({ children }) => {
           </div>
 
           {showMenu && (
-            <div className="absolute top-0 left-0 h-full overflow-y-auto w-3/4 bg-white z-50">
+            <div className="absolute top-0 left-0 h-full overflow-y-auto w-3/4 bg-white z-50 md:hidden">
               <div className="w-full h-full flex flex-col gap-y-4">
                 {routes.map((route, index) => (
                   <div
