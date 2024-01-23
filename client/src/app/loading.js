@@ -24,7 +24,7 @@ const Loading = () => {
         alt="loading"
         height={540}
         width={960}
-        className="max-w-full"
+        className="max-w-full h-[400px] w-full object-contain"
       />
     </section>
   );
