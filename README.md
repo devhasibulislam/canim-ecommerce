@@ -1,3 +1,5 @@
+Full Video on YouTube [CodeCraftMERN]()
+
 # Canim eCommerce
 
 > Discover a seamless shopping experience at our e-commerce haven. Browse an extensive selection of products from top brands, enjoy secure transactions, and relish swift deliveries. Elevate your online shopping journey with user-friendly navigation and exclusive deals. Shop effortlessly, anytime, anywhere, and redefine convenience with our digital marketplace.
@@ -10,21 +12,41 @@ Explore curated deals and trending products on our inviting e-commerce homepage.
 
 ## Features
 
-- Total **17** Pages
+### Pages
+
+- Total `x31` Pages
   - Home `x1`
-  - Product Detail `x1`
-  - Product Filter `x1`
+  - Detail `x1`
+  - Filter `x1`
   - Auth `x3`
-  - Dashboard `x11`
-- Authentication & Role Authorization `Admin`, `Seller` & `Buyer`
-- Real-Time Cart & Update Activity
-- Admin & Seller Dashboard
-- Secure Channel Bypass
-- Advance Search Filter
-- Advance Product Filter
-- Avatar, Thumbnail & Gallery Review
-- Fully Responsive for `Mobile`, `Tablet`, `Laptop` & `Desktop`
-- Intuitive and user-friendly design
+  - Dashboard `x3`
+    - Buyer `x5` `cart & favorites`
+    - Seller `x8` `CRUD intension`
+    - Admin `x10` `CRUD intension`
+
+### Modals
+
+- Total `x15` Modals
+  - Category `x1`
+  - Brand `x1`
+  - Store `x1`
+  - Search `x1`
+  - Cart `x1`
+  - Auth `x1`
+  - Buyer `x2`
+  - Seller `x2`
+  - Admin `x5`
+
+### Core
+
+- Real-Time interaction `cart`, `favorites`, `create`, `read`, `update` & `delete`
+- Separate Dashboard panel `admin`, `seller` & `buyer`
+- Advance search filter `highlight matched words & letters`
+- Image preview `avatar`, `thumbnail` & `gallery`
+- Responsive design `pc`, `laptop`, `tablet` & `mobile`
+- Payment gateway `stripe`
+- Intuitive user-friendly design `ui/ux`
+- Secure channel bypass `role based`
 
 ## Tech Stack
 
@@ -60,6 +82,8 @@ Explore curated deals and trending products on our inviting e-commerce homepage.
 # Development
 
 ## Clone Repository
+
+You can use any package manager like `npm` or `yarn`
 
 ```bash
 git clone https://github.com/devhasibulislam/canim-ecommerce.git
@@ -117,5 +141,5 @@ STRIPE_SECRET_KEY="YOUR_STRIPE_SECRET_KEY"
 
 # Author
 
-Developer: [Hasibul Islam](https://devhasibulislam.vercel.app/)
-Designer: [Sadia Khanum](https://www.facebook.com/devsadiakhan)
+Developer: [Hasibul Islam](https://bento.me/devhasibulislam)
+Designer: [Sadia Khanum](https://www.facebook.com/devsadiakhan) `dedicate to`
