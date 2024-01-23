@@ -141,5 +141,5 @@ STRIPE_SECRET_KEY="YOUR_STRIPE_SECRET_KEY"
 
 # Author
 
-Developer: [Hasibul Islam](https://bento.me/devhasibulislam)
-Designer: [Sadia Khanum](https://www.facebook.com/devsadiakhan) `dedicate to`
+- Developer: [Hasibul Islam](https://bento.me/devhasibulislam)
+- Designer: [Sadia Khanum](https://www.facebook.com/devsadiakhan) `dedicate to`
