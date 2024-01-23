@@ -122,7 +122,7 @@ const MyCart = () => {
 
                       <button
                         type="button"
-                        className="opacity-0 transition-opacity group-hover:opacity-100 absolute top-2 right-2 border p-2 rounded-secondary bg-red-500"
+                        className="opacity-0 transition-opacity group-hover:opacity-100 absolute top-2 right-2 border p-1 rounded-secondary bg-red-100 text-red-900 border-red-900"
                         onClick={() => removeFromCart(_id)}
                       >
                         <Trash />
