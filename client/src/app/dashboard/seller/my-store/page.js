@@ -568,7 +568,7 @@ function DeleteStore() {
               <p className="text-sm flex flex-col gap-y-2">
                 You are about to unlisted from:
                 <span className="flex flex-row gap-x-1 items-center text-xs">
-                  <Inform /> 3 Products
+                  <Inform /> {storeInfo?.products?.length} products
                 </span>
               </p>
             </div>

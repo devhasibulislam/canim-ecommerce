@@ -574,7 +574,7 @@ const DeleteCategory = () => {
               <p className="text-sm flex flex-col gap-y-2">
                 You are about to unlisted from:
                 <span className="flex flex-row gap-x-1 items-center text-xs">
-                  <Inform /> 3 Products
+                  <Inform /> {categoryInfo?.products?.length} products
                 </span>
               </p>
             </div>
