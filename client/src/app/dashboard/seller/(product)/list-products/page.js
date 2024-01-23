@@ -220,12 +220,14 @@ const Page = () => {
                         {user?.store?._id === product?.store?._id && (
                           <DeleteProduct product={product} />
                         )}
-                        <Link
-                          href={`/dashboard/seller/update-product?id=${product?._id}`}
-                          className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
-                        >
-                          <Pencil />
-                        </Link>
+                        {user?.store?._id === product?.store?._id && (
+                          <Link
+                            href={`/dashboard/seller/update-product?id=${product?._id}`}
+                            className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
+                          >
+                            <Pencil />
+                          </Link>
+                        )}
                       </div>
                     </td>
                   </tr>
