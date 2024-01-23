@@ -40,7 +40,11 @@ async function verify(req, res, next) {
 
     next();
   } catch (error) {
-    next(error);
+    res.status(401).json({
+      acknowledgement: false,
+      message: "Unauthorized",
+      description: "Sign in your account to continue",
+    });
   }
 }
 
