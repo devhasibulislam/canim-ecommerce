@@ -196,9 +196,16 @@ const Page = () => {
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="whitespace-nowrap scrollbar-hide text-sm">
-                            {status}
-                          </span>
+                          {status === "pending" && (
+                            <span className="bg-red-50 border border-red-900 px-2 rounded-secondary text-red-900 text-xs uppercase">
+                              {status}
+                            </span>
+                          )}
+                          {status === "delivered" && (
+                            <span className="bg-green-50 border border-green-900 px-2 rounded-secondary text-green-900 text-xs uppercase">
+                              {status}
+                            </span>
+                          )}
                         </td>
                       </tr>
                     ))
