@@ -15,57 +15,60 @@
 
 "use client";
 
-import DemoteStore from "@/components/dashboard/DemoteStore";
+import DemoteBrand from "@/components/dashboard/DemoteBrand";
 import Inform from "@/components/icons/Inform";
 import Pencil from "@/components/icons/Pencil";
 import Trash from "@/components/icons/Trash";
 import User from "@/components/icons/User";
+import Card from "@/components/shared/Card";
 import Modal from "@/components/shared/Modal";
 import Dashboard from "@/components/shared/layouts/Dashboard";
 import DashboardLading from "@/components/shared/skeletonLoading/DashboardLading";
+import { setBrand, setBrands } from "@/features/brand/brandSlice";
 import { setProduct } from "@/features/product/productSlice";
-import { setStore, setStores } from "@/features/store/storeSlice";
-import { useDeleteProductMutation } from "@/services/product/productApi";
 import {
-  useDeleteStoreMutation,
-  useGetStoresQuery,
-} from "@/services/store/storeApi";
+  useDeleteBrandMutation,
+  useGetBrandsQuery,
+} from "@/services/brand/brandApi";
+import { useDeleteProductMutation } from "@/services/product/productApi";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
-const ListStores = () => {
+const ListBrands = () => {
   const {
-    data: storesData,
-    error: storesError,
-    isLoading: storesLoading,
-  } = useGetStoresQuery();
-  const stores = useMemo(() => storesData?.data || [], [storesData]);
+    data: brandsData,
+    isLoading: brandsLoading,
+    error: brandsError,
+  } = useGetBrandsQuery();
+  const brands = useMemo(() => brandsData?.data || [], [brandsData]);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (storesLoading) {
-      toast.loading("Fetching Stores...", { id: "storesData" });
+    if (brandsLoading) {
+      toast.loading("Fetching Brands...", { id: "brandsData" });
     }
 
-    if (storesData) {
-      toast.success(storesData?.description, { id: "storesData" });
+    if (brandsData) {
+      toast.success(brandsData?.description, { id: "brandsData" });
     }
 
-    if (storesError) {
-      toast.error(storesError?.data?.description, { id: "storesData" });
+    if (brandsError) {
+      toast.error(brandsError?.data?.description, { id: "brandsData" });
     }
 
-    dispatch(setStores(stores));
-  }, [storesError, storesData, storesLoading, dispatch, stores]);
+    dispatch(setBrands(brands));
+  }, [brandsError, brandsData, brandsLoading, dispatch, brands]);
 
   return (
     <Dashboard>
-      {stores?.length === 0 ? (
+      {brands?.length === 0 ? (
         <p className="text-sm flex flex-row gap-x-1 items-center justify-center">
-          <Inform /> No Stores Found!
+          <Inform /> No Brands Found!
         </p>
       ) : (
         <section className="w-full h-full">
@@ -77,7 +80,7 @@ const ListStores = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Thumbnail
+                    Logo
                   </th>
                   <th
                     scope="col"
@@ -95,19 +98,19 @@ const ListStores = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Owner
+                    Creator
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Store Tags
+                    Brand Tags
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Store Features
+                    Brand Features
                   </th>
                   <th
                     scope="col"
@@ -118,15 +121,15 @@ const ListStores = () => {
                 </tr>
               </thead>
               <tbody>
-                {stores.map((store) => (
+                {brands.map((brand) => (
                   <tr
-                    key={store?._id}
+                    key={brand?._id}
                     className="odd:bg-white even:bg-gray-100 hover:odd:bg-gray-100"
                   >
                     <td className="px-6 py-4">
                       <Image
-                        src={store?.thumbnail?.url}
-                        alt={store?.thumbnail?.public_id}
+                        src={brand?.logo?.url}
+                        alt={brand?.logo?.public_id}
                         height={30}
                         width={30}
                         className="h-[30px] w-[30px] rounded-secondary border border-green-500/50 object-cover"
@@ -134,22 +137,22 @@ const ListStores = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap overflow-x-auto block scrollbar-hide text-sm">
-                        {store?.title}
+                        {brand?.title}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {store?.products?.length}
+                        {brand?.products?.length}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {store?.owner?.name}
+                        {brand?.creator?.name}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="w-52 overflow-x-auto scrollbar-hide text-sm flex flex-row gap-x-2">
-                        {store?.tags?.map((tag, index) => (
+                        {brand?.tags?.map((tag, index) => (
                           <span
                             key={index}
                             className="border px-1 py-0.5 rounded-sm whitespace-nowrap"
@@ -161,13 +164,19 @@ const ListStores = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {store?.keynotes?.length}
+                        {brand?.keynotes?.length}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex flex-row gap-x-2 justify-end">
-                        <DeleteStore store={store} />
-                        <StoreDetails store={store} />
+                        <DeleteBrand brand={brand} />
+                        <BrandDetails brand={brand} />
+                        <Link
+                            href={`/dashboard/admin/update-brand?id=${brand?._id}`}
+                            className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
+                          >
+                            <Pencil />
+                          </Link>
                       </div>
                     </td>
                   </tr>
@@ -181,22 +190,22 @@ const ListStores = () => {
   );
 };
 
-function DeleteStore({ store }) {
+function DeleteBrand({ brand }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteStore, { isLoading, data, error }] = useDeleteStoreMutation();
+  const [deleteBrand, { isLoading, data, error }] = useDeleteBrandMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("Deleting Store...", { id: "deleteStore" });
+      toast.loading("Deleting Brand...", { id: "deleteBrand" });
     }
 
     if (data) {
-      toast.success(data?.description, { id: "deleteStore" });
+      toast.success(data?.description, { id: "deleteBrand" });
     }
 
     if (error) {
-      toast.error(error?.data?.description, { id: "deleteStore" });
+      toast.error(error?.data?.description, { id: "deleteBrand" });
     }
   }, [isLoading, data, error]);
 
@@ -207,7 +216,7 @@ function DeleteStore({ store }) {
         className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900"
         onClick={() => {
           setIsOpen(true);
-          dispatch(setStore(store));
+          dispatch(setBrand(brand));
         }}
       >
         <Trash />
@@ -228,7 +237,7 @@ function DeleteStore({ store }) {
               <p className="text-sm flex flex-col gap-y-2">
                 You are about to unlisted from:
                 <span className="flex flex-row gap-x-1 items-center text-xs">
-                  <Inform /> {store?.products?.length} Products
+                  <Inform /> {brand?.products?.length} Products
                 </span>
               </p>
             </div>
@@ -241,7 +250,7 @@ function DeleteStore({ store }) {
               </button>
               <button
                 className="flex flex-row gap-x-2 items-center text-white bg-red-500 px-3 py-1.5 rounded text-sm"
-                onClick={() => deleteStore(store?._id)}
+                onClick={() => deleteBrand(brand?._id)}
               >
                 <Trash /> Yes, delete
               </button>
@@ -253,7 +262,7 @@ function DeleteStore({ store }) {
   );
 }
 
-function StoreDetails({ store }) {
+function BrandDetails({ brand }) {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -264,7 +273,7 @@ function StoreDetails({ store }) {
         className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
         onClick={() => {
           setIsOpen(true);
-          dispatch(setStore(store));
+          dispatch(setBrand(brand));
         }}
       >
         <User />
@@ -279,21 +288,21 @@ function StoreDetails({ store }) {
           <div className="h-full w-full flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-1 items-center">
               <Image
-                src={store?.owner?.avatar?.url}
-                alt={store?.owner?.avatar?.public_id}
+                src={brand?.creator?.avatar?.url}
+                alt={brand?.creator?.avatar?.public_id}
                 width={50}
                 height={50}
                 className="rounded-full h-[50px] w-[50px] object-cover"
               />
-              <h1 className="text-lg">{store?.owner?.name}</h1>
-              <p className="text-sm">{store?.owner?.email}</p>
-              <p className="text-xs">{store?.owner?.phone}</p>
+              <h1 className="text-lg">{brand?.creator?.name}</h1>
+              <p className="text-sm">{brand?.creator?.email}</p>
+              <p className="text-xs">{brand?.creator?.phone}</p>
             </div>
 
             <hr />
 
             <div className="flex flex-col gap-y-2 w-full">
-              {store?.products?.map((product) => (
+              {brand?.products?.map((product) => (
                 <div
                   key={product?._id}
                   className="flex flex-row justify-between items-center bg-slate-50 rounded p-2 w-full"
@@ -386,7 +395,7 @@ function DeleteProduct({ product }) {
                     <Inform /> Brand: {product?.brand?.title}
                   </span>
                   <span className="flex flex-row gap-x-1 items-center text-xs">
-                    <Inform /> Store: {product?.store?.title}
+                    <Inform /> Category: {product?.category?.title}
                   </span>
                   <span className="flex flex-row gap-x-1 items-center text-xs">
                     <Inform /> Store: {product?.store?.title}
@@ -421,4 +430,4 @@ function DeleteProduct({ product }) {
   );
 }
 
-export default ListStores;
+export default ListBrands;

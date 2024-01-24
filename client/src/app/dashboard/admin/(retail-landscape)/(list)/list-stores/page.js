@@ -15,62 +15,58 @@
 
 "use client";
 
+import DemoteStore from "@/components/dashboard/DemoteStore";
 import Inform from "@/components/icons/Inform";
+import Pencil from "@/components/icons/Pencil";
 import Trash from "@/components/icons/Trash";
 import User from "@/components/icons/User";
 import Modal from "@/components/shared/Modal";
 import Dashboard from "@/components/shared/layouts/Dashboard";
-import { setCategories, setCategory } from "@/features/category/categorySlice";
+import DashboardLading from "@/components/shared/skeletonLoading/DashboardLading";
 import { setProduct } from "@/features/product/productSlice";
-import {
-  useDeleteCategoryMutation,
-  useGetCategoriesQuery,
-} from "@/services/category/categoryApi";
+import { setStore, setStores } from "@/features/store/storeSlice";
 import { useDeleteProductMutation } from "@/services/product/productApi";
+import {
+  useDeleteStoreMutation,
+  useGetStoresQuery,
+} from "@/services/store/storeApi";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
-const ListCategories = () => {
+const ListStores = () => {
   const {
-    data: categoriesData,
-    error: categoriesError,
-    isLoading: categoriesLoading,
-  } = useGetCategoriesQuery();
-  const categories = useMemo(
-    () => categoriesData?.data || [],
-    [categoriesData]
-  );
+    data: storesData,
+    error: storesError,
+    isLoading: storesLoading,
+  } = useGetStoresQuery();
+  const stores = useMemo(() => storesData?.data || [], [storesData]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (categoriesLoading) {
-      toast.loading("Fetching Categories...", { id: "categoriesData" });
+    if (storesLoading) {
+      toast.loading("Fetching Stores...", { id: "storesData" });
     }
 
-    if (categoriesData) {
-      toast.success(categoriesData?.description, { id: "categoriesData" });
+    if (storesData) {
+      toast.success(storesData?.description, { id: "storesData" });
     }
 
-    if (categoriesError) {
-      toast.error(categoriesError?.data?.description, { id: "categoriesData" });
+    if (storesError) {
+      toast.error(storesError?.data?.description, { id: "storesData" });
     }
 
-    dispatch(setCategories(categories));
-  }, [
-    categoriesError,
-    categoriesData,
-    categoriesLoading,
-    dispatch,
-    categories,
-  ]);
+    dispatch(setStores(stores));
+  }, [storesError, storesData, storesLoading, dispatch, stores]);
 
   return (
     <Dashboard>
-      {categories?.length === 0 ? (
+      {stores?.length === 0 ? (
         <p className="text-sm flex flex-row gap-x-1 items-center justify-center">
-          <Inform /> No Categories Found!
+          <Inform /> No Stores Found!
         </p>
       ) : (
         <section className="w-full h-full">
@@ -100,19 +96,19 @@ const ListCategories = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Creator
+                    Owner
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Category Tags
+                    Store Tags
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Category Features
+                    Store Features
                   </th>
                   <th
                     scope="col"
@@ -123,15 +119,15 @@ const ListCategories = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map((category) => (
+                {stores.map((store) => (
                   <tr
-                    key={category?._id}
+                    key={store?._id}
                     className="odd:bg-white even:bg-gray-100 hover:odd:bg-gray-100"
                   >
                     <td className="px-6 py-4">
                       <Image
-                        src={category?.thumbnail?.url}
-                        alt={category?.thumbnail?.public_id}
+                        src={store?.thumbnail?.url}
+                        alt={store?.thumbnail?.public_id}
                         height={30}
                         width={30}
                         className="h-[30px] w-[30px] rounded-secondary border border-green-500/50 object-cover"
@@ -139,22 +135,22 @@ const ListCategories = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap overflow-x-auto block scrollbar-hide text-sm">
-                        {category?.title}
+                        {store?.title}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {category?.products?.length}
+                        {store?.products?.length}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {category?.creator?.name}
+                        {store?.owner?.name}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="w-52 overflow-x-auto scrollbar-hide text-sm flex flex-row gap-x-2">
-                        {category?.tags?.map((tag, index) => (
+                        {store?.tags?.map((tag, index) => (
                           <span
                             key={index}
                             className="border px-1 py-0.5 rounded-sm whitespace-nowrap"
@@ -166,13 +162,19 @@ const ListCategories = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {category?.keynotes?.length}
+                        {store?.keynotes?.length}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex flex-row gap-x-2 justify-end">
-                        <DeleteCategory category={category} />
-                        <CategoryDetails category={category} />
+                        <DeleteStore store={store} />
+                        <StoreDetails store={store} />
+                        <Link
+                          href={`/dashboard/admin/update-store?id=${store?._id}`}
+                          className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
+                        >
+                          <Pencil />
+                        </Link>
                       </div>
                     </td>
                   </tr>
@@ -186,23 +188,22 @@ const ListCategories = () => {
   );
 };
 
-function DeleteCategory({ category }) {
+function DeleteStore({ store }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteCategory, { isLoading, data, error }] =
-    useDeleteCategoryMutation();
+  const [deleteStore, { isLoading, data, error }] = useDeleteStoreMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("Deleting Category...", { id: "deleteCategory" });
+      toast.loading("Deleting Store...", { id: "deleteStore" });
     }
 
     if (data) {
-      toast.success(data?.description, { id: "deleteCategory" });
+      toast.success(data?.description, { id: "deleteStore" });
     }
 
     if (error) {
-      toast.error(error?.data?.description, { id: "deleteCategory" });
+      toast.error(error?.data?.description, { id: "deleteStore" });
     }
   }, [isLoading, data, error]);
 
@@ -213,7 +214,7 @@ function DeleteCategory({ category }) {
         className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900"
         onClick={() => {
           setIsOpen(true);
-          dispatch(setCategory(category));
+          dispatch(setStore(store));
         }}
       >
         <Trash />
@@ -234,7 +235,7 @@ function DeleteCategory({ category }) {
               <p className="text-sm flex flex-col gap-y-2">
                 You are about to unlisted from:
                 <span className="flex flex-row gap-x-1 items-center text-xs">
-                  <Inform /> {category?.products?.length} Products
+                  <Inform /> {store?.products?.length} Products
                 </span>
               </p>
             </div>
@@ -247,7 +248,7 @@ function DeleteCategory({ category }) {
               </button>
               <button
                 className="flex flex-row gap-x-2 items-center text-white bg-red-500 px-3 py-1.5 rounded text-sm"
-                onClick={() => deleteCategory(category?._id)}
+                onClick={() => deleteStore(store?._id)}
               >
                 <Trash /> Yes, delete
               </button>
@@ -259,7 +260,7 @@ function DeleteCategory({ category }) {
   );
 }
 
-function CategoryDetails({ category }) {
+function StoreDetails({ store }) {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -270,7 +271,7 @@ function CategoryDetails({ category }) {
         className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
         onClick={() => {
           setIsOpen(true);
-          dispatch(setCategory(category));
+          dispatch(setStore(store));
         }}
       >
         <User />
@@ -285,21 +286,21 @@ function CategoryDetails({ category }) {
           <div className="h-full w-full flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-1 items-center">
               <Image
-                src={category?.creator?.avatar?.url}
-                alt={category?.creator?.avatar?.public_id}
+                src={store?.owner?.avatar?.url}
+                alt={store?.owner?.avatar?.public_id}
                 width={50}
                 height={50}
                 className="rounded-full h-[50px] w-[50px] object-cover"
               />
-              <h1 className="text-lg">{category?.creator?.name}</h1>
-              <p className="text-sm">{category?.creator?.email}</p>
-              <p className="text-xs">{category?.creator?.phone}</p>
+              <h1 className="text-lg">{store?.owner?.name}</h1>
+              <p className="text-sm">{store?.owner?.email}</p>
+              <p className="text-xs">{store?.owner?.phone}</p>
             </div>
 
             <hr />
 
             <div className="flex flex-col gap-y-2 w-full">
-              {category?.products?.map((product) => (
+              {store?.products?.map((product) => (
                 <div
                   key={product?._id}
                   className="flex flex-row justify-between items-center bg-slate-50 rounded p-2 w-full"
@@ -392,7 +393,7 @@ function DeleteProduct({ product }) {
                     <Inform /> Brand: {product?.brand?.title}
                   </span>
                   <span className="flex flex-row gap-x-1 items-center text-xs">
-                    <Inform /> Category: {product?.category?.title}
+                    <Inform /> Store: {product?.store?.title}
                   </span>
                   <span className="flex flex-row gap-x-1 items-center text-xs">
                     <Inform /> Store: {product?.store?.title}
@@ -427,4 +428,4 @@ function DeleteProduct({ product }) {
   );
 }
 
-export default ListCategories;
+export default ListStores;

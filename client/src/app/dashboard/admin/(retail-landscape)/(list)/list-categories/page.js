@@ -15,59 +15,64 @@
 
 "use client";
 
-import DemoteBrand from "@/components/dashboard/DemoteBrand";
 import Inform from "@/components/icons/Inform";
 import Pencil from "@/components/icons/Pencil";
 import Trash from "@/components/icons/Trash";
 import User from "@/components/icons/User";
-import Card from "@/components/shared/Card";
 import Modal from "@/components/shared/Modal";
 import Dashboard from "@/components/shared/layouts/Dashboard";
-import DashboardLading from "@/components/shared/skeletonLoading/DashboardLading";
-import { setBrand, setBrands } from "@/features/brand/brandSlice";
+import { setCategories, setCategory } from "@/features/category/categorySlice";
 import { setProduct } from "@/features/product/productSlice";
 import {
-  useDeleteBrandMutation,
-  useGetBrandsQuery,
-} from "@/services/brand/brandApi";
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from "@/services/category/categoryApi";
 import { useDeleteProductMutation } from "@/services/product/productApi";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 
-const ListBrands = () => {
+const ListCategories = () => {
   const {
-    data: brandsData,
-    isLoading: brandsLoading,
-    error: brandsError,
-  } = useGetBrandsQuery();
-  const brands = useMemo(() => brandsData?.data || [], [brandsData]);
-
+    data: categoriesData,
+    error: categoriesError,
+    isLoading: categoriesLoading,
+  } = useGetCategoriesQuery();
+  const categories = useMemo(
+    () => categoriesData?.data || [],
+    [categoriesData]
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (brandsLoading) {
-      toast.loading("Fetching Brands...", { id: "brandsData" });
+    if (categoriesLoading) {
+      toast.loading("Fetching Categories...", { id: "categoriesData" });
     }
 
-    if (brandsData) {
-      toast.success(brandsData?.description, { id: "brandsData" });
+    if (categoriesData) {
+      toast.success(categoriesData?.description, { id: "categoriesData" });
     }
 
-    if (brandsError) {
-      toast.error(brandsError?.data?.description, { id: "brandsData" });
+    if (categoriesError) {
+      toast.error(categoriesError?.data?.description, { id: "categoriesData" });
     }
 
-    dispatch(setBrands(brands));
-  }, [brandsError, brandsData, brandsLoading, dispatch, brands]);
+    dispatch(setCategories(categories));
+  }, [
+    categoriesError,
+    categoriesData,
+    categoriesLoading,
+    dispatch,
+    categories,
+  ]);
 
   return (
     <Dashboard>
-      {brands?.length === 0 ? (
+      {categories?.length === 0 ? (
         <p className="text-sm flex flex-row gap-x-1 items-center justify-center">
-          <Inform /> No Brands Found!
+          <Inform /> No Categories Found!
         </p>
       ) : (
         <section className="w-full h-full">
@@ -79,7 +84,7 @@ const ListBrands = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Logo
+                    Thumbnail
                   </th>
                   <th
                     scope="col"
@@ -103,13 +108,13 @@ const ListBrands = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Brand Tags
+                    Category Tags
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase whitespace-nowrap"
                   >
-                    Brand Features
+                    Category Features
                   </th>
                   <th
                     scope="col"
@@ -120,15 +125,15 @@ const ListBrands = () => {
                 </tr>
               </thead>
               <tbody>
-                {brands.map((brand) => (
+                {categories.map((category) => (
                   <tr
-                    key={brand?._id}
+                    key={category?._id}
                     className="odd:bg-white even:bg-gray-100 hover:odd:bg-gray-100"
                   >
                     <td className="px-6 py-4">
                       <Image
-                        src={brand?.logo?.url}
-                        alt={brand?.logo?.public_id}
+                        src={category?.thumbnail?.url}
+                        alt={category?.thumbnail?.public_id}
                         height={30}
                         width={30}
                         className="h-[30px] w-[30px] rounded-secondary border border-green-500/50 object-cover"
@@ -136,22 +141,22 @@ const ListBrands = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap overflow-x-auto block scrollbar-hide text-sm">
-                        {brand?.title}
+                        {category?.title}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {brand?.products?.length}
+                        {category?.products?.length}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {brand?.creator?.name}
+                        {category?.creator?.name}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className="w-52 overflow-x-auto scrollbar-hide text-sm flex flex-row gap-x-2">
-                        {brand?.tags?.map((tag, index) => (
+                        {category?.tags?.map((tag, index) => (
                           <span
                             key={index}
                             className="border px-1 py-0.5 rounded-sm whitespace-nowrap"
@@ -163,13 +168,19 @@ const ListBrands = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="whitespace-nowrap scrollbar-hide text-sm">
-                        {brand?.keynotes?.length}
+                        {category?.keynotes?.length}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex flex-row gap-x-2 justify-end">
-                        <DeleteBrand brand={brand} />
-                        <BrandDetails brand={brand} />
+                        <DeleteCategory category={category} />
+                        <CategoryDetails category={category} />
+                        <Link
+                          href={`/dashboard/admin/update-category?id=${category?._id}`}
+                          className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
+                        >
+                          <Pencil />
+                        </Link>
                       </div>
                     </td>
                   </tr>
@@ -183,22 +194,23 @@ const ListBrands = () => {
   );
 };
 
-function DeleteBrand({ brand }) {
+function DeleteCategory({ category }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteBrand, { isLoading, data, error }] = useDeleteBrandMutation();
+  const [deleteCategory, { isLoading, data, error }] =
+    useDeleteCategoryMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("Deleting Brand...", { id: "deleteBrand" });
+      toast.loading("Deleting Category...", { id: "deleteCategory" });
     }
 
     if (data) {
-      toast.success(data?.description, { id: "deleteBrand" });
+      toast.success(data?.description, { id: "deleteCategory" });
     }
 
     if (error) {
-      toast.error(error?.data?.description, { id: "deleteBrand" });
+      toast.error(error?.data?.description, { id: "deleteCategory" });
     }
   }, [isLoading, data, error]);
 
@@ -209,7 +221,7 @@ function DeleteBrand({ brand }) {
         className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900"
         onClick={() => {
           setIsOpen(true);
-          dispatch(setBrand(brand));
+          dispatch(setCategory(category));
         }}
       >
         <Trash />
@@ -230,7 +242,7 @@ function DeleteBrand({ brand }) {
               <p className="text-sm flex flex-col gap-y-2">
                 You are about to unlisted from:
                 <span className="flex flex-row gap-x-1 items-center text-xs">
-                  <Inform /> {brand?.products?.length} Products
+                  <Inform /> {category?.products?.length} Products
                 </span>
               </p>
             </div>
@@ -243,7 +255,7 @@ function DeleteBrand({ brand }) {
               </button>
               <button
                 className="flex flex-row gap-x-2 items-center text-white bg-red-500 px-3 py-1.5 rounded text-sm"
-                onClick={() => deleteBrand(brand?._id)}
+                onClick={() => deleteCategory(category?._id)}
               >
                 <Trash /> Yes, delete
               </button>
@@ -255,7 +267,7 @@ function DeleteBrand({ brand }) {
   );
 }
 
-function BrandDetails({ brand }) {
+function CategoryDetails({ category }) {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -266,7 +278,7 @@ function BrandDetails({ brand }) {
         className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
         onClick={() => {
           setIsOpen(true);
-          dispatch(setBrand(brand));
+          dispatch(setCategory(category));
         }}
       >
         <User />
@@ -281,21 +293,21 @@ function BrandDetails({ brand }) {
           <div className="h-full w-full flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-1 items-center">
               <Image
-                src={brand?.creator?.avatar?.url}
-                alt={brand?.creator?.avatar?.public_id}
+                src={category?.creator?.avatar?.url}
+                alt={category?.creator?.avatar?.public_id}
                 width={50}
                 height={50}
                 className="rounded-full h-[50px] w-[50px] object-cover"
               />
-              <h1 className="text-lg">{brand?.creator?.name}</h1>
-              <p className="text-sm">{brand?.creator?.email}</p>
-              <p className="text-xs">{brand?.creator?.phone}</p>
+              <h1 className="text-lg">{category?.creator?.name}</h1>
+              <p className="text-sm">{category?.creator?.email}</p>
+              <p className="text-xs">{category?.creator?.phone}</p>
             </div>
 
             <hr />
 
             <div className="flex flex-col gap-y-2 w-full">
-              {brand?.products?.map((product) => (
+              {category?.products?.map((product) => (
                 <div
                   key={product?._id}
                   className="flex flex-row justify-between items-center bg-slate-50 rounded p-2 w-full"
@@ -423,4 +435,4 @@ function DeleteProduct({ product }) {
   );
 }
 
-export default ListBrands;
+export default ListCategories;

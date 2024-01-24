@@ -191,6 +191,12 @@ const ListProducts = () => {
                       <div className="flex flex-row gap-x-2 justify-end">
                         <DeleteProduct product={product} />
                         <ViewProduct product={product} />
+                        <Link
+                          href={`/dashboard/admin/update-product?id=${product?._id}`}
+                          className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900"
+                        >
+                          <Pencil />
+                        </Link>
                       </div>
                     </td>
                   </tr>
