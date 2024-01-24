@@ -16,9 +16,12 @@
 "use client";
 
 import Cross from "@/components/icons/Cross";
+import Ellipsis from "@/components/icons/Ellipsis";
 import Inform from "@/components/icons/Inform";
+import Pencil from "@/components/icons/Pencil";
 import Trash from "@/components/icons/Trash";
 import Modal from "@/components/shared/Modal";
+import OutsideClick from "@/components/shared/OutsideClick";
 import Dashboard from "@/components/shared/layouts/Dashboard";
 import {
   useDeleteUserMutation,
@@ -26,6 +29,7 @@ import {
   useReviewSellerMutation,
 } from "@/services/user/userApi";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -133,8 +137,7 @@ const Page = () => {
                 )}
               </p>
 
-              <Disapprove user={user} />
-              <DeleteUser user={user} />
+              <Options user={user} />
             </div>
           ))}
         </div>
@@ -142,6 +145,38 @@ const Page = () => {
     </Dashboard>
   );
 };
+
+function Options({ user }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div
+      className={`absolute top-2 right-2 ${
+        isOpen ? "" : "group-hover:opacity-100 opacity-0 transition-opacity"
+      }`}
+    >
+      <button
+        type="button"
+        className="bg-slate-50 border border-slate-900 p-0 rounded-secondary text-slate-900"
+        onClick={() => setIsOpen(true)}
+        title="Delete User from DB"
+      >
+        <Ellipsis />
+      </button>
+
+      {isOpen && (
+        <OutsideClick
+          onOutsideClick={() => setIsOpen(false)}
+          className="absolute right-0 top-4 bg-white border border-slate-900 rounded p-2 text-sm flex flex-col gap-y-2"
+        >
+          <Disapprove user={user} />
+          <DeleteUser user={user} />
+          <UpdateUser user={user} />
+        </OutsideClick>
+      )}
+    </div>
+  );
+}
 
 function DeleteUser({ user }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -164,11 +199,14 @@ function DeleteUser({ user }) {
       {!(user?.role === "admin" || user?.role === "seller") && (
         <button
           type="button"
-          className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900 absolute top-2 right-2 group-hover:opacity-100 opacity-0 transition-opacity"
+          className="flex flex-row gap-x-1 items-center whitespace-nowrap"
           onClick={() => setIsOpen(true)}
           title="Delete User from DB"
         >
-          <Trash />
+          <span className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900">
+            <Trash />
+          </span>
+          Remove User
         </button>
       )}
 
@@ -228,11 +266,14 @@ function Disapprove({ user }) {
       {!(user?.role === "admin" || user?.role === "buyer") && (
         <button
           type="button"
-          className="bg-red-50 border border-red-900 p-0.5 rounded-secondary text-red-900 absolute top-2 right-2 group-hover:opacity-100 opacity-0 transition-opacity"
+          className="flex flex-row gap-x-1 items-center whitespace-nowrap text-sm"
           onClick={() => setIsOpen(true)}
           title="Demote User to Buyer"
         >
-          <Cross />
+          <span className="bg-red-50 border border-red-900 p-0 rounded-secondary text-red-900">
+            <Cross />
+          </span>
+          Demote to Buyer
         </button>
       )}
       {isOpen && (
@@ -270,6 +311,23 @@ function Disapprove({ user }) {
           </article>
         </Modal>
       )}
+    </>
+  );
+}
+
+function UpdateUser({ user }) {
+  return (
+    <>
+      <Link
+        href={`/dashboard/admin/update-user?id=${user?._id}`}
+        className="flex flex-row gap-x-1 items-center whitespace-nowrap text-sm"
+        title="Demote User to Buyer"
+      >
+        <span className="bg-green-50 border border-green-900 p-0.5 rounded-secondary text-green-900">
+          <Pencil />
+        </span>
+        Edit This User
+      </Link>
     </>
   );
 }

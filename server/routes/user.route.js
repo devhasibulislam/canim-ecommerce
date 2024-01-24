@@ -56,6 +56,14 @@ router.patch(
   userController.updateUser
 );
 
+router.patch(
+  "/update-user/:id",
+  verify,
+  authorize("admin"),
+  upload.single("avatar"),
+  userController.updateUserInfo
+);
+
 // delete user information
 router.delete(
   "/delete-user/:id",

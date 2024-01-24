@@ -93,6 +93,17 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 
+/* update user information */
+exports.updateUserInfo = async (req, res, next) => {
+  try {
+    await userService.updateUserInfo(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* delete user information */
 exports.deleteUser = async (req, res, next) => {
   try {

@@ -235,6 +235,35 @@ exports.updateUser = async (req, res) => {
   });
 };
 
+/* update user information */
+exports.updateUserInfo = async (req, res) => {
+  const existingUser = await User.findById(req.params.id);
+  const user = req.body;
+
+  if (!req.body.avatar && req.file) {
+    await remove(existingUser.avatar.public_id);
+
+    user.avatar = {
+      url: req.file.path,
+      public_id: req.file.filename,
+    };
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    existingUser._id,
+    { $set: user },
+    {
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "OK",
+    description: `${updatedUser.name}'s information updated successfully`,
+  });
+};
+
 /* delete user information */
 exports.deleteUser = async (req, res) => {
   const user = await User.findByIdAndDelete(req.params.id);
