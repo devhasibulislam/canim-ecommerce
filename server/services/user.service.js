@@ -212,7 +212,7 @@ exports.updateUser = async (req, res) => {
   const user = req.body;
 
   if (!req.body.avatar && req.file) {
-    await remove(existingUser.avatar.public_id);
+    await remove(existingUser.avatar?.public_id);
 
     user.avatar = {
       url: req.file.path,
@@ -241,7 +241,7 @@ exports.updateUserInfo = async (req, res) => {
   const user = req.body;
 
   if (!req.body.avatar && req.file) {
-    await remove(existingUser.avatar.public_id);
+    await remove(existingUser.avatar?.public_id);
 
     user.avatar = {
       url: req.file.path,
@@ -269,7 +269,7 @@ exports.deleteUser = async (req, res) => {
   const user = await User.findByIdAndDelete(req.params.id);
 
   // remove user avatar
-  await remove(user.avatar.public_id);
+  await remove(user.avatar?.public_id);
 
   // remove user cart
   if (user.cart.length > 0) {
@@ -304,18 +304,18 @@ exports.deleteUser = async (req, res) => {
     const store = await Store.findByIdAndDelete(user.store);
 
     // remove store thumbnail
-    await remove(store.thumbnail.public_id);
+    await remove(store?.thumbnail?.public_id);
 
     // remove store products
     store.products.forEach(async (prod) => {
       const product = await Product.findByIdAndDelete(prod);
 
       // remove product thumbnail
-      await remove(product.thumbnail.public_id);
+      await remove(product?.thumbnail?.public_id);
 
       // remove product gallery
       product.gallery.forEach(async (gallery) => {
-        await remove(gallery.public_id);
+        await remove(gallery?.public_id);
       });
 
       // remove product reviews
@@ -330,18 +330,18 @@ exports.deleteUser = async (req, res) => {
     const category = await Category.findByIdAndDelete(user.category);
 
     // remove category thumbnail
-    await remove(category.thumbnail.public_id);
+    await remove(category?.thumbnail?.public_id);
 
     // remove category products
     category.products.forEach(async (prod) => {
       const product = await Product.findByIdAndDelete(prod);
 
       // remove product thumbnail
-      await remove(product.thumbnail.public_id);
+      await remove(product?.thumbnail?.public_id);
 
       // remove product gallery
       product.gallery.forEach(async (gallery) => {
-        await remove(gallery.public_id);
+        await remove(gallery?.public_id);
       });
 
       // remove product reviews
@@ -356,18 +356,18 @@ exports.deleteUser = async (req, res) => {
     const brand = await Brand.findByIdAndDelete(user.brand);
 
     // remove brand logo
-    await remove(brand.logo.public_id);
+    await remove(brand?.logo?.public_id);
 
     // remove brand products
     brand.products.forEach(async (prod) => {
       const product = await Product.findByIdAndDelete(prod);
 
       // remove product thumbnail
-      await remove(product.thumbnail.public_id);
+      await remove(product?.thumbnail?.public_id);
 
       // remove product gallery
       product.gallery.forEach(async (gallery) => {
-        await remove(gallery.public_id);
+        await remove(gallery?.public_id);
       });
 
       // remove product reviews
