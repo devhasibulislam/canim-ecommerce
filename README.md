@@ -1,4 +1,4 @@
-Full Video on YouTube [CodeCraftMERN]()
+Full Video on YouTube [CodeCraftMERN](https://youtu.be/0A_tPdRdkDw)
 
 # Canim eCommerce
 
