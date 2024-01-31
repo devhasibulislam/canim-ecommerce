@@ -131,6 +131,10 @@ API_SECRET="CLOUDINARY_API_SECRET"
 STRIPE_PUBLISHABLE_KEY="YOUR_STRIPE_PUBLISHABLE_KEY"
 STRIPE_SECRET_KEY="YOUR_STRIPE_SECRET_KEY"
 ```
+# Access
+- Buyer `abc@gmail.com` & `John@123`
+- Seller `devhasibulislam@gmail.com` & `Hasib@123`
+- Admin `admin@example.com` & `Admin@123` => `don't create any occurrence :(`
 
 # Important Links
 
