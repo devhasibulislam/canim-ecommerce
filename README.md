@@ -151,5 +151,5 @@ STRIPE_SECRET_KEY="YOUR_STRIPE_SECRET_KEY"
 # `find it useful` then `buy me a coffee` 😜😜😜
 
 <a href="https://www.buymeacoffee.com/devhasibulislam" target="_blank">
-    <img src="./buy-me-a-coffee.png" alt="devhasibulislam - buy me a coffee" alt="linkedin logo" style="max-widh: 100%;"  />
+    <img src="./buy-me-a-coffee.png" alt="devhasibulislam - buy me a coffee" alt="linkedin logo" style="max-widh: 100%; border-radius: 10px;"  />
 </a>
